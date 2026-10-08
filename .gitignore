@@ -1,0 +1,18 @@
+# OS / editor
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Dependencies, builds, secrets (also covered in prototype/.gitignore)
+node_modules/
+dist/
+*.local
+.env*
+
+# Course and client documents stay local: this repo is public.
+# Remove a line here only if the team agrees it is OK to publish that file.
+Project Brief.md
+Project Plan*.md
+*.pdf
+*.docx
