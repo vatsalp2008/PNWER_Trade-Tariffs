@@ -11,9 +11,10 @@ This repo holds the **Cross-Border Trade & Tariff Explorer**, a website prototyp
 **Live site:** https://pnwer-trade-tariffs.vercel.app
 
 > **Data status.**
-> - **Real:** trade figures (U.S. Census Bureau; adapted from Statistics Canada; Bank of Canada exchange rates) and the trade & tariff updates feed.
-> - **Sample:** sections tagged **"Sample"** (jobs, output, affordability, "If USMCA ends") still use generated placeholder numbers. **Don't cite them.**
+> - **Real:** all figures come from official public sources: U.S. Census Bureau, BLS, BEA, Statistics Canada and Bank of Canada. Each section names its source and year.
+> - **Still placeholders:** the "What businesses are saying" quotes, until PNWER provides real stakeholder input.
 > - **Tariff timeline:** events link to their official source and show as "unverified" until a teammate checks them.
+> - **Before you cite a number:** read [docs/DECISIONS.md](docs/DECISIONS.md). It explains every method and limitation.
 
 ---
 

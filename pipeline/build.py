@@ -20,6 +20,9 @@ import requests
 import fetch_boc
 import fetch_census
 import fetch_cimt
+import fetch_economy
+import fetch_tariffs
+import sections
 from common import DATA_DIR, FIRST_YEAR, PROVINCES, ROOT, US_STATES, business_of, log, scopes
 from names import PROVINCE_NAMES, STATE_NAMES, product_name, register_descriptions
 
@@ -253,6 +256,34 @@ def run_checks(trade: dict, census: dict, cimt_recent: list[dict], last_ym: str)
     return problems
 
 
+def check_sections(economy: dict, jur: dict, afford: dict, scen: dict) -> list[str]:
+    problems = []
+    for j in economy:
+        for scope, e in economy[j].items():
+            if e["jobs"] is not None and e["jobs"] < 0:
+                problems.append(f"{j}/{scope}: negative jobs")
+            if e["gdpShare"] is not None and not 0 <= e["gdpShare"] <= 1:
+                problems.append(f"{j}/{scope}: GDP share out of range ({e['gdpShare']})")
+        for scope, a in afford[j].items():
+            if not 0 <= a["effectiveDutyRate"] <= 0.6:
+                problems.append(f"{j}/{scope}: effective duty rate {a['effectiveDutyRate']} out of range")
+            if not 0 <= scen[j][scope]["dutyFreeShare"] <= 1:
+                problems.append(f"{j}/{scope}: duty-free share out of range")
+        if not jur[j]["gdpPerCapita"] or not jur[j]["employmentRate"]:
+            problems.append(f"{j}: missing GDP per person or employment rate")
+    # Sanity anchors from published figures (order of magnitude only).
+    if not 50_000 < (economy["WA"]["aerospace"]["jobs"] or 0) < 150_000:
+        problems.append(f"WA aerospace jobs look wrong: {economy['WA']['aerospace']['jobs']}")
+    if not 40_000 < (economy["AB"]["crude"]["jobs"] or 0) < 250_000:
+        problems.append(f"AB oil & gas jobs look wrong: {economy['AB']['crude']['jobs']}")
+    # WA GDP should be in the hundreds of billions (BEA: ~$892B in 2025).
+    if not 300_000 < (jur["WA"]["totalGdp"] or 0) < 2_000_000:
+        problems.append(f"WA total GDP looks wrong: {jur['WA']['totalGdp']} ($M)")
+    if not 50_000 < jur["WA"]["gdpPerCapita"][-1]["value"] < 250_000:
+        problems.append(f"WA GDP per person looks wrong: {jur['WA']['gdpPerCapita'][-1]}")
+    return problems
+
+
 # ---------- main ----------
 
 def main() -> None:
@@ -295,14 +326,36 @@ def main() -> None:
 
     log("Building trade records…")
     trade: dict = {}
+    inputs: dict = {}
     for st in US_STATES:
-        x = us_inputs(st, census[st], cimt_recent, fx, months, nat_imports)
-        trade[st] = {scope: trade_record(x, bizs, months) for scope, bizs in scopes().items()}
+        inputs[st] = us_inputs(st, census[st], cimt_recent, fx, months, nat_imports)
+        trade[st] = {scope: trade_record(inputs[st], bizs, months) for scope, bizs in scopes().items()}
     for prov in PROVINCES:
-        x = province_inputs(prov, cimt_all, fx, months, nat_imports, rank_year)
-        trade[prov] = {scope: trade_record(x, bizs, months) for scope, bizs in scopes().items()}
+        inputs[prov] = province_inputs(prov, cimt_all, fx, months, nat_imports, rank_year)
+        trade[prov] = {scope: trade_record(inputs[prov], bizs, months) for scope, bizs in scopes().items()}
 
-    problems = run_checks(trade, census, cimt_recent, last_ym)
+    log("Building economy, affordability and scenario records…")
+    econ = fetch_economy.fetch_all()
+    duty = fetch_tariffs.canada_duties(months[-12:])
+    mfn = fetch_tariffs.mfn_rates()
+    fx_year = sections.annual_fx(fx)
+    ip = econ["import_prices"]
+    ip_latest = max(ip)
+    us_price_change = ip[ip_latest] / ip[f"{int(ip_latest[:4]) - 1}{ip_latest[4:]}"] - 1
+    economy, jur_economy, affordability, scenario = {}, {}, {}, {}
+    for j in US_STATES + PROVINCES:
+        if j in US_STATES:
+            economy[j], jur_economy[j] = sections.economy_us(j, econ)
+            price = us_price_change
+        else:
+            economy[j], jur_economy[j] = sections.economy_ca(j, econ, fx_year)
+            price = econ["ca_cpi"][j]
+        affordability[j], scenario[j] = sections.tariff_sections(
+            j, "US" if j in US_STATES else "CA", inputs[j], scopes(), months, duty, mfn, jur_economy[j]["households"], price
+        )
+    problems_extra = check_sections(economy, jur_economy, affordability, scenario)
+
+    problems = run_checks(trade, census, cimt_recent, last_ym) + problems_extra
     if problems:
         log("DATA CHECKS FAILED — real.json not written:")
         for p in problems:
@@ -315,14 +368,22 @@ def main() -> None:
             "generatedAt": date.today().isoformat(),
             "dataAsOf": last_ym,
             "dataAsOfLabel": f"{MONTH_ABBR[m - 1]} {y}",
-            "sections": {"trade": True},
+            "sections": {"trade": True, "economy": True, "affordability": True, "scenario": True},
             "sources": [
                 "U.S. Census Bureau, USA Trade / international trade API (state exports and imports by HS code)",
                 "Adapted from Statistics Canada, Canadian International Merchandise Trade database (monthly). This does not constitute an endorsement by Statistics Canada of this product.",
                 "Bank of Canada, monthly average exchange rates (FXMUSDCAD)",
+                "U.S. Bureau of Labor Statistics: Quarterly Census of Employment and Wages; Local Area Unemployment Statistics; import price index (imports from Canada)",
+                "U.S. Bureau of Economic Analysis: GDP by state and industry (SAGDP2); population (SAINC1); employment of U.S. affiliates by country of owner (Table II.G 8)",
+                "U.S. Census Bureau: American Community Survey (households); imports from Canada, the EU and Japan with calculated duties",
+                "Adapted from Statistics Canada: tables 36-10-0489, 36-10-0711, 36-10-0222, 14-10-0464, 17-10-0005, 17-10-0159, 36-10-0620, 18-10-0004. This does not constitute an endorsement by Statistics Canada of this product.",
             ],
         },
         "trade": trade,
+        "economy": economy,
+        "jurisdictionEconomy": jur_economy,
+        "affordability": affordability,
+        "scenario": scenario,
     }
     path = DATA_DIR / "real.json"
     path.write_text(json.dumps(out, separators=(",", ":")))

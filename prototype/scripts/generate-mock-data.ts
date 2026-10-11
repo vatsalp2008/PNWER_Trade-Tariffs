@@ -358,13 +358,17 @@ function jurisdictionEconomy(j: Jurisdiction): JurisdictionEconomy {
     year: Number(y),
     value: Math.round((EMP_RATE_2019[j.id] + d + uniform(r, -0.3, 0.3)) * 10) / 10,
   }))
-  const [firms, jobs] = PARTNER_OWNED[j.id]
+  const [, jobs] = PARTNER_OWNED[j.id]
   return {
     gdpPerCapita,
     employmentRate,
-    partnerOwnedFirms: Math.round(firms * uniform(r, 0.85, 1.15)),
-    partnerOwnedJobs: Math.round((jobs * uniform(r, 0.85, 1.15)) / 50) * 50,
+    ownedJobs: Math.round((jobs * uniform(r, 0.85, 1.15)) / 50) * 50,
+    ownedJobsKind: j.country === 'US' ? 'partner' : 'foreign',
+    ownedJobsYear: 2024,
     totalGdp: sig((gdpPerCapita[gdpPerCapita.length - 1].value * j.population) / 1e6),
+    totalGdpYear: 2025,
+    households: j.households,
+    population: j.population,
   }
 }
 
@@ -494,11 +498,15 @@ function build(): MockData {
         gdp += jEcon.totalGdp * (GDP_SHARE_OVERRIDES[j.id]?.[biz.sector] ?? GDP_SHARE[biz.sector]) * w * uniform(er, 0.85, 1.15)
         exportJobs += bizLast12[biz.id].exports * JOBS_PER_M[biz.sector]
       }
+      void exportJobs
       const economy: EconomyRecord = {
-        sectorJobs: Math.round(jobs / 10) * 10,
-        jobsSupportedByExports: Math.round(exportJobs / 10) * 10,
-        sectorGdp: sig(gdp),
-        sectorGdpShare: Number((gdp / jEcon.totalGdp).toPrecision(3)),
+        jobs: Math.round(jobs / 10) * 10,
+        jobsPartial: false,
+        jobsYear: 2025,
+        gdp: sig(gdp),
+        gdpShare: Number((gdp / jEcon.totalGdp).toPrecision(3)),
+        gdpYear: 2025,
+        gdpScope: id === 'all' ? 'all' : 'sector',
       }
       data.economy[j.id][id] = economy
 
@@ -508,10 +516,12 @@ function build(): MockData {
       const exports = sum((_, biz) => bizLast12[biz.id].exports)
       const estDuties = sum((c) => c.estDuties)
       const afford: AffordabilityRecord = {
-        everydayAndInputImports: sig(sum((c) => c.everyday)),
-        estDutiesToday: sig(estDuties),
-        dutiesPerHousehold: Math.round((estDuties * 1e6) / j.households),
-        importPriceChange: frac(imports ? sum((c, biz) => c.priceChange * bizLast12[biz.id].imports) / imports : 0),
+        foodFuelInputImports: sig(sum((c) => c.everyday)),
+        estDuties: sig(estDuties),
+        effectiveDutyRate: frac(imports ? estDuties / imports : 0),
+        dutiesPerHousehold: j.country === 'US' ? Math.round((estDuties * 1e6) / j.households) : null,
+        priceChange: frac(imports ? sum((c, biz) => c.priceChange * bizLast12[biz.id].imports) / imports : 0),
+        priceIndex: j.country === 'US' ? 'import' : 'consumer',
       }
       data.affordability[j.id][id] = afford
 
@@ -527,11 +537,12 @@ function build(): MockData {
         return den ? num / den : 0
       }
       const extraShare = twoWay ? extra / twoWay : 0
+      const dutyFree = wAvg((c) => c.dutyFree, 'both')
       const scenario: ScenarioRecord = {
-        usmcaDutyFreeShare: frac(wAvg((c) => c.dutyFree, 'both')),
-        mfnOnExports: frac(wAvg((c) => c.mfnOnExports, 'exports')),
-        mfnOnImports: frac(wAvg((c) => c.mfnOnImports, 'imports')),
+        dutyFreeShare: frac(dutyFree),
+        usTariffWithoutUsmca: frac(wAvg((c) => c.mfnOnImports, 'imports')),
         extraDuties: sig(extra),
+        extraDutiesSection301: sig(imports * 0.1 * dutyFree),
         extraDutiesShare: frac(extraShare),
         exposure: exposureOf(extraShare),
       }

@@ -112,47 +112,65 @@ export interface TradeRecord {
 }
 
 export interface EconomyRecord {
-  sectorJobs: number
-  jobsSupportedByExports: number
-  sectorGdp: number
+  /** Jobs in the industries that make up this scope; null = not published (confidential). */
+  jobs: number | null
+  /** Some detailed industries were confidential, so `jobs` is a lower bound. */
+  jobsPartial: boolean
+  jobsYear: number
+  /** Value added (GDP), USD millions. Business scopes show their whole sector (see gdpScope). */
+  gdp: number | null
   /** Share of the jurisdiction's GDP, 0..1. */
-  sectorGdpShare: number
+  gdpShare: number | null
+  gdpYear: number
+  gdpScope: 'sector' | 'all'
 }
 
 export interface JurisdictionEconomy {
   /** USD per person. */
   gdpPerCapita: { year: number; value: number }[]
-  /** Percent of working-age population employed. */
+  /** Percent of the working-age population employed. */
   employmentRate: { year: number; value: number }[]
-  /** Companies owned from the partner country (e.g. Canadian-owned firms in WA). */
-  partnerOwnedFirms: number
-  partnerOwnedJobs: number
+  /** U.S. states: jobs at Canadian-owned companies. Provinces: jobs at all foreign-owned multinationals. */
+  ownedJobs: number | null
+  ownedJobsKind: 'partner' | 'foreign'
+  ownedJobsYear: number
   totalGdp: number
+  totalGdpYear: number
+  households: number
+  population: number
 }
 
+/**
+ * Tariff costs on the U.S.-bound flow: a state's imports from Canada, or a
+ * province's exports to the U.S. (that is what U.S. tariffs apply to).
+ */
 export interface AffordabilityRecord {
-  /** Imports of everyday goods and production inputs, last 12 months. */
-  everydayAndInputImports: number
-  /** Estimated duties on the last 12 months of imports at today's tariffs. */
-  estDutiesToday: number
-  /** USD per household (not millions). */
-  dutiesPerHousehold: number
-  /** Change in import prices from the partner over 12 months, fraction. */
-  importPriceChange: number
+  /** Food, fuel and farm inputs imported from the partner, last 12 months (all sectors). */
+  foodFuelInputImports: number
+  /** Estimated U.S. duties on the U.S.-bound flow, last 12 months. */
+  estDuties: number
+  /** estDuties as a share of that flow. */
+  effectiveDutyRate: number
+  /** USD per household (U.S. states only). */
+  dutiesPerHousehold: number | null
+  /** 12-month change in prices, fraction. */
+  priceChange: number
+  /** 'import' = BLS import prices from Canada; 'consumer' = provincial CPI. */
+  priceIndex: 'import' | 'consumer'
 }
 
 export type Exposure = 'Low' | 'Moderate' | 'High'
 
 export interface ScenarioRecord {
-  /** Share of trade that currently enters duty-free under USMCA, 0..1. */
-  usmcaDutyFreeShare: number
-  /** Standard (non-USMCA) tariff this jurisdiction's exports would face. */
-  mfnOnExports: number
-  /** Standard (non-USMCA) tariff its imports from the partner would face. */
-  mfnOnImports: number
-  /** Extra duties per year if USMCA ends. */
+  /** Share of the U.S.-bound flow that crosses duty-free today, 0..1. */
+  dutyFreeShare: number
+  /** Average standard U.S. tariff on this trade without USMCA (EU/Japan 2024 rates). */
+  usTariffWithoutUsmca: number
+  /** Extra U.S. duties per year if duty-free goods paid standard rates. */
   extraDuties: number
-  /** extraDuties as a share of two-way trade. */
+  /** Further duties if the 10% Section 301 tariff also applied to those goods. */
+  extraDutiesSection301: number
+  /** extraDuties as a share of the U.S.-bound flow. */
   extraDutiesShare: number
   exposure: Exposure
 }

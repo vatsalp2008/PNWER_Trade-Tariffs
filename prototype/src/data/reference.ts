@@ -49,7 +49,7 @@ type SectorJson = Omit<Sector, 'businesses' | 'id'> & {
 }
 
 /** Sectors and businesses come from sectors.json, which the data pipeline also reads. */
-export const SECTORS: Sector[] = (sectorsJson.sectors as SectorJson[]).map((s) => ({
+export const SECTORS: Sector[] = (sectorsJson.sectors as unknown as SectorJson[]).map((s) => ({
   ...s,
   id: s.id as SectorId,
   businesses: s.businesses.map((x) => ({
@@ -71,15 +71,14 @@ export const SOURCES = {
   tradeUS: 'U.S. Census Bureau, state trade by HS code',
   tradeCA: 'Adapted from Statistics Canada, CIMT (provincial trade by HS code)',
   partnerJur: 'Statistics Canada, CIMT (province × U.S. state)',
-  jobsUS: 'BLS Quarterly Census of Employment & Wages',
-  jobsCA: 'Statistics Canada Labour Force Survey',
-  exportJobs: 'Estimate: exports × official jobs-per-$ ratio (ITA / Statistics Canada)',
-  ownedUS: 'BEA, U.S. affiliates of foreign multinationals',
-  ownedCA: 'Statistics Canada, foreign-controlled enterprises',
-  gdpUS: 'BEA, GDP by state & industry',
-  gdpCA: 'Statistics Canada, GDP by province & industry',
-  tariffs: 'Tariff tracker (Federal Register; Canada Dept. of Finance)',
-  mfn: 'USITC Harmonized Tariff Schedule; CBSA Customs Tariff',
-  usmcaUse: 'USITC DataWeb (imports by trade program); Statistics Canada',
-  prices: 'BLS import price index; Statistics Canada CPI',
+  jobsUS: 'BLS Quarterly Census of Employment & Wages; BLS LAUS',
+  jobsCA: 'Adapted from Statistics Canada, tables 36-10-0489 and 14-10-0464',
+  ownedUS: 'BEA, U.S. affiliates by country of owner (Table II.G 8)',
+  ownedCA: 'Statistics Canada, table 36-10-0620',
+  gdpUS: 'BEA, GDP by state & industry (SAGDP2) and population (SAINC1)',
+  gdpCA: 'Adapted from Statistics Canada, tables 36-10-0711, 36-10-0222, 17-10-0005',
+  tariffs: 'Federal Register; Finance Canada; USTR (curated tariff timeline)',
+  duties: 'U.S. Census Bureau, imports from Canada with calculated duty (last 12 months)',
+  mfn: 'U.S. Census Bureau, duties on EU and Japan imports, 2024',
+  prices: 'BLS import price index (Canada); Statistics Canada CPI (18-10-0004)',
 } as const

@@ -35,7 +35,7 @@ const METRICS: Record<Metric, { label: string; legend: string }> = {
   change: { label: 'Change since 2024 (tariff era)', legend: 'Change since 2024' },
   dependence: { label: 'Share of exports to partner', legend: 'Exports to partner' },
   jobs: { label: 'Jobs in sector', legend: 'Jobs' },
-  risk: { label: 'Extra duties if USMCA ends (% of trade)', legend: 'Extra duties' },
+  risk: { label: 'Extra U.S. duties if USMCA ends (% of trade)', legend: 'Extra duties' },
 }
 
 function metricValue(m: Metric, j: JurisdictionId, scope: ScopeId): number | null {
@@ -47,7 +47,7 @@ function metricValue(m: Metric, j: JurisdictionId, scope: ScopeId): number | nul
     case 'dependence':
       return trade(j, scope).exportShareToPartner
     case 'jobs':
-      return economy(j, scope).sectorJobs
+      return economy(j, scope).jobs
     case 'risk':
       return scenario(j, scope).extraDutiesShare
   }

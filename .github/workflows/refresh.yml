@@ -45,7 +45,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
 
-      - name: Trade data (only when a new month is published)
+      - name: Trade, economy and tariff data (only when a new month is published)
         run: python pipeline/build.py ${{ inputs.rebuild_trade && '--force' || '--if-new' }}
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
