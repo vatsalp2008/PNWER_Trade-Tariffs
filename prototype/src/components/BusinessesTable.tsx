@@ -12,7 +12,8 @@ interface Props {
   highlight?: string
 }
 
-function Change({ value }: { value: number }) {
+function Change({ value }: { value: number | null }) {
+  if (value === null) return <span className="muted-dash" title="No trade in 2024 to compare with">—</span>
   return <span className={value < 0 ? 'down' : 'up'}>{signedPct(value)}</span>
 }
 

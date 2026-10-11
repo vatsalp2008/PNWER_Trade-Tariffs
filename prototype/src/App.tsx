@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Dashboard } from './pages/Dashboard'
 import { FactSheet } from './pages/FactSheet'
+import { News } from './pages/News'
 
 export default function App() {
   return (
@@ -8,6 +9,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/factsheet/:jur/:scope" element={<FactSheet />} />
+        <Route path="/news" element={<News />} />
         <Route path="*" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>

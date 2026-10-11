@@ -16,3 +16,8 @@ Project Brief.md
 Project Plan*.md
 *.pdf
 *.docx
+
+# Data pipeline cache and Python bytecode
+pipeline/.cache/
+__pycache__/
+*.pyc

@@ -1,0 +1,75 @@
+name: Refresh data and news
+
+# Daily: refresh the news feed and check the Federal Register for new tariff actions.
+# When Census / Statistics Canada publish a new month, rebuild the trade data too.
+# Changes are committed to main, which makes Vercel redeploy the site.
+on:
+  schedule:
+    - cron: "23 14 * * *" # 14:23 UTC = 7:23 a.m. Pacific (off the hour; GitHub delays top-of-hour jobs)
+  workflow_dispatch:
+    inputs:
+      rebuild_trade:
+        description: "Rebuild trade data even if no new month is out"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # commit refreshed JSON
+  issues: write # open "tariff-watch" issues
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+
+      - run: pip install -r pipeline/requirements.txt
+
+      - name: News feed
+        run: python pipeline/fetch_news.py
+
+      - name: Federal Register tariff watch
+        run: python pipeline/watch_federal_register.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Trade data (only when a new month is published)
+        run: python pipeline/build.py ${{ inputs.rebuild_trade && '--force' || '--if-new' }}
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: prototype/package-lock.json
+
+      - name: Make sure the site still builds
+        working-directory: prototype
+        run: npm ci && npm run build
+
+      - name: Commit changes
+        run: |
+          git add prototype/src/data/news.json prototype/src/data/real.json pipeline/fr-seen.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          # Vercel's free plan only deploys commits authored by the account owner,
+          # so the refresh commit uses the repo owner's GitHub no-reply address.
+          git -c user.name="${{ github.repository_owner }}" \
+              -c user.email="${{ vars.COMMIT_EMAIL }}" \
+              commit -m "Refresh data and news ($(date -u +%Y-%m-%d))"
+          git push

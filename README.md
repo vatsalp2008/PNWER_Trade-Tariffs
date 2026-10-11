@@ -8,7 +8,12 @@ This repo holds the **Cross-Border Trade & Tariff Explorer**, a website prototyp
 - A small dashboard where you pick a sector or business and a jurisdiction.
 - A **2-page fact sheet** you can download as a PDF.
 
-> ⚠️ **Prototype: every number is sample data.** The figures are generated to look realistic and **must not be cited**. Every page, PDF and exported chart is watermarked "SAMPLE DATA". The tariff events listed are taken from public reporting and still need to be checked against official sources.
+**Live site:** https://pnwer-trade-tariffs.vercel.app
+
+> **Data status.**
+> - **Real:** trade figures (U.S. Census Bureau; adapted from Statistics Canada; Bank of Canada exchange rates) and the trade & tariff updates feed.
+> - **Sample:** sections tagged **"Sample"** (jobs, output, affordability, "If USMCA ends") still use generated placeholder numbers. **Don't cite them.**
+> - **Tariff timeline:** events link to their official source and show as "unverified" until a teammate checks them.
 
 ---
 
@@ -75,7 +80,21 @@ Run these inside `prototype/`.
 | `npm run lint` | Check the code for common mistakes |
 | `scripts/check-factsheets.sh` | With `npm run preview` running, checks that fact sheets print as exactly 2 pages (needs Google Chrome) |
 
-## Census API key (only needed for the real-data step later)
+## How the data stays up to date
+
+- **`pipeline/`** has Python scripts that pull the data and news and write JSON into `prototype/src/data/`. See [pipeline/README.md](pipeline/README.md).
+- **GitHub Actions** (`.github/workflows/refresh.yml`) runs them every day at 7:23 a.m. Pacific. It:
+  - refreshes the news,
+  - opens a `tariff-watch` issue for each new U.S. tariff action on Canada,
+  - rebuilds the trade data when a new month is published.
+- Changes are committed to `main`, and **Vercel redeploys the site automatically**.
+- To run it by hand: GitHub → **Actions** → *Refresh data and news* → **Run workflow**.
+- **Hand-edited files** (edit them through a pull request):
+  - `tariff-events.json` (the timeline)
+  - `news-curated.json` (team picks)
+  - `pnwer-engagement.json` (PNWER statements)
+
+## Census API key (for running the data pipeline yourself)
 
 The prototype runs without any keys. When we start pulling real data from the U.S. Census Bureau:
 
@@ -89,14 +108,19 @@ The prototype runs without any keys. When we start pulling real data from the U.
 ## Where things are
 
 ```
+pipeline/             Python scripts that fetch real data and news (see pipeline/README.md)
+.github/workflows/    daily refresh job
 prototype/
   src/
-    pages/            Dashboard.tsx and FactSheet.tsx (the two screens)
+    pages/            Dashboard.tsx, FactSheet.tsx, News.tsx
     components/       map, charts, tables, watermark, PNG export
     data/
       types.ts        the data structure (real data must match this shape)
-      reference.ts    jurisdictions, sectors → businesses, tariff events
-      mock.json       generated sample data (don't edit by hand; run npm run mock)
+      sectors.json    sectors → businesses → HS product codes (shared with the pipeline)
+      tariff-events.json  curated tariff timeline (edit by hand, with sources)
+      real.json       real trade data (written by pipeline/build.py)
+      news.json       updates feed (written by pipeline/fetch_news.py)
+      mock.json       generated sample data for sections not yet real (run npm run mock)
       index.ts        the only place the screens read data from
     index.css         all styling (minimal, earth-tone palette)
   scripts/            sample-data generator, 2-page fit check

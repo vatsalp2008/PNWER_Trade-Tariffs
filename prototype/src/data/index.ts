@@ -17,12 +17,67 @@ import type {
   Jurisdiction,
   JurisdictionId,
   MockData,
+  NewsItem,
+  RealData,
   ScopeId,
+  SectionKey,
   SectorId,
   TariffEvent,
 } from './types'
 
-export const data = JSON.parse(mockRaw) as MockData
+// Real data (from pipeline/build.py) replaces sample data section by section.
+// The glob makes real.json optional: without it the site falls back to samples.
+const realFiles = import.meta.glob<string>('./real.json', { query: '?raw', import: 'default', eager: true })
+const real: RealData | null = realFiles['./real.json'] ? (JSON.parse(realFiles['./real.json']) as RealData) : null
+const mock = JSON.parse(mockRaw) as MockData
+
+/** True when a section is backed by real, published data rather than samples. */
+export const isReal = (section: SectionKey): boolean => {
+  if (!real?.meta.sections[section]) return false
+  return section === 'economy' ? !!real.economy && !!real.jurisdictionEconomy : !!real[section]
+}
+const SECTIONS: SectionKey[] = ['trade', 'economy', 'affordability', 'scenario']
+export const realSections = SECTIONS.filter(isReal)
+export const allReal = realSections.length === SECTIONS.length
+export const sources: string[] = real?.meta.sources ?? []
+
+const newsFiles = import.meta.glob<string>('./news.json', { query: '?raw', import: 'default', eager: true })
+const newsData = newsFiles['./news.json'] ? (JSON.parse(newsFiles['./news.json']) as { updated: string; items: NewsItem[] }) : null
+export const news: NewsItem[] = newsData?.items ?? []
+export const newsUpdated = newsData?.updated ?? null
+
+/**
+ * Updates most relevant to a sector and/or jurisdiction: tagged matches first,
+ * then the most recent general items, so the list is never empty.
+ */
+export function newsFor(sector: SectorId | null, jurisdiction: JurisdictionId | null, limit = 6): NewsItem[] {
+  const score = (n: NewsItem) =>
+    (sector && n.sectors.includes(sector) ? 2 : 0) + (jurisdiction && n.jurisdictions.includes(jurisdiction) ? 2 : 0) + (n.kind === 'pnwer' ? 0.5 : 0)
+  return [...news]
+    .sort((a, b) => score(b) - score(a) || b.date.localeCompare(a.date))
+    .slice(0, limit)
+    .sort((a, b) => b.date.localeCompare(a.date))
+}
+
+export const data: MockData = {
+  ...mock,
+  meta: {
+    ...mock.meta,
+    sample: !allReal,
+    dataAsOf: real?.meta.dataAsOf ?? mock.meta.dataAsOf,
+    dataAsOfLabel: real?.meta.dataAsOfLabel ?? mock.meta.dataAsOfLabel,
+    note: allReal
+      ? 'All figures come from official public sources listed on each section.'
+      : realSections.length
+        ? 'Sections marked “Sample” use generated placeholder numbers and must not be cited. Other figures come from the official sources listed.'
+        : mock.meta.note,
+  },
+  trade: isReal('trade') ? real!.trade! : mock.trade,
+  economy: isReal('economy') ? real!.economy! : mock.economy,
+  jurisdictionEconomy: isReal('economy') ? real!.jurisdictionEconomy! : mock.jurisdictionEconomy,
+  affordability: isReal('affordability') ? real!.affordability! : mock.affordability,
+  scenario: isReal('scenario') ? real!.scenario! : mock.scenario,
+}
 
 export const trade = (j: JurisdictionId, scope: ScopeId) => data.trade[j][scope]
 export const economy = (j: JurisdictionId, scope: ScopeId) => data.economy[j][scope]
@@ -146,11 +201,15 @@ export function sideTotals(side: Side, scope: ScopeId) {
   return { last12, changeSince2024: (last12.exports + last12.imports) / base2024 - 1, rolling }
 }
 
-/** Two-way trade over the latest 12 months vs. calendar 2024, the last full year before tariffs. */
-export function changeSince2024(j: JurisdictionId, scope: ScopeId) {
+/**
+ * Two-way trade over the latest 12 months vs. calendar 2024, the last full year
+ * before tariffs. null when there was no trade in 2024 (small territories).
+ */
+export function changeSince2024(j: JurisdictionId, scope: ScopeId): number | null {
   const t = trade(j, scope)
-  const a = t.annual.find((x) => x.year === 2024)!
-  return (t.last12.exports + t.last12.imports) / (a.exports + a.imports) - 1
+  const a = t.annual.find((x) => x.year === 2024)
+  const base = a ? a.exports + a.imports : 0
+  return base > 0 ? (t.last12.exports + t.last12.imports) / base - 1 : null
 }
 
 export const twoWay = (j: JurisdictionId, scope: ScopeId) => {

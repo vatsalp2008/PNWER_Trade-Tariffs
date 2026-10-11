@@ -14,7 +14,15 @@ export function PolicyTimeline({ scope }: { scope: ScopeId }) {
             <div className="tl-date">{dateLabel(e.date)}</div>
             <div className="tl-by">{e.imposedBy === 'US' ? 'U.S.' : 'Canada'} · {e.rate}</div>
             <div className="tl-measure">{e.measure}</div>
-            <span className={`status status-${status.replace(' ', '-').toLowerCase()}`}>{status}</span>
+            <div className="tl-foot">
+              <span className={`status status-${status.replace(' ', '-').toLowerCase()}`}>{status}</span>
+              {e.sourceUrl && (
+                <a href={e.sourceUrl} target="_blank" rel="noopener noreferrer" className="tl-source">
+                  Official source ↗
+                </a>
+              )}
+              {!e.verified && <span className="tl-unverified" title="Not yet checked by the team">unverified</span>}
+            </div>
           </li>
         )
       })}

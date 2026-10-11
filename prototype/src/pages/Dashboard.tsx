@@ -3,6 +3,7 @@ import { BusinessesTable } from '../components/BusinessesTable'
 import { ChartCard } from '../components/ChartCard'
 import { EraChart } from '../components/EraChart'
 import { LensTiles, type Mode } from '../components/LensTiles'
+import { NewsList } from '../components/NewsList'
 import { PolicyTimeline } from '../components/PolicyTimeline'
 import { RegionMap } from '../components/RegionMap'
 import { SiteHeader } from '../components/SiteHeader'
@@ -11,10 +12,14 @@ import {
   data,
   economy,
   isJurisdictionId,
+  isReal,
+  newsFor,
   partnerName,
   scenario,
   scopeLabel,
+  scopeSector,
   sideTotals,
+  sources,
   trade,
   twoWay,
 } from '../data'
@@ -33,7 +38,7 @@ const METRICS: Record<Metric, { label: string; legend: string }> = {
   risk: { label: 'Extra duties if USMCA ends (% of trade)', legend: 'Extra duties' },
 }
 
-function metricValue(m: Metric, j: JurisdictionId, scope: ScopeId) {
+function metricValue(m: Metric, j: JurisdictionId, scope: ScopeId): number | null {
   switch (m) {
     case 'trade':
       return twoWay(j, scope)
@@ -77,9 +82,9 @@ export function Dashboard() {
   // Map colouring
   const values = Object.fromEntries(JURISDICTIONS.map((x) => [x.id, metricValue(metric, x.id, scope)])) as Record<
     JurisdictionId,
-    number
+    number | null
   >
-  const list = Object.values(values)
+  const list = Object.values(values).filter((v): v is number => v !== null && Number.isFinite(v))
   const fmt = metricFormat(metric)
   let colorOf: (v: number) => string
   let legend: { low: string; high: string; gradient: string }
@@ -182,6 +187,7 @@ export function Dashboard() {
             source={`${SOURCES.tradeUS}; ${SOURCES.tradeCA}`}
             exportName={`map-${scope}-${metric}`}
             className="map-card"
+            sample={metric === 'jobs' ? !isReal('economy') : metric === 'risk' ? !isReal('scenario') : !isReal('trade')}
           >
             <RegionMap
               values={values}
@@ -237,6 +243,7 @@ export function Dashboard() {
               : `Two-way trade between ${JURISDICTION_BY_ID[j].name} and ${partnerName(JURISDICTION_BY_ID[j])} over the latest 12 months.`
           }
           source={`${SOURCES.tradeUS}; ${SOURCES.tradeCA}; ${SOURCES.tariffs}`}
+          sample={!isReal('trade')}
         >
           <BusinessesTable sector={sector} jurisdiction={j} highlight={biz} />
         </ChartCard>
@@ -248,10 +255,28 @@ export function Dashboard() {
         >
           <PolicyTimeline scope={scope} />
         </ChartCard>
+
+        <ChartCard
+          title="Latest trade & tariff updates"
+          subtitle={`Official announcements, PNWER statements and team picks${scope !== 'all' || j !== 'ALL' ? ', most relevant to your selection first' : ''}. Not verified by the team; the tariff timeline above is.`}
+          source="Federal Register; USTR; U.S. Customs and Border Protection; Government of Canada; PNWER"
+        >
+          <NewsList items={newsFor(scopeSector(scope), j === 'ALL' ? null : j, 6)} />
+          <Link className="text-link" to="/news">
+            See all updates →
+          </Link>
+        </ChartCard>
       </main>
 
       <footer className="site-foot">
         <p>{data.meta.note}</p>
+        {sources.length > 0 && (
+          <ul className="source-list">
+            {sources.map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
+        )}
         <p>Policy events are compiled from public reporting and still need to be checked against official sources.</p>
       </footer>
     </div>
@@ -261,7 +286,10 @@ export function Dashboard() {
 function RegionPanel({ scope, onPick }: { scope: ScopeId; onPick: (id: JurisdictionId) => void }) {
   const us = sideTotals('US', scope)
   const ca = sideTotals('CA', scope)
-  const ranked = [...JURISDICTIONS].sort((a, b) => changeSince2024(a.id, scope) - changeSince2024(b.id, scope)).slice(0, 4)
+  const ranked = JURISDICTIONS.map((x) => ({ x, c: changeSince2024(x.id, scope) }))
+    .filter((r): r is { x: (typeof JURISDICTIONS)[number]; c: number } => r.c !== null)
+    .sort((a, b) => a.c - b.c)
+    .slice(0, 4)
   return (
     <>
       <div className="panel-head">
@@ -291,11 +319,11 @@ function RegionPanel({ scope, onPick }: { scope: ScopeId; onPick: (id: Jurisdict
       <p className="micro">The two sides are shown separately: adding them would count the same shipments twice.</p>
       <h4 className="list-title">Biggest declines since 2024</h4>
       <ul className="rank-list">
-        {ranked.map((x) => (
+        {ranked.map(({ x, c }) => (
           <li key={x.id}>
             <button type="button" onClick={() => onPick(x.id)}>
               <span>{x.name}</span>
-              <span className="down">{signedPct(changeSince2024(x.id, scope))}</span>
+              <span className={c < 0 ? 'down' : 'up'}>{signedPct(c)}</span>
             </button>
           </li>
         ))}

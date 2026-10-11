@@ -1,0 +1,118 @@
+{
+  "_comment": "Single source of truth for sectors and businesses, shared by the website and the data pipeline. `hs` lists HS code prefixes (2 or 4 digits); the longest matching prefix wins, so '8411' (jet engines) goes to aerospace even though '84' is machinery. Every HS chapter 01-99 must land in exactly one business. `products` are example names used only by the sample-data generator.",
+  "sectors": [
+    {
+      "id": "ag",
+      "name": "Agriculture & Food",
+      "focus": true,
+      "color": "#6a8f4e",
+      "businesses": [
+        { "id": "livestock", "name": "Livestock & meat", "everydayShare": 0.95, "hs": ["01", "02"],
+          "products": [["Live cattle", "0102"], ["Fresh beef", "0201"], ["Frozen beef", "0202"], ["Live swine", "0103"], ["Fresh pork", "0203"]] },
+        { "id": "grains", "name": "Grains & oilseeds", "everydayShare": 0.9, "hs": ["10", "11", "12", "0713"],
+          "products": [["Wheat", "1001"], ["Canola", "1205"], ["Barley", "1003"], ["Dried peas & lentils", "0713"], ["Oats", "1004"]] },
+        { "id": "produce", "name": "Fruits & vegetables", "everydayShare": 0.95, "hs": ["07", "08", "20"],
+          "products": [["Apples & pears", "0808"], ["Cherries", "0809"], ["Frozen potato products", "2004"], ["Fresh potatoes", "0701"], ["Berries", "0810"]] },
+        { "id": "seafood", "name": "Seafood", "everydayShare": 0.95, "hs": ["03", "1604", "1605"],
+          "products": [["Crab & shellfish", "0306"], ["Frozen fish", "0303"], ["Fish fillets", "0304"], ["Fresh fish", "0302"], ["Prepared fish", "1604"]] },
+        { "id": "dairy", "name": "Dairy", "everydayShare": 0.95, "hs": ["04"],
+          "products": [["Cheese", "0406"], ["Milk & cream", "0401"], ["Whey", "0404"], ["Butter", "0405"]] },
+        { "id": "beverages", "name": "Beverages", "everydayShare": 0.9, "hs": ["22"],
+          "products": [["Wine", "2204"], ["Beer", "2203"], ["Spirits", "2208"], ["Non-alcoholic drinks", "2202"]] },
+        { "id": "agother", "name": "Other food & farm products", "everydayShare": 0.9,
+          "hs": ["05", "06", "09", "13", "14", "15", "16", "17", "18", "19", "21", "23", "24"],
+          "products": [["Bakery & cereal foods", "1905"], ["Animal feed", "2309"], ["Canola oil", "1514"], ["Sugar confectionery", "1704"], ["Food preparations", "2106"]] }
+      ]
+    },
+    {
+      "id": "energy",
+      "name": "Energy",
+      "focus": true,
+      "color": "#c29a45",
+      "businesses": [
+        { "id": "crude", "name": "Crude oil & fuels", "everydayShare": 0.95, "hs": ["2709", "2710"],
+          "products": [["Crude oil", "2709"], ["Refined fuels", "2710"]] },
+        { "id": "natgas", "name": "Natural gas", "everydayShare": 1, "hs": ["2711"], "products": [["Natural gas", "2711"]] },
+        { "id": "electricity", "name": "Electricity", "everydayShare": 1, "hs": ["2716"], "products": [["Electricity", "2716"]] },
+        { "id": "energyother", "name": "Coal & other energy", "everydayShare": 0.9, "hs": ["27"],
+          "products": [["Coal", "2701"], ["Petroleum coke", "2713"], ["Asphalt & bitumen", "2715"]] }
+      ]
+    },
+    {
+      "id": "mfg",
+      "name": "Manufacturing",
+      "focus": true,
+      "color": "#5c7065",
+      "businesses": [
+        { "id": "aerospace", "name": "Aerospace", "everydayShare": 0.3, "hs": ["88", "8411"],
+          "products": [["Aircraft", "8802"], ["Aircraft parts", "8803"], ["Jet engines", "8411"]] },
+        { "id": "machinery", "name": "Machinery & farm equipment", "everydayShare": 0.6, "hs": ["84", "8701"],
+          "products": [["Tractors", "8701"], ["Harvesting machinery", "8433"], ["Pumps", "8413"], ["Engines", "8408"], ["Construction equipment", "8429"]] },
+        { "id": "autos", "name": "Autos & trucks", "everydayShare": 0.7, "hs": ["87"],
+          "products": [["Cars", "8703"], ["Trucks", "8704"], ["Auto parts", "8708"]] },
+        { "id": "electronics", "name": "Electronics & instruments", "everydayShare": 0.5, "hs": ["85", "90", "8471"],
+          "products": [["Computers", "8471"], ["Semiconductors", "8542"], ["Lab instruments", "9027"], ["Medical devices", "9018"]] },
+        { "id": "mfgother", "name": "Ships, rail & other manufacturing", "everydayShare": 0.5, "hs": ["86", "89", "91", "92", "93"],
+          "products": [["Boats", "8903"], ["Railway parts", "8607"], ["Ships", "8901"]] }
+      ]
+    },
+    {
+      "id": "forest",
+      "name": "Forest Products",
+      "focus": false,
+      "color": "#7a5c3e",
+      "businesses": [
+        { "id": "lumber", "name": "Lumber & logs", "everydayShare": 0.9, "hs": ["4403", "4407"],
+          "products": [["Softwood lumber", "4407"], ["Logs", "4403"]] },
+        { "id": "woodprod", "name": "Wood products & furniture", "everydayShare": 0.85, "hs": ["44", "45", "46", "9401", "9403"],
+          "products": [["Plywood & panels", "4412"], ["Oriented strand board", "4410"], ["Builders’ woodwork", "4418"], ["Furniture", "9403"]] },
+        { "id": "paper", "name": "Pulp & paper", "everydayShare": 0.8, "hs": ["47", "48", "49"],
+          "products": [["Wood pulp", "4703"], ["Paper & paperboard", "4810"], ["Newsprint", "4801"], ["Tissue", "4818"]] }
+      ]
+    },
+    {
+      "id": "metals",
+      "name": "Minerals & Metals",
+      "focus": false,
+      "color": "#8c8a7e",
+      "businesses": [
+        { "id": "steel", "name": "Steel", "everydayShare": 0.7, "hs": ["72", "73"],
+          "products": [["Flat-rolled steel", "7208"], ["Steel pipe", "7304"], ["Steel structures", "7308"], ["Steel bars", "7214"]] },
+        { "id": "aluminum", "name": "Aluminum", "everydayShare": 0.7, "hs": ["76"],
+          "products": [["Unwrought aluminum", "7601"], ["Aluminum plate", "7606"], ["Aluminum structures", "7610"]] },
+        { "id": "critmin", "name": "Critical minerals & precious metals", "everydayShare": 0.5, "hs": ["26", "71", "74", "75", "78", "79", "80", "81"],
+          "products": [["Copper", "7403"], ["Zinc ores", "2608"], ["Gold", "7108"], ["Diamonds", "7102"], ["Copper ores", "2603"]] },
+        { "id": "metalsother", "name": "Stone, glass & metal goods", "everydayShare": 0.6, "hs": ["25", "68", "69", "70", "82", "83"],
+          "products": [["Cement", "2523"], ["Glass", "7007"], ["Hand tools", "8205"], ["Hardware", "8302"]] }
+      ]
+    },
+    {
+      "id": "chem",
+      "name": "Chemicals & Fertilizers",
+      "focus": false,
+      "color": "#a0674b",
+      "businesses": [
+        { "id": "fertilizer", "name": "Fertilizer & potash", "everydayShare": 1, "hs": ["31"],
+          "products": [["Potash", "3104"], ["Nitrogen fertilizer", "3102"], ["Mixed fertilizers", "3105"]] },
+        { "id": "plastics", "name": "Plastics & rubber", "everydayShare": 0.6, "hs": ["39", "40"],
+          "products": [["Polyethylene", "3901"], ["Plastic packaging", "3923"], ["Plastic sheets", "3920"], ["Tires", "4011"]] },
+        { "id": "chemicals", "name": "Chemicals & pharmaceuticals", "everydayShare": 0.6,
+          "hs": ["28", "29", "30", "32", "33", "34", "35", "36", "37", "38"],
+          "products": [["Methanol & organics", "2905"], ["Pharmaceuticals", "3004"], ["Industrial gases", "2804"], ["Caustic soda", "2815"]] }
+      ]
+    },
+    {
+      "id": "other",
+      "name": "Other Goods",
+      "focus": false,
+      "color": "#9a9384",
+      "businesses": [
+        { "id": "consumer", "name": "Clothing & consumer goods", "everydayShare": 0.8,
+          "hs": ["41", "42", "43", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "94", "95", "96", "97"],
+          "products": [["T-shirts & knitwear", "6109"], ["Footwear", "6403"], ["Toys", "9503"], ["Sports equipment", "9506"], ["Mattresses & bedding", "9404"]] },
+        { "id": "special", "name": "Special & returned goods", "everydayShare": 0.5, "hs": ["98", "99"],
+          "products": [["Returned U.S. goods", "9801"], ["Special classification items", "9802"]] }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { SITE_TAGLINE, SITE_TITLE } from '../config'
-import { data } from '../data'
+import { allReal, data, realSections } from '../data'
 
 export function SiteHeader() {
   return (
@@ -10,9 +10,18 @@ export function SiteHeader() {
           {SITE_TITLE}
         </Link>
         <p className="site-tagline">{SITE_TAGLINE}</p>
+        <nav className="site-nav" aria-label="Main">
+          <NavLink to="/" end>
+            Dashboard
+          </NavLink>
+          <NavLink to="/news">Trade & tariff updates</NavLink>
+        </nav>
       </div>
       <div className="site-badges">
-        <span className="badge badge-sample">Prototype · Sample data</span>
+        {realSections.length > 0 && <span className="badge badge-real">Real {realSections.join(' & ')} data</span>}
+        {!allReal && (
+          <span className="badge badge-sample">{realSections.length ? 'Some sections are samples' : 'Prototype · Sample data'}</span>
+        )}
         <span className="badge">Data as of {data.meta.dataAsOfLabel}</span>
       </div>
     </header>

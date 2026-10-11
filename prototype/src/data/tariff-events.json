@@ -1,0 +1,326 @@
+{
+ "_comment": "Curated tariff and policy timeline. These facts drive the tariff tags and duty estimates, so only add an event after checking it against an official source, and put that link in sourceUrl. Set verified to true once a teammate has checked it. New U.S. proclamations are flagged automatically as GitHub issues (label: tariff-watch).",
+ "events": [
+  {
+   "id": "us-ieepa",
+   "date": "2025-03-04",
+   "end": "2026-02-20",
+   "imposedBy": "US",
+   "kind": "tariff",
+   "measure": "IEEPA \"border\" tariffs on Canadian goods",
+   "rate": "25% (10% energy & potash)",
+   "rateNum": 0.25,
+   "usmcaExempt": "partial",
+   "businesses": "all",
+   "verified": false,
+   "sourceUrl": "https://www.federalregister.gov/documents/2025/02/07/2025-02406/imposing-duties-to-address-the-flow-of-illicit-drugs-across-our-northern-border"
+  },
+  {
+   "id": "ca-counter-1",
+   "date": "2025-03-04",
+   "end": "2025-09-01",
+   "imposedBy": "CA",
+   "kind": "counter-tariff",
+   "measure": "Canadian counter-tariffs, first round (C$30B)",
+   "rate": "25%",
+   "rateNum": 0.25,
+   "usmcaExempt": "no",
+   "businesses": [
+    "beverages",
+    "produce",
+    "dairy",
+    "livestock",
+    "plastics",
+    "chemicals",
+    "paper",
+    "machinery",
+    "electronics",
+    "woodprod"
+   ],
+   "verified": false,
+   "sourceUrl": null
+  },
+  {
+   "id": "us-ieepa-exempt",
+   "date": "2025-03-07",
+   "imposedBy": "US",
+   "kind": "relief",
+   "measure": "USMCA-compliant goods exempted from IEEPA tariffs",
+   "rate": "0% for compliant goods",
+   "usmcaExempt": "yes",
+   "businesses": "all",
+   "verified": false,
+   "sourceUrl": "https://www.federalregister.gov/documents/2025/03/11/2025-03990/amendment-to-duties-to-address-the-flow-of-illicit-drugs-across-our-northern-border"
+  },
+  {
+   "id": "us-232-metals",
+   "date": "2025-03-12",
+   "imposedBy": "US",
+   "kind": "tariff",
+   "measure": "Section 232 tariffs on steel & aluminum",
+   "rate": "25%",
+   "rateNum": 0.25,
+   "usmcaExempt": "no",
+   "businesses": [
+    "steel",
+    "aluminum"
+   ],
+   "verified": false,
+   "sourceUrl": "https://www.federalregister.gov/documents/2025/02/18/2025-02833/adjusting-imports-of-steel-into-the-united-states"
+  },
+  {
+   "id": "ca-counter-metals",
+   "date": "2025-03-13",
+   "imposedBy": "CA",
+   "kind": "counter-tariff",
+   "measure": "Canadian counter-tariffs on U.S. steel & aluminum (C$29.8B)",
+   "rate": "25%",
+   "rateNum": 0.25,
+   "usmcaExempt": "no",
+   "businesses": [
+    "steel",
+    "aluminum",
+    "machinery",
+    "electronics"
+   ],
+   "verified": false,
+   "sourceUrl": null
+  },
+  {
+   "id": "us-232-autos",
+   "date": "2025-04-03",
+   "imposedBy": "US",
+   "kind": "tariff",
+   "measure": "Section 232 tariffs on autos (non-U.S. content)",
+   "rate": "25%",
+   "rateNum": 0.25,
+   "usmcaExempt": "partial",
+   "businesses": [
+    "autos"
+   ],
+   "verified": false,
+   "sourceUrl": "https://www.federalregister.gov/documents/2025/04/03/2025-05930/adjusting-imports-of-automobiles-and-automobile-parts-into-the-united-states"
+  },
+  {
+   "id": "ca-counter-autos",
+   "date": "2025-04-09",
+   "imposedBy": "CA",
+   "kind": "counter-tariff",
+   "measure": "Canadian counter-tariffs on U.S. autos",
+   "rate": "25%",
+   "rateNum": 0.25,
+   "usmcaExempt": "no",
+   "businesses": [
+    "autos"
+   ],
+   "verified": false,
+   "sourceUrl": null
+  },
+  {
+   "id": "us-232-metals-50",
+   "date": "2025-06-04",
+   "imposedBy": "US",
+   "kind": "tariff",
+   "measure": "Section 232 steel & aluminum tariffs doubled",
+   "rate": "50%",
+   "rateNum": 0.5,
+   "usmcaExempt": "no",
+   "businesses": [
+    "steel",
+    "aluminum"
+   ],
+   "verified": false,
+   "sourceUrl": "https://www.federalregister.gov/documents/2025/06/09/2025-10524/adjusting-imports-of-aluminum-and-steel-into-the-united-states"
+  },
+  {
+   "id": "us-ieepa-35",
+   "date": "2025-08-01",
+   "end": "2026-02-20",
+   "imposedBy": "US",
+   "kind": "tariff",
+   "measure": "IEEPA rate raised on non-USMCA goods",
+   "rate": "35%",
+   "rateNum": 0.35,
+   "usmcaExempt": "yes",
+   "businesses": "all",
+   "verified": false,
+   "sourceUrl": "https://www.federalregister.gov/documents/2025/08/06/2025-14999/amendment-to-duties-to-address-the-flow-of-illicit-drugs-across-our-northern-border"
+  },
+  {
+   "id": "us-232-copper",
+   "date": "2025-08-01",
+   "imposedBy": "US",
+   "kind": "tariff",
+   "measure": "Section 232 tariffs on semi-finished copper",
+   "rate": "50%",
+   "rateNum": 0.5,
+   "usmcaExempt": "no",
+   "businesses": [
+    "critmin"
+   ],
+   "verified": false,
+   "sourceUrl": "https://www.federalregister.gov/documents/2025/08/05/2025-14893/adjusting-imports-of-copper-into-the-united-states"
+  },
+  {
+   "id": "us-lumber-adcvd",
+   "date": "2025-08-08",
+   "imposedBy": "US",
+   "kind": "tariff",
+   "measure": "Softwood lumber anti-dumping & countervailing duties raised",
+   "rate": "~35% combined",
+   "rateNum": 0.35,
+   "usmcaExempt": "no",
+   "businesses": [
+    "lumber"
+   ],
+   "verified": false,
+   "sourceUrl": null
+  },
+  {
+   "id": "ca-counter-relief",
+   "date": "2025-09-01",
+   "imposedBy": "CA",
+   "kind": "relief",
+   "measure": "Canada lifts counter-tariffs on CUSMA-compliant U.S. goods",
+   "rate": "0% for compliant goods",
+   "usmcaExempt": "yes",
+   "businesses": [
+    "beverages",
+    "produce",
+    "dairy",
+    "livestock",
+    "plastics",
+    "chemicals",
+    "paper",
+    "machinery",
+    "electronics",
+    "woodprod"
+   ],
+   "verified": false,
+   "sourceUrl": null
+  },
+  {
+   "id": "us-232-wood",
+   "date": "2025-10-14",
+   "imposedBy": "US",
+   "kind": "tariff",
+   "measure": "Section 232 tariffs on lumber, cabinets & furniture",
+   "rate": "10% lumber; 25% furniture",
+   "rateNum": 0.1,
+   "usmcaExempt": "no",
+   "businesses": [
+    "lumber",
+    "woodprod"
+   ],
+   "verified": false,
+   "sourceUrl": "https://www.federalregister.gov/documents/2025/10/06/2025-19482/adjusting-imports-of-timber-lumber-and-their-derivative-products-into-the-united-states"
+  },
+  {
+   "id": "scotus-ieepa",
+   "date": "2026-02-20",
+   "imposedBy": "US",
+   "kind": "relief",
+   "measure": "Supreme Court strikes down IEEPA tariffs",
+   "rate": "IEEPA tariffs end",
+   "usmcaExempt": "n/a",
+   "businesses": "all",
+   "verified": false,
+   "sourceUrl": "https://www.congress.gov/crs-product/LSB11398"
+  },
+  {
+   "id": "us-122",
+   "date": "2026-02-24",
+   "end": "2026-07-24",
+   "imposedBy": "US",
+   "kind": "tariff",
+   "measure": "Section 122 temporary global tariff",
+   "rate": "10%",
+   "rateNum": 0.1,
+   "usmcaExempt": "yes",
+   "businesses": "all",
+   "verified": false,
+   "sourceUrl": "https://www.federalregister.gov/documents/2026/02/25/2026-03824/imposing-a-temporary-import-surcharge-to-address-fundamental-international-payments-problems"
+  },
+  {
+   "id": "usmca-review",
+   "date": "2026-07-01",
+   "imposedBy": "US",
+   "kind": "policy",
+   "measure": "USMCA review: U.S. declines to extend; annual reviews begin",
+   "rate": "—",
+   "usmcaExempt": "n/a",
+   "businesses": "all",
+   "verified": false,
+   "sourceUrl": "https://ustr.gov/about/policy-offices/press-office/press-releases/2026/july/ambassador-greer-issues-statement-usmca-joint-review"
+  },
+  {
+   "id": "us-301",
+   "date": "2026-07-24",
+   "imposedBy": "US",
+   "kind": "tariff",
+   "measure": "Section 301 tariffs on Canadian goods",
+   "rate": "10%",
+   "rateNum": 0.1,
+   "usmcaExempt": "yes",
+   "businesses": "all",
+   "verified": false,
+   "sourceUrl": "https://www.federalregister.gov/documents/2026/07/28/2026-15274/actions-by-the-united-states-in-the-investigations-under-section-301-of-the-trade-act-of-1974-of-the"
+  },
+  {
+   "id": "us-338",
+   "date": "2026-08-22",
+   "imposedBy": "US",
+   "kind": "tariff",
+   "measure": "Section 338 tariffs on Canadian alcohol, dairy & motor vehicles",
+   "rate": "50%",
+   "rateNum": 0.5,
+   "usmcaExempt": "no",
+   "businesses": [
+    "beverages",
+    "dairy",
+    "autos"
+   ],
+   "verified": false,
+   "sourceUrl": "https://www.federalregister.gov/documents/2026/07/23/2026-14997/imposing-additional-duties-to-offset-canadian-discrimination-against-the-commerce-of-the-united"
+  },
+  {
+   "id": "ca-counter-2026",
+   "date": "2026-09-08",
+   "imposedBy": "CA",
+   "kind": "counter-tariff",
+   "measure": "New Canadian counter-tariffs (C$27.6B)",
+   "rate": "15–50%",
+   "rateNum": 0.25,
+   "usmcaExempt": "no",
+   "businesses": [
+    "steel",
+    "aluminum",
+    "dairy",
+    "machinery",
+    "paper",
+    "woodprod",
+    "electronics",
+    "seafood"
+   ],
+   "verified": false,
+   "sourceUrl": "https://www.canada.ca/en/department-finance/news/2026/08/list-of-products-from-the-united-states-subject-to-counter-tariffs-effective-september-8-2026.html"
+  },
+  {
+   "id": "us-bans",
+   "date": "2026-09-29",
+   "imposedBy": "US",
+   "kind": "tariff",
+   "measure": "U.S. import bans on certain Canadian alcohol, dairy & motor vehicle products",
+   "rate": "Ban",
+   "rateNum": 1,
+   "usmcaExempt": "no",
+   "businesses": [
+    "beverages",
+    "dairy",
+    "autos"
+   ],
+   "verified": false,
+   "sourceUrl": "https://www.federalregister.gov/documents/2026/09/14/2026-18835/excluding-certain-canadian-products-from-importation-into-the-united-states-in-response-to-continued"
+  }
+ ]
+}

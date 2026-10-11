@@ -26,7 +26,15 @@ export function TariffTable({ events }: { events: TariffEvent[] }) {
             <tr key={e.id}>
               <td className="num-cell">{k + 1}</td>
               <td className="nowrap">{dateLabel(e.date)}</td>
-              <td>{e.measure}</td>
+              <td>
+                {e.sourceUrl ? (
+                  <a href={e.sourceUrl} target="_blank" rel="noopener noreferrer" className="plain-link">
+                    {e.measure}
+                  </a>
+                ) : (
+                  e.measure
+                )}
+              </td>
               <td>{e.imposedBy === 'US' ? 'U.S.' : 'Canada'}</td>
               <td className="nowrap">{e.rate}</td>
               <td>{EXEMPT_LABEL[e.usmcaExempt]}</td>

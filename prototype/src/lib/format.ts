@@ -6,7 +6,7 @@ export function money(m: number): string {
   if (m === 0) return '$0'
   const sign = m < 0 ? MINUS : ''
   const a = Math.abs(m)
-  if (a >= 10000) return `${sign}$${Math.round(a / 1000)}B`
+  if (a >= 100000) return `${sign}$${Math.round(a / 1000)}B`
   if (a >= 1000) return `${sign}$${(a / 1000).toFixed(1)}B`
   if (a >= 100) return `${sign}$${Math.round(a)}M`
   if (a >= 1) return `${sign}$${a.toFixed(1)}M`

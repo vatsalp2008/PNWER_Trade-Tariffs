@@ -85,13 +85,14 @@ const TOTALS_2019: Record<JurisdictionId, { exp: number; imp: number }> = {
 }
 
 type Mix = Record<SectorId, number>
-const mix = (ag: number, energy: number, mfg: number, forest: number, metals: number, chem: number): Mix => ({
+const mix = (ag: number, energy: number, mfg: number, forest: number, metals: number, chem: number, other = 0.05): Mix => ({
   ag,
   energy,
   mfg,
   forest,
   metals,
   chem,
+  other,
 })
 const SECTOR_MIX: Record<JurisdictionId, { exp: Mix; imp: Mix }> = {
   WA: { exp: mix(0.22, 0.09, 0.42, 0.11, 0.08, 0.08), imp: mix(0.12, 0.55, 0.12, 0.08, 0.06, 0.07) },
@@ -107,21 +108,22 @@ const SECTOR_MIX: Record<JurisdictionId, { exp: Mix; imp: Mix }> = {
 }
 
 const BUSINESS_WEIGHT: Record<string, number> = {
-  beef: 0.22, grains: 0.2, produce: 0.2, seafood: 0.14, dairy: 0.1, beverages: 0.14,
-  crude: 0.6, natgas: 0.3, electricity: 0.1,
-  aerospace: 0.25, machinery: 0.3, autos: 0.25, electronics: 0.2,
+  livestock: 0.2, grains: 0.18, produce: 0.18, seafood: 0.12, dairy: 0.08, beverages: 0.12, agother: 0.12,
+  crude: 0.55, natgas: 0.28, electricity: 0.1, energyother: 0.07,
+  aerospace: 0.22, machinery: 0.28, autos: 0.22, electronics: 0.2, mfgother: 0.08,
   lumber: 0.45, woodprod: 0.25, paper: 0.3,
-  steel: 0.35, aluminum: 0.3, critmin: 0.35,
+  steel: 0.3, aluminum: 0.28, critmin: 0.3, metalsother: 0.12,
   fertilizer: 0.4, plastics: 0.35, chemicals: 0.25,
+  consumer: 0.85, special: 0.15,
 }
 const WEIGHT_OVERRIDES: Partial<Record<JurisdictionId, Record<string, number>>> = {
   AK: { seafood: 0.7, critmin: 0.85 },
   WA: { aerospace: 0.45, produce: 0.3 },
   OR: { electronics: 0.4 },
   ID: { produce: 0.35, critmin: 0.6 },
-  MT: { crude: 0.7, beef: 0.3, grains: 0.35 },
+  MT: { crude: 0.7, livestock: 0.3, grains: 0.35 },
   BC: { lumber: 0.55, natgas: 0.45 },
-  AB: { crude: 0.8, beef: 0.35 },
+  AB: { crude: 0.8, livestock: 0.35 },
   SK: { fertilizer: 0.8, grains: 0.5 },
   YT: { critmin: 0.9 },
   NT: { critmin: 0.95 },
@@ -218,17 +220,17 @@ const sumWindow = (arr: number[], endIdx: number, len = 12) => arr.slice(endIdx 
 const SECTOR_RANGES = {
   // [US state: Canada's share of exports], [province: U.S. share of exports]
   exportShare: {
-    US: { ag: [0.2, 0.5], energy: [0.4, 0.9], mfg: [0.1, 0.3], forest: [0.3, 0.7], metals: [0.08, 0.4], chem: [0.3, 0.6] },
-    CA: { ag: [0.3, 0.6], energy: [0.93, 0.99], mfg: [0.6, 0.85], forest: [0.55, 0.8], metals: [0.4, 0.8], chem: [0.5, 0.75] },
+    US: { ag: [0.2, 0.5], energy: [0.4, 0.9], mfg: [0.1, 0.3], forest: [0.3, 0.7], metals: [0.08, 0.4], chem: [0.3, 0.6], other: [0.1, 0.4] },
+    CA: { ag: [0.3, 0.6], energy: [0.93, 0.99], mfg: [0.6, 0.85], forest: [0.55, 0.8], metals: [0.4, 0.8], chem: [0.5, 0.75], other: [0.5, 0.8] },
   },
   importShare: {
-    US: { ag: [0.15, 0.4], energy: [0.8, 0.98], mfg: [0.05, 0.2], forest: [0.4, 0.8], metals: [0.15, 0.4], chem: [0.15, 0.45] },
-    CA: { ag: [0.45, 0.75], energy: [0.5, 0.9], mfg: [0.5, 0.75], forest: [0.6, 0.9], metals: [0.5, 0.8], chem: [0.5, 0.8] },
+    US: { ag: [0.15, 0.4], energy: [0.8, 0.98], mfg: [0.05, 0.2], forest: [0.4, 0.8], metals: [0.15, 0.4], chem: [0.15, 0.45], other: [0.05, 0.2] },
+    CA: { ag: [0.45, 0.75], energy: [0.5, 0.9], mfg: [0.5, 0.75], forest: [0.6, 0.9], metals: [0.5, 0.8], chem: [0.5, 0.8], other: [0.4, 0.7] },
   },
   // Approx. partner-country total imports by sector, USD millions
   partnerImports: {
-    US: { ag: 45000, energy: 40000, mfg: 260000, forest: 18000, metals: 45000, chem: 60000 }, // Canada's imports
-    CA: { ag: 230000, energy: 260000, mfg: 1600000, forest: 50000, metals: 160000, chem: 420000 }, // U.S. imports
+    US: { ag: 45000, energy: 40000, mfg: 260000, forest: 18000, metals: 45000, chem: 60000, other: 50000 }, // Canada's imports
+    CA: { ag: 230000, energy: 260000, mfg: 1600000, forest: 50000, metals: 160000, chem: 420000, other: 400000 }, // U.S. imports
   },
 } as const
 
@@ -331,20 +333,20 @@ const PARTNER_OWNED: Record<JurisdictionId, [number, number]> = {
   WA: [420, 30000], OR: [180, 8400], ID: [65, 3500], MT: [50, 2100], AK: [45, 6300],
   BC: [1100, 120000], AB: [1400, 150000], SK: [300, 25000], YT: [15, 400], NT: [20, 600],
 }
-const EMP_SHARE: Record<SectorId, number> = { ag: 0.045, energy: 0.008, mfg: 0.07, forest: 0.012, metals: 0.01, chem: 0.006 }
+const EMP_SHARE: Record<SectorId, number> = { ag: 0.045, energy: 0.008, mfg: 0.07, forest: 0.012, metals: 0.01, chem: 0.006, other: 0.01 }
 const EMP_SHARE_OVERRIDES: Partial<Record<JurisdictionId, Partial<Mix>>> = {
   WA: { mfg: 0.08 }, OR: { mfg: 0.09, forest: 0.02 }, ID: { ag: 0.08, mfg: 0.08, forest: 0.015, metals: 0.012 },
   MT: { ag: 0.07 }, AK: { ag: 0.05, energy: 0.03, mfg: 0.02, metals: 0.015 }, BC: { forest: 0.025 },
   AB: { energy: 0.05 }, SK: { ag: 0.1, energy: 0.03, chem: 0.012 }, YT: { ag: 0.01, mfg: 0.01, metals: 0.06 },
   NT: { ag: 0.01, mfg: 0.01, energy: 0.02, metals: 0.08 },
 }
-const GDP_SHARE: Record<SectorId, number> = { ag: 0.02, energy: 0.02, mfg: 0.08, forest: 0.01, metals: 0.01, chem: 0.008 }
+const GDP_SHARE: Record<SectorId, number> = { ag: 0.02, energy: 0.02, mfg: 0.08, forest: 0.01, metals: 0.01, chem: 0.008, other: 0.01 }
 const GDP_SHARE_OVERRIDES: Partial<Record<JurisdictionId, Partial<Mix>>> = {
   WA: { mfg: 0.09 }, OR: { mfg: 0.11, forest: 0.02 }, ID: { ag: 0.05 }, MT: { ag: 0.04 },
   AK: { energy: 0.12, mfg: 0.02, metals: 0.04 }, BC: { forest: 0.03 }, AB: { energy: 0.2 },
   SK: { ag: 0.08, energy: 0.1, chem: 0.03 }, YT: { mfg: 0.01, metals: 0.15 }, NT: { mfg: 0.01, energy: 0.03, metals: 0.25 },
 }
-const JOBS_PER_M: Record<SectorId, number> = { ag: 6, energy: 1.5, mfg: 4.5, forest: 5.5, metals: 3.5, chem: 3 }
+const JOBS_PER_M: Record<SectorId, number> = { ag: 6, energy: 1.5, mfg: 4.5, forest: 5.5, metals: 3.5, chem: 3, other: 4 }
 
 function jurisdictionEconomy(j: Jurisdiction): JurisdictionEconomy {
   const r = rng(j.id, 'economy')
@@ -392,8 +394,8 @@ function effectiveImportRate(j: Jurisdiction, biz: Business) {
 
 const MFN = {
   // [lo, hi] standard tariff a partner would charge without USMCA
-  CA: { ag: [0.05, 0.15], energy: [0, 0.01], mfg: [0.02, 0.06], forest: [0, 0.02], metals: [0, 0.03], chem: [0.01, 0.05] },
-  US: { ag: [0.02, 0.06], energy: [0, 0.01], mfg: [0.02, 0.04], forest: [0, 0.02], metals: [0, 0.03], chem: [0.01, 0.04] },
+  CA: { ag: [0.05, 0.15], energy: [0, 0.01], mfg: [0.02, 0.06], forest: [0, 0.02], metals: [0, 0.03], chem: [0.01, 0.05], other: [0.05, 0.15] },
+  US: { ag: [0.02, 0.06], energy: [0, 0.01], mfg: [0.02, 0.04], forest: [0, 0.02], metals: [0, 0.03], chem: [0.01, 0.04], other: [0.04, 0.1] },
 } as const
 
 function bizAffordScenario(j: Jurisdiction, biz: Business, last12: { exports: number; imports: number }) {
@@ -430,6 +432,7 @@ const QUOTES: Quote[] = [
   { sector: 'forest', text: 'Lumber duties were already high. Stacking new tariffs on top means we’ve paused hiring at the mill until there is some certainty.', attribution: PLACEHOLDER },
   { sector: 'metals', text: 'Our buyers have started asking for alternate suppliers outside the region, just to avoid the risk of the next tariff announcement.', attribution: PLACEHOLDER },
   { sector: 'chem', text: 'Fertilizer is a cost every farmer in the region pays. When it gets more expensive, food gets more expensive.', attribution: PLACEHOLDER },
+  { sector: 'other', text: 'Small retailers on both sides of the border are absorbing the new costs for now, but that can only last so long.', attribution: PLACEHOLDER },
 ]
 
 // ---------- build ----------

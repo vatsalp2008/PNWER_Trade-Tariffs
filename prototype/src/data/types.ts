@@ -4,7 +4,7 @@
 
 export type Country = 'US' | 'CA'
 export type JurisdictionId = 'WA' | 'OR' | 'ID' | 'MT' | 'AK' | 'BC' | 'AB' | 'SK' | 'YT' | 'NT'
-export type SectorId = 'ag' | 'energy' | 'mfg' | 'forest' | 'metals' | 'chem'
+export type SectorId = 'ag' | 'energy' | 'mfg' | 'forest' | 'metals' | 'chem' | 'other'
 export type BusinessId = string
 /** 'all', a SectorId, or a BusinessId. */
 export type ScopeId = string
@@ -32,6 +32,9 @@ export interface Business {
   sector: SectorId
   /** Share of imports that are everyday goods or production inputs (affordability lens). */
   everydayShare: number
+  /** HS code prefixes that belong to this business (longest prefix wins across businesses). */
+  hs: string[]
+  /** Example products, used only by the sample-data generator. */
   products: Product[]
 }
 
@@ -61,8 +64,10 @@ export interface TariffEvent {
   rateNum?: number
   usmcaExempt: UsmcaExempt
   businesses: BusinessId[] | 'all'
-  /** Every policy event must be checked against an official source before real use. */
-  verify: true
+  /** Checked by a teammate against the official source. */
+  verified: boolean
+  /** Link to the official document (Federal Register, Canada Gazette, Finance Canada notice…). */
+  sourceUrl: string | null
 }
 
 export interface Flow {
@@ -159,12 +164,46 @@ export interface Quote {
 }
 
 export interface Meta {
-  sample: true
+  sample: boolean
   /** YYYY-MM of the latest month of trade data. */
   dataAsOf: string
   dataAsOfLabel: string
   generatedAt: string
   note: string
+}
+
+export type NewsKind = 'official' | 'pnwer' | 'media'
+
+/** One headline in the trade & tariff updates feed (pipeline/fetch_news.py). */
+export interface NewsItem {
+  id: string
+  title: string
+  url: string
+  /** YYYY-MM-DD */
+  date: string
+  source: string
+  kind: NewsKind
+  jurisdictions: JurisdictionId[]
+  sectors: SectorId[]
+}
+
+/** Parts of the site that switch from sample to real data independently. */
+export type SectionKey = 'trade' | 'economy' | 'affordability' | 'scenario'
+
+/** Written by the data pipeline (pipeline/build.py) to src/data/real.json. */
+export interface RealData {
+  meta: {
+    generatedAt: string
+    dataAsOf: string
+    dataAsOfLabel: string
+    sections: Partial<Record<SectionKey, boolean>>
+    sources: string[]
+  }
+  trade?: ByJurisdiction<ByScope<TradeRecord>>
+  economy?: ByJurisdiction<ByScope<EconomyRecord>>
+  jurisdictionEconomy?: ByJurisdiction<JurisdictionEconomy>
+  affordability?: ByJurisdiction<ByScope<AffordabilityRecord>>
+  scenario?: ByJurisdiction<ByScope<ScenarioRecord>>
 }
 
 export type ByJurisdiction<T> = Record<JurisdictionId, T>

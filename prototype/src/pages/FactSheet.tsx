@@ -18,6 +18,7 @@ import {
   industryNoun,
   isInEffect,
   isJurisdictionId,
+  isReal,
   isScope,
   jurisdictionEconomy,
   keyEvents,
@@ -103,13 +104,17 @@ function Sheet({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
   )
 }
 
-function SheetHeader({ j, scope, title, sub, tags = true }: { j: Jurisdiction; scope: ScopeId; title: string; sub: string; tags?: boolean }) {
+function SheetHeader({ j, scope, title, sub, tags = true, sample }: { j: Jurisdiction; scope: ScopeId; title: string; sub: string; tags?: boolean; sample: boolean }) {
   const sector = scopeSector(scope)
   return (
     <header className="sheet-head">
       <div className="sheet-kicker">
         <span>{SITE_TITLE}</span>
-        <span className="badge badge-sample">Sample data · not for citation</span>
+        {sample ? (
+          <span className="badge badge-sample">Sample data · not for citation</span>
+        ) : (
+          <span className="badge badge-real">Official data · sources below</span>
+        )}
       </div>
       <h1>{title}</h1>
       <p className="sheet-sub">{sub}</p>
@@ -137,17 +142,20 @@ function PageOne({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
   const partner = partnerName(j)
   const label = scopeLabel(scope)
   const lower = goodsNoun(scope)
-  const change = (t.last12.exports + t.last12.imports) / (t.prev12.exports + t.prev12.imports) - 1
+  const prevTotal = t.prev12.exports + t.prev12.imports
+  const change = prevTotal > 0 ? (t.last12.exports + t.last12.imports) / prevTotal - 1 : null
   const { markers } = eventNumbers(scope)
   const tradeSource = j.country === 'US' ? SOURCES.tradeUS : SOURCES.tradeCA
   const growthMax = Math.max(Math.abs(t.growthUsmcaToPartner), Math.abs(t.growthUsmcaToWorld), 0.05)
+  const sample = !isReal('trade')
 
   return (
     <article className="sheet-page">
-      <PageWatermark />
+      {sample && <PageWatermark />}
       <SheetHeader
         j={j}
         scope={scope}
+        sample={sample}
         title={`${label} in ${j.name}`}
         sub={`How closely is it tied to ${partner}? Latest 12 months of trade, in U.S. dollars.`}
       />
@@ -155,8 +163,13 @@ function PageOne({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
       <div className="stat-row">
         <Stat label={`Exports to ${partner}`} value={money(t.last12.exports)} note="last 12 months" />
         <Stat label={`Imports from ${partner}`} value={money(t.last12.imports)} note="last 12 months" />
-        <Stat label="Change in two-way trade" value={signedPct(change)} note="vs. previous 12 months" tone={change < 0 ? 'down' : 'up'} />
-        <Stat label={`${partnerShort(j)} as an export market`} value={`#${t.partnerRank}`} note={`for ${j.name}’s ${lower}`} />
+        <Stat
+          label="Change in two-way trade"
+          value={change === null ? '—' : signedPct(change)}
+          note="vs. previous 12 months"
+          tone={change === null ? 'neutral' : change < 0 ? 'down' : 'up'}
+        />
+        <Stat label={`${partnerShort(j)} as an export market`} value={t.partnerRank ? `#${t.partnerRank}` : '—'} note={`for ${j.name}’s ${lower}`} />
       </div>
 
       <ChartCard
@@ -164,12 +177,13 @@ function PageOne({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
         subtitle="Total over the previous 12 months. Numbered lines mark tariff actions listed on page 2; the dashed line is the latest month of data."
         source={tradeSource}
         exportName={`${j.id}-${scope}-three-eras`}
+        sample={sample}
       >
         <EraChart rolling={t.rolling} partner={partner} markers={markers} width={CHART_W} height={205} />
       </ChartCard>
 
       <div className="two-col">
-        <ChartCard title="Economic integration" source={`${tradeSource}; ${SOURCES.partnerJur}`} exportName={`${j.id}-${scope}-integration`}>
+        <ChartCard title="Economic integration" source={`${tradeSource}; ${SOURCES.partnerJur}`} exportName={`${j.id}-${scope}-integration`} sample={sample}>
           <div className="big-pair">
             <div>
               <div className="big">{pct(t.exportShareToPartner)}</div>
@@ -184,7 +198,7 @@ function PageOne({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
           <PartnerBars rows={t.partnerJurisdictions} />
         </ChartCard>
 
-        <ChartCard title="Competitiveness" source={tradeSource} exportName={`${j.id}-${scope}-competitiveness`}>
+        <ChartCard title="Competitiveness" source={tradeSource} exportName={`${j.id}-${scope}-competitiveness`} sample={sample}>
           <h4 className="mini-title">Export growth under USMCA, 2019 → 2024</h4>
           <ul className="bars growth">
             {[
@@ -201,7 +215,9 @@ function PageOne({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
             ))}
           </ul>
           <div className="callout">
-            <div className="big">{pct(t.shareOfPartnerImports, t.shareOfPartnerImports < 0.01 ? 2 : 1)}</div>
+            <div className="big">
+              {t.shareOfPartnerImports < 0.0001 ? '<0.01%' : pct(t.shareOfPartnerImports, t.shareOfPartnerImports < 0.01 ? 2 : 1)}
+            </div>
             <div className="big-cap">
               of {partner === 'Canada' ? 'Canada’s' : 'U.S.'} {lower} imports come from {j.name}
             </div>
@@ -214,13 +230,17 @@ function PageOne({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
         </ChartCard>
       </div>
 
-      <ChartCard title="Top products, last 12 months" source={tradeSource} exportName={`${j.id}-${scope}-top-products`}>
+      <ChartCard title="Top products, last 12 months" source={tradeSource} exportName={`${j.id}-${scope}-top-products`} sample={sample}>
         <TopProductsTable exports={t.topExports} imports={t.topImports} partner={partner} />
       </ChartCard>
 
       <footer className="sheet-foot">
         <span>Page 1 of 2</span>
-        <span>{data.meta.note}</span>
+        <span>
+          {sample
+            ? data.meta.note
+            : 'Sources: U.S. Census Bureau; adapted from Statistics Canada, CIMT (not an endorsement by Statistics Canada); Bank of Canada exchange rates.'}
+        </span>
       </footer>
     </article>
   )
@@ -247,11 +267,10 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
 
   return (
     <article className="sheet-page">
-      <PageWatermark />
-      <SheetHeader j={j} scope={scope} title="Why it matters and what’s at risk" sub={`${label} in ${j.name} · data as of ${data.meta.dataAsOfLabel}`} tags={false} />
+      <SheetHeader j={j} scope={scope} title="Why it matters and what’s at risk" sub={`${label} in ${j.name} · data as of ${data.meta.dataAsOfLabel}`} tags={false} sample={!isReal('economy') || !isReal('affordability') || !isReal('scenario')} />
 
       <div className="three-col">
-        <ChartCard title="Employment" source={`${us ? SOURCES.jobsUS : SOURCES.jobsCA}; ${us ? SOURCES.ownedUS : SOURCES.ownedCA}`}>
+        <ChartCard title="Employment" source={`${us ? SOURCES.jobsUS : SOURCES.jobsCA}; ${us ? SOURCES.ownedUS : SOURCES.ownedCA}`} sample={!isReal('economy')}>
           <dl className="facts">
             <dt>Jobs in {industry}</dt>
             <dd>{num(e.sectorJobs)}</dd>
@@ -268,7 +287,7 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
           </dl>
         </ChartCard>
 
-        <ChartCard title="Economic output" source={us ? SOURCES.gdpUS : SOURCES.gdpCA}>
+        <ChartCard title="Economic output" source={us ? SOURCES.gdpUS : SOURCES.gdpCA} sample={!isReal('economy')}>
           <dl className="facts">
             <dt>Output of {industry}</dt>
             <dd>{money(e.sectorGdp)}</dd>
@@ -283,7 +302,7 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
           </dl>
         </ChartCard>
 
-        <ChartCard title="Affordability" source={`${SOURCES.tariffs}; ${SOURCES.prices}`}>
+        <ChartCard title="Affordability" source={`${SOURCES.tariffs}; ${SOURCES.prices}`} sample={!isReal('affordability')}>
           <dl className="facts">
             <dt>Everyday goods & inputs imported from {partner}</dt>
             <dd>{money(a.everydayAndInputImports)}</dd>
@@ -305,7 +324,7 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
         <TariffTable events={shown} />
       </ChartCard>
 
-      <ChartCard title="If USMCA isn’t renewed" source={`${SOURCES.usmcaUse}; ${SOURCES.mfn}`} exportName={`${j.id}-${scope}-no-usmca`}>
+      <ChartCard title="If USMCA isn’t renewed" source={`${SOURCES.usmcaUse}; ${SOURCES.mfn}`} exportName={`${j.id}-${scope}-no-usmca`} sample={!isReal('scenario')}>
         <div className="scenario-grid">
           <Stat label="Trade now duty-free under USMCA" value={pct(s.usmcaDutyFreeShare)} />
           <Stat label={`Tariff on exports to ${partner} without USMCA`} value={pct(s.mfnOnExports, 1)} />
@@ -335,7 +354,7 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
           <ul className="micro">
             <li>{us ? 'Exports are by state of origin of movement; imports by state of destination.' : 'Converted to U.S. dollars at the annual average Bank of Canada rate.'}</li>
             <li>Duty estimates are trade × tariff rate: an upper-bound guide, not a forecast.</li>
-            <li>Every figure on this sheet is sample data for a prototype.</li>
+            <li>{isReal('trade') ? 'Trade figures are official; sections tagged “Sample” are placeholders.' : 'Every figure on this sheet is sample data for a prototype.'}</li>
           </ul>
         </section>
       </div>

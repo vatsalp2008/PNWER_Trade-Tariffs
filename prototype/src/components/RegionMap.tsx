@@ -41,8 +41,11 @@ function isDark(hex: string) {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.45
 }
 
+const NO_DATA = '#e6e3da'
+
 interface MapProps {
-  values: Record<JurisdictionId, number>
+  /** null = no data for this jurisdiction (drawn in grey). */
+  values: Record<JurisdictionId, number | null>
   colorOf: (v: number) => string
   format: (v: number) => string
   selected: JurisdictionId | 'ALL'
@@ -50,8 +53,10 @@ interface MapProps {
   legend: { gradient: string; low: string; high: string; title: string }
 }
 
-export function RegionMap({ values, colorOf, format, selected, onSelect, legend }: MapProps) {
+export function RegionMap({ values, colorOf: color, format: fmt, selected, onSelect, legend }: MapProps) {
   const [hover, setHover] = useState<JurisdictionId | null>(null)
+  const colorOf = (v: number | null) => (v === null || !Number.isFinite(v) ? NO_DATA : color(v))
+  const format = (v: number | null) => (v === null || !Number.isFinite(v) ? 'no data' : fmt(v))
   const focus = hover ?? (selected === 'ALL' ? null : selected)
   return (
     <div className="region-map">
