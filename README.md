@@ -10,6 +10,8 @@ This repo holds the **Cross-Border Trade & Tariff Explorer**, a website prototyp
 
 **Live site:** https://pnwer-trade-tariffs.vercel.app
 
+**New to the project?** Read the [team guide](docs/WEBSITE_GUIDE.md) (everything on the website, every number, common tasks) and the [decision log](docs/DECISIONS.md) (why things are done this way).
+
 > **Data status.**
 > - **Real:** all figures come from official public sources: U.S. Census Bureau, BLS, BEA, Statistics Canada and Bank of Canada. Each section names its source and year.
 > - **Still placeholders:** the "What businesses are saying" quotes, until PNWER provides real stakeholder input.

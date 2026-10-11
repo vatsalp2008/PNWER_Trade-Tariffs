@@ -18,7 +18,11 @@ export function SiteHeader() {
         </nav>
       </div>
       <div className="site-badges">
-        {realSections.length > 0 && <span className="badge badge-real">Real {realSections.join(' & ')} data</span>}
+        {allReal ? (
+          <span className="badge badge-real">Official public data</span>
+        ) : (
+          realSections.length > 0 && <span className="badge badge-real">Real {realSections.join(' & ')} data</span>
+        )}
         {!allReal && (
           <span className="badge badge-sample">{realSections.length ? 'Some sections are samples' : 'Prototype · Sample data'}</span>
         )}
