@@ -1,6 +1,23 @@
 {
- "updated": "2026-10-10",
+ "updated": "2026-10-16",
  "items": [
+  {
+   "id": "df552eb8f294",
+   "title": "Governments and Faith Communities: Supporting the Economic Fundamentals of “The Good Life”",
+   "url": "https://ustr.gov/about/policy-offices/press-office/speeches-and-remarks/2026/october/governments-and-faith-communities-supporting-economic-fundamentals-good-life",
+   "date": "2026-10-16",
+   "source": "USTR",
+   "kind": "official",
+   "jurisdictions": [],
+   "sectors": [
+    "ag",
+    "energy",
+    "mfg",
+    "forest",
+    "metals",
+    "chem"
+   ]
+  },
   {
    "id": "38fef556bffa",
    "title": "Request for Public Comments and Notice of Public Hearing Relating to the Operation of the Agreement Between the United States of America, the United Mexican States, and Canada",
@@ -45,16 +62,6 @@
    "sectors": [
     "ag"
    ]
-  },
-  {
-   "id": "1fbbd9eef5c3",
-   "title": "Minister Sidhu strengthens Canada’s trade and investment ties with Association of Southeast Asian Nations",
-   "url": "https://www.canada.ca/en/global-affairs/news/2026/09/minister-sidhu-strengthens-canadas-trade-and-investment-ties-with-association-of-southeast-asian-nations.html",
-   "date": "2026-09-23",
-   "source": "Global Affairs Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
   },
   {
    "id": "13c8ac511cca",
