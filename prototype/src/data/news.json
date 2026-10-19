@@ -1,6 +1,16 @@
 {
- "updated": "2026-10-16",
+ "updated": "2026-10-19",
  "items": [
+  {
+   "id": "b87774c421e4",
+   "title": "United States Announces Successful Resolution of Rapid Response Labor Mechanism Matter at Alimentos Grole Facility",
+   "url": "https://ustr.gov/about/policy-offices/press-office/press-releases/2026/october/united-states-announces-successful-resolution-rapid-response-labor-mechanism-matter-alimentos-grole",
+   "date": "2026-10-19",
+   "source": "USTR",
+   "kind": "official",
+   "jurisdictions": [],
+   "sectors": []
+  },
   {
    "id": "df552eb8f294",
    "title": "Governments and Faith Communities: Supporting the Economic Fundamentals of “The Good Life”",
@@ -13,7 +23,6 @@
     "ag",
     "energy",
     "mfg",
-    "forest",
     "metals",
     "chem"
    ]
@@ -49,30 +58,6 @@
    "sectors": [
     "ag",
     "mfg"
-   ]
-  },
-  {
-   "id": "c204affc1c81",
-   "title": "CSMS # 70050117 - New Foreign Trade Zone (FTZ) and Cargo Release Error Codes for Restricted Canadian Products",
-   "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/42ce145",
-   "date": "2026-09-28",
-   "source": "U.S. Customs and Border Protection",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
-    "ag"
-   ]
-  },
-  {
-   "id": "13c8ac511cca",
-   "title": "Government of Canada commits financial support to Conifex Timber Inc.",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/09/government-of-canada-commits-financial-support-to-conifex-timber-inc.html",
-   "date": "2026-09-18",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
-    "forest"
    ]
   },
   {
@@ -136,78 +121,6 @@
    ]
   },
   {
-   "id": "ae6e3e6b7a0b",
-   "title": "Government of Canada Concludes Pre-Budget Consultations for Budget 2026",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/09/government-of-canada-concludes-pre-budget-consultations-for-budget-2026.html",
-   "date": "2026-09-08",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
-  },
-  {
-   "id": "822ad222284a",
-   "title": "The Government of Canada highlights targeted countermeasures and substantive support for workers and businesses in response to U.S. tariffs in Sarnia",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/08/the-governement-of-canada-highlights-targeted-countermeasures-and-substantive-support-for-workers-and-businesses-in-response-to-us-tariffs.html",
-   "date": "2026-08-27",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
-  },
-  {
-   "id": "1f2b372436fe",
-   "title": "Secretary of State Long in Sarnia to highlight Canadian response to U.S. tariffs",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/08/secretary-of-state-long-in-sarnia-to-highlight-canadian-response-to-us-tariffs.html",
-   "date": "2026-08-26",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
-    "ag"
-   ]
-  },
-  {
-   "id": "53eb48753336",
-   "title": "Department of Finance meets with stakeholders on Canada’s response to U.S. tariffs",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/08/department-of-finance-meets-with-stakeholders-on-canadas-response-to-us-tariffs.html",
-   "date": "2026-08-26",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
-  },
-  {
-   "id": "51b0b08f1bf7",
-   "title": "Canada announces targeted countermeasures and substantive support for workers and businesses in response to U.S. tariffs",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/08/canada-announces-targeted-countermeasures-and-substantive-support-for-workers-and-businesses-in-response-to-us-tariffs.html",
-   "date": "2026-08-25",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
-  },
-  {
-   "id": "7e216357dd22",
-   "title": "Support for Canadian workers and businesses affected by U.S. tariffs",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/08/support-for-canadian-workers-and-businesses-affected-by-us-tariffs.html",
-   "date": "2026-08-25",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
-  },
-  {
-   "id": "aeb9d071968d",
-   "title": "List of products from the United States subject to counter-tariffs effective September 8, 2026",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/08/list-of-products-from-the-united-states-subject-to-counter-tariffs-effective-september-8-2026.html",
-   "date": "2026-08-25",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
-  },
-  {
    "id": "c84329ad7ced",
    "title": "Temporary Suspension of Additional Duties To Offset Canadian Discrimination Against the Commerce of the United States With Respect to Alcoholic Beverages, Dairy, and Motor Vehicles",
    "url": "https://www.federalregister.gov/documents/2026/08/24/2026-17294/temporary-suspension-of-additional-duties-to-offset-canadian-discrimination-against-the-commerce-of",
@@ -221,26 +134,6 @@
    ]
   },
   {
-   "id": "95f5527697ba",
-   "title": "Minister of Finance meets with provincial and territorial counterparts on Canada’s response to latest U.S. tariffs",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/08/minister-of-finance-meets-with-provincial-and-territorial-counterparts-on-canadas-response-to-latest-us-tariffs.html",
-   "date": "2026-08-24",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
-  },
-  {
-   "id": "1e029f186e34",
-   "title": "Ministers Champagne, Joly, Hajdu and Solomon to announce Canadian response to U.S. tariffs",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/08/ministers-champagne-joly-hajdu-and-solomon-to-announce-canadian-response-to-us-tariffs.html",
-   "date": "2026-08-24",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
-  },
-  {
    "id": "129f8bd330f0",
    "title": "Letter to Ambassador Greer & Minister LeBlanc supporting extension of USMCA, with agriculture leaders",
    "url": "https://www.pnwer.org/uploads/2/3/2/9/23295822/ag_usmca_cusma_letter_08.19.pdf",
@@ -250,43 +143,6 @@
    "jurisdictions": [],
    "sectors": [
     "ag"
-   ]
-  },
-  {
-   "id": "3d88918564e2",
-   "title": "Canada imposes provisional safeguard tariff on imports of wood cabinets and vanities to protect Canadian manufacturers and workers",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/07/canada-imposes-provisional-safeguard-tariff-on-imports-of-wood-cabinets-and-vanities-to-protect-canadian-manufacturers-and-workers.html",
-   "date": "2026-07-31",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
-    "mfg",
-    "forest"
-   ]
-  },
-  {
-   "id": "103053d7f1f2",
-   "title": "Government of Canada acts to protect Canadian softwood lumber jobs, announces support to lumber company",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/07/government-of-canada-acts-to-protect-canadian-softwood-lumber-jobs-announces-support-to-lumber-company.html",
-   "date": "2026-07-28",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
-    "forest"
-   ]
-  },
-  {
-   "id": "273435a0b31c",
-   "title": "Government of Canada announces loan support to Millar Western Forest Products Ltd.",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/07/government-of-canada-announces-loan-support-to-millar-western-forest-products-ltd.html",
-   "date": "2026-07-27",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
-    "forest"
    ]
   },
   {
