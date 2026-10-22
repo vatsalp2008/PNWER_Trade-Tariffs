@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import zipfile
 from datetime import date
 
 import pandas as pd
@@ -288,8 +289,16 @@ def check_sections(economy: dict, jur: dict, afford: dict, scen: dict) -> list[s
 
 def main() -> None:
     load_env()
-    census_last = fetch_census.latest_month()
-    cimt_last = fetch_cimt.latest_month(int(census_last[:4]))
+    try:
+        census_last = fetch_census.latest_month()
+        cimt_last = fetch_cimt.latest_month(int(census_last[:4]))
+    except (requests.RequestException, zipfile.BadZipFile) as e:
+        if "--if-new" not in sys.argv:
+            raise
+        # Daily run: a source being down for a day shouldn't fail the job (the news
+        # still needs committing). Keep the current data and try again tomorrow.
+        log(f"::warning::Couldn't check for a new month ({e}); keeping the current data.")
+        return
     last_ym = min(census_last, cimt_last)
     last_year = int(last_ym[:4])
     rank_year = last_year - 1 if int(last_ym[5:]) < 12 else last_year

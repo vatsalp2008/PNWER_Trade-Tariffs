@@ -110,8 +110,18 @@ class HttpRangeFile(io.RawIOBase):
 
     def __init__(self, url: str, block: int = 4 * 1024 * 1024):
         self.url = url
-        head = SESSION.head(url, timeout=60)
-        head.raise_for_status()
+        for attempt in range(4):
+            try:
+                head = SESSION.head(url, timeout=60, allow_redirects=True)
+                head.raise_for_status()
+                # During outages StatCan answers 200 with an HTML error page instead of the ZIP.
+                if "html" in head.headers.get("Content-Type", "") or "Content-Length" not in head.headers:
+                    raise requests.RequestException(f"Not a file (Content-Type {head.headers.get('Content-Type')}): {url}")
+                break
+            except requests.RequestException:
+                if attempt == 3:
+                    raise
+                time.sleep(5 * 2 ** attempt)
         self.size = int(head.headers["Content-Length"])
         self.pos = 0
         self.block = block
