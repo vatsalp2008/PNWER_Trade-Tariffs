@@ -4,6 +4,7 @@ import { useState } from 'react'
 import geoRaw from '../data/pnwer-region.geo.json?raw'
 import { JURISDICTION_BY_ID } from '../data/reference'
 import type { JurisdictionId } from '../data/types'
+import { NO_DATA } from '../lib/palette'
 
 type Props = { id: JurisdictionId; name: string }
 const shapes = JSON.parse(geoRaw) as FeatureCollection<Geometry, Props>
@@ -40,8 +41,6 @@ function isDark(hex: string) {
   const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
   return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.45
 }
-
-const NO_DATA = '#e6e3da'
 
 interface MapProps {
   /** null = no data for this jurisdiction (drawn in grey). */

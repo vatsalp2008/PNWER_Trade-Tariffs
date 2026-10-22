@@ -1,16 +1,18 @@
-/* Minimal, earth-toned theme. Colours are defined once here. */
+/* Minimal theme in PNWER's colours, taken from its "Region Overview" sheet:
+   navy #132048, royal blue #1b4585, sky blue #64b6d2, blue-grey #e0e7e8.
+   Colours are defined once here; charts and the map mirror them in src/lib/palette.ts. */
 :root {
-  --bg: #f5f3ec;
-  --surface: #fdfcf9;
-  --stone: #efede6;
-  --line: #e3dfd2;
-  --ink: #26302a;
-  --muted: #6b7268;
-  --green-900: #22402f;
-  --green-700: #2f5a43;
-  --green-500: #6f9a76;
-  --green-100: #e4ecdf;
-  --green-50: #f2f5ee;
+  --bg: #eef2f3;
+  --surface: #fbfcfc;
+  --stone: #e3e9ea;
+  --line: #d3dcde;
+  --ink: #1c2440;
+  --muted: #5a6478;
+  --brand-900: #132048;
+  --brand-700: #1b4585;
+  --brand-500: #64b6d2;
+  --brand-100: #d8edf5;
+  --brand-50: #eef6f9;
   --clay: #9c4a2b;
   --clay-100: #f4e6dc;
   --ochre: #b5793a;
@@ -59,7 +61,7 @@ select {
   font-family: var(--serif);
   font-size: 24px;
   font-weight: 600;
-  color: var(--green-900);
+  color: var(--brand-900);
   text-decoration: none;
 }
 
@@ -135,12 +137,12 @@ select {
 }
 
 .tab:hover {
-  border-color: var(--green-500);
+  border-color: var(--brand-500);
 }
 
 .tab.is-active {
-  background: var(--green-700);
-  border-color: var(--green-700);
+  background: var(--brand-700);
+  border-color: var(--brand-700);
   color: #fff;
 }
 
@@ -148,11 +150,11 @@ select {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--green-500);
+  background: var(--brand-500);
 }
 
 .tab.is-active .focus-dot {
-  background: #cfe0c6;
+  background: #a9dbeb;
 }
 
 .controls {
@@ -180,7 +182,7 @@ select {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface)
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%236b7268' stroke-width='1.5'/%3E%3C/svg%3E")
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%235a6478' stroke-width='1.5'/%3E%3C/svg%3E")
     no-repeat right 10px center;
   min-width: 190px;
   max-width: 100%;
@@ -192,7 +194,7 @@ select {
 select:focus-visible,
 button:focus-visible,
 a:focus-visible {
-  outline: 2px solid var(--green-500);
+  outline: 2px solid var(--brand-500);
   outline-offset: 2px;
 }
 
@@ -213,8 +215,8 @@ a:focus-visible {
 }
 
 .segmented .is-active {
-  background: var(--green-100);
-  color: var(--green-900);
+  background: var(--brand-100);
+  color: var(--brand-900);
   font-weight: 600;
 }
 
@@ -256,7 +258,7 @@ a:focus-visible {
   margin: 0;
   font-size: 14px;
   font-weight: 600;
-  color: var(--green-900);
+  color: var(--brand-900);
 }
 
 .sample-tag {
@@ -273,9 +275,9 @@ a:focus-visible {
 }
 
 .badge-real {
-  background: var(--green-100);
-  border-color: #cddcc6;
-  color: var(--green-900);
+  background: var(--brand-100);
+  border-color: #b9dceb;
+  color: var(--brand-900);
 }
 
 .card-sub {
@@ -302,8 +304,8 @@ a:focus-visible {
 }
 
 .png-btn:hover {
-  color: var(--green-700);
-  border-color: var(--green-500);
+  color: var(--brand-700);
+  border-color: var(--brand-500);
 }
 
 .card-watermark {
@@ -321,7 +323,7 @@ a:focus-visible {
   font-size: 40px;
   font-weight: 800;
   letter-spacing: 0.14em;
-  color: rgba(47, 90, 67, 0.05);
+  color: rgba(27, 69, 133, 0.05);
   transform: rotate(-16deg);
   white-space: nowrap;
 }
@@ -392,7 +394,7 @@ a:focus-visible {
   font-weight: 600;
   fill: var(--ink);
   paint-order: stroke;
-  stroke: rgba(253, 252, 249, 0.85);
+  stroke: rgba(251, 252, 252, 0.85);
   stroke-width: 3px;
   pointer-events: none;
 }
@@ -457,7 +459,7 @@ a:focus-visible {
   font-family: var(--serif);
   font-size: 22px;
   font-weight: 600;
-  color: var(--green-900);
+  color: var(--brand-900);
 }
 
 .muted {
@@ -470,8 +472,8 @@ a:focus-visible {
   font-size: 11px;
   padding: 2px 9px;
   border-radius: 999px;
-  background: var(--green-100);
-  color: var(--green-900);
+  background: var(--brand-100);
+  color: var(--brand-900);
   white-space: nowrap;
 }
 
@@ -499,7 +501,7 @@ a:focus-visible {
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 10px 12px;
-  background: var(--green-50);
+  background: var(--brand-50);
 }
 
 .lens-name {
@@ -507,7 +509,7 @@ a:focus-visible {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--green-700);
+  color: var(--brand-700);
 }
 
 .lens-value {
@@ -530,7 +532,7 @@ a:focus-visible {
   border: 0;
   border-radius: 8px;
   padding: 10px 14px;
-  background: var(--green-700);
+  background: var(--brand-700);
   color: #fff;
   font-weight: 600;
   text-decoration: none;
@@ -538,7 +540,7 @@ a:focus-visible {
 }
 
 .btn-primary:hover {
-  background: var(--green-900);
+  background: var(--brand-900);
 }
 
 .btn-quiet {
@@ -567,11 +569,11 @@ a:focus-visible {
 }
 
 .key-exp {
-  background: #2f5a43;
+  background: var(--brand-700);
 }
 
 .key-imp {
-  background: #b5793a;
+  background: var(--ochre);
 }
 
 .side-pair {
@@ -589,7 +591,7 @@ a:focus-visible {
 .side-card h4 {
   margin: 0 0 6px;
   font-size: 12px;
-  color: var(--green-900);
+  color: var(--brand-900);
 }
 
 dl {
@@ -617,7 +619,7 @@ dl {
 .list-title {
   margin: 4px 0 0;
   font-size: 12px;
-  color: var(--green-900);
+  color: var(--brand-900);
 }
 
 .rank-list {
@@ -639,7 +641,7 @@ dl {
 }
 
 .rank-list button:hover {
-  color: var(--green-700);
+  color: var(--brand-700);
 }
 
 .hint {
@@ -660,7 +662,7 @@ dl {
 }
 
 .up {
-  color: var(--green-700);
+  color: var(--brand-700);
 }
 
 /* ---------- tables, chips, timeline ---------- */
@@ -707,11 +709,11 @@ td {
 }
 
 tr.is-highlight td {
-  background: var(--green-50);
+  background: var(--brand-50);
 }
 
 .text-link {
-  color: var(--green-700);
+  color: var(--brand-700);
   font-weight: 500;
   text-decoration: none;
   white-space: nowrap;
@@ -751,8 +753,8 @@ tr.is-highlight td {
 }
 
 .chip-exempt {
-  background: var(--green-100);
-  color: var(--green-900);
+  background: var(--brand-100);
+  color: var(--brand-900);
 }
 
 .timeline {
@@ -772,7 +774,7 @@ tr.is-highlight td {
   gap: 4px;
   padding: 10px 12px;
   border: 1px solid var(--line);
-  border-top: 3px solid var(--green-500);
+  border-top: 3px solid var(--brand-500);
   border-radius: 10px;
   background: var(--surface);
   scroll-snap-align: start;
@@ -815,7 +817,7 @@ tr.is-highlight td {
 
 .tl-source {
   font-size: 11px;
-  color: var(--green-700);
+  color: var(--brand-700);
   text-decoration: none;
 }
 
@@ -851,12 +853,12 @@ tr.is-highlight td {
 }
 
 .status-relief {
-  background: var(--green-100);
-  color: var(--green-900);
+  background: var(--brand-100);
+  color: var(--brand-900);
 }
 
 .status-policy {
-  background: #e9e5d8;
+  background: #e0e7e8;
   color: var(--ink);
 }
 
@@ -875,8 +877,8 @@ tr.is-highlight td {
 }
 
 .site-nav a.active {
-  color: var(--green-900);
-  border-bottom-color: var(--green-500);
+  color: var(--brand-900);
+  border-bottom-color: var(--brand-500);
 }
 
 input[type='search'] {
@@ -929,7 +931,7 @@ input[type='search'] {
 }
 
 .news-title:hover {
-  color: var(--green-700);
+  color: var(--brand-700);
   text-decoration: underline;
 }
 
@@ -953,8 +955,8 @@ input[type='search'] {
 }
 
 .kind-pnwer {
-  background: var(--green-100);
-  color: var(--green-900);
+  background: var(--brand-100);
+  color: var(--brand-900);
 }
 
 .kind-media {
@@ -965,7 +967,7 @@ input[type='search'] {
 /* ---------- fact sheet (screen) ---------- */
 .sheet-screen {
   min-height: 100vh;
-  background: #e8e5db;
+  background: #e0e7e8;
 }
 
 .sheet-toolbar {
@@ -977,7 +979,7 @@ input[type='search'] {
   flex-wrap: wrap;
   gap: 8px 12px;
   padding: 10px 16px;
-  background: rgba(245, 243, 236, 0.96);
+  background: rgba(238, 242, 243, 0.96);
   border-bottom: 1px solid var(--line);
 }
 
@@ -1005,7 +1007,7 @@ input[type='search'] {
   gap: 8px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 1px 3px rgba(38, 48, 42, 0.08), 0 10px 28px rgba(38, 48, 42, 0.08);
+  box-shadow: 0 1px 3px rgba(19, 32, 72, 0.08), 0 10px 28px rgba(19, 32, 72, 0.08);
   font-size: 11px;
 }
 
@@ -1034,7 +1036,7 @@ input[type='search'] {
   font-size: 104px;
   font-weight: 800;
   letter-spacing: 0.1em;
-  color: rgba(47, 90, 67, 0.045);
+  color: rgba(27, 69, 133, 0.045);
   transform: rotate(-32deg);
   white-space: nowrap;
 }
@@ -1068,7 +1070,7 @@ input[type='search'] {
 
 .sheet-head {
   padding-bottom: 7px;
-  border-bottom: 2px solid var(--green-700);
+  border-bottom: 2px solid var(--brand-700);
 }
 
 .sheet-kicker {
@@ -1079,7 +1081,7 @@ input[type='search'] {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--green-700);
+  color: var(--brand-700);
 }
 
 .sheet-kicker .badge {
@@ -1092,7 +1094,7 @@ input[type='search'] {
   font-family: var(--serif);
   font-size: 25px;
   line-height: 1.15;
-  color: var(--green-900);
+  color: var(--brand-900);
 }
 
 .sheet-sub {
@@ -1121,7 +1123,7 @@ input[type='search'] {
   padding: 7px 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: var(--green-50);
+  background: var(--brand-50);
 }
 
 .stat-label {
@@ -1145,7 +1147,7 @@ input[type='search'] {
 }
 
 .tone-up .stat-value {
-  color: var(--green-700);
+  color: var(--brand-700);
 }
 
 .two-col {
@@ -1169,7 +1171,7 @@ input[type='search'] {
 .big {
   font-size: 21px;
   font-weight: 600;
-  color: var(--green-700);
+  color: var(--brand-700);
   font-variant-numeric: tabular-nums;
 }
 
@@ -1220,7 +1222,7 @@ input[type='search'] {
   display: block;
   height: 100%;
   border-radius: 4px;
-  background: var(--green-500);
+  background: var(--brand-500);
 }
 
 .bar-fill.neg {
@@ -1236,7 +1238,7 @@ input[type='search'] {
   margin-top: 8px;
   padding: 6px 10px;
   border-radius: 8px;
-  background: var(--green-50);
+  background: var(--brand-50);
 }
 
 .products-grid {
@@ -1332,7 +1334,7 @@ input[type='search'] {
 
 .tariff-table td {
   padding: 2px 4px;
-  border-bottom: 1px solid #efece4;
+  border-bottom: 1px solid var(--stone);
   line-height: 1.25;
 }
 
@@ -1382,7 +1384,8 @@ input[type='search'] {
 }
 
 .exposure-low {
-  background: var(--green-500);
+  background: var(--brand-500);
+  color: var(--brand-900);
 }
 
 .quote-card h3,
@@ -1393,7 +1396,7 @@ input[type='search'] {
 .quote-card blockquote {
   margin: 4px 0;
   padding-left: 10px;
-  border-left: 3px solid var(--green-500);
+  border-left: 3px solid var(--brand-500);
   font-family: var(--serif);
   font-size: 12px;
   line-height: 1.4;

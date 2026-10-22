@@ -1,5 +1,9 @@
 // Small colour scales for the map and chips (no extra dependency).
 
+import { DIV_STOPS, SEQ_STOPS } from './palette'
+
+export { DIV_STOPS, SEQ_STOPS }
+
 type RGB = [number, number, number]
 const hex = (h: string): RGB => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)) as RGB
 const toHex = (c: RGB) => '#' + c.map((v) => Math.round(v).toString(16).padStart(2, '0')).join('')
@@ -14,12 +18,9 @@ const ramp = (stops: string[], t: number) => {
   return mix(stops[i], stops[i + 1], c - i)
 }
 
-export const SEQ_STOPS = ['#eef0e6', '#c3d3b6', '#7fa27f', '#2f5a43']
-export const DIV_STOPS = ['#9c4a2b', '#dcae93', '#f1eee5', '#a9c3a1', '#2f5a43']
-
-/** t in [0, 1] → pale sage to forest green. */
+/** t in [0, 1] → pale blue to brand blue. */
 export const sequential = (t: number) => ramp(SEQ_STOPS, t)
-/** t in [-1, 1] → clay (decline) through neutral to green (growth). */
+/** t in [-1, 1] → clay (decline) through neutral to blue (growth). */
 export const diverging = (t: number) => ramp(DIV_STOPS, (t + 1) / 2)
 
 export const gradientCss = (stops: string[]) => `linear-gradient(90deg, ${stops.join(', ')})`

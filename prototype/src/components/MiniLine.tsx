@@ -1,3 +1,5 @@
+import { BRAND_700 } from '../lib/palette'
+
 /** Tiny single-series line for small trends (GDP per person, employment rate). */
 export function MiniLine({ values, width = 120, height = 30 }: { values: number[]; width?: number; height?: number }) {
   if (values.length < 2) return null
@@ -9,8 +11,8 @@ export function MiniLine({ values, width = 120, height = 30 }: { values: number[
   const last = values.length - 1
   return (
     <svg width={width} height={height} className="miniline" aria-hidden="true">
-      <path d={d} fill="none" stroke="#2f5a43" strokeWidth={1.5} />
-      <circle cx={sx(last)} cy={sy(values[last])} r={2.5} fill="#2f5a43" />
+      <path d={d} fill="none" stroke={BRAND_700} strokeWidth={1.5} />
+      <circle cx={sx(last)} cy={sy(values[last])} r={2.5} fill={BRAND_700} />
     </svg>
   )
 }

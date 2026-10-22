@@ -12,6 +12,7 @@ import {
 } from 'recharts'
 import { ERA } from '../lib/era'
 import { money } from '../lib/format'
+import { BRAND_100, BRAND_700, CLAY_100, CLAY_DARK, MUTED, OCHRE, STONE } from '../lib/palette'
 
 
 export interface Marker {
@@ -37,7 +38,7 @@ function EventMarker({ vb, n, level }: { vb?: Box; n: number; level: number }) {
   const y = (vb?.y ?? 0) + 9 + level * 17
   return (
     <g>
-      <circle cx={x} cy={y} r={7.5} fill="#8a4b2a" />
+      <circle cx={x} cy={y} r={7.5} fill={CLAY_DARK} />
       <text x={x} y={y + 3.2} textAnchor="middle" fontSize={9} fontWeight={700} fill="#fff">
         {n}
       </text>
@@ -48,7 +49,7 @@ function EventMarker({ vb, n, level }: { vb?: Box; n: number; level: number }) {
 function EraLabel({ vb, text }: { vb?: Box; text: string }) {
   // Sits just above the plot so it never collides with the lines.
   return (
-    <text x={(vb?.x ?? 0) + 2} y={(vb?.y ?? 0) - 6} fontSize={10} fontWeight={600} fill="#6b7268">
+    <text x={(vb?.x ?? 0) + 2} y={(vb?.y ?? 0) - 6} fontSize={10} fontWeight={600} fill={MUTED}>
       {text}
     </text>
   )
@@ -67,11 +68,11 @@ export function EraChart({ rolling, partner, markers = [], width, height, compac
       data={rows}
       margin={compact ? { top: 4, right: 4, bottom: 0, left: 4 } : { top: 18, right: 12, bottom: 0, left: 4 }}
     >
-      <ReferenceArea x1={ERA.start} x2={ERA.usmca} fill="#efede6" fillOpacity={1} ifOverflow="hidden"
+      <ReferenceArea x1={ERA.start} x2={ERA.usmca} fill={STONE} fillOpacity={1} ifOverflow="hidden"
         label={compact ? undefined : (p: object) => <EraLabel vb={(p as { viewBox?: Box }).viewBox} text="Before USMCA" />} />
-      <ReferenceArea x1={ERA.usmca} x2={ERA.tariffs} fill="#e4ecdf" fillOpacity={1} ifOverflow="hidden"
+      <ReferenceArea x1={ERA.usmca} x2={ERA.tariffs} fill={BRAND_100} fillOpacity={1} ifOverflow="hidden"
         label={compact ? undefined : (p: object) => <EraLabel vb={(p as { viewBox?: Box }).viewBox} text="USMCA" />} />
-      <ReferenceArea x1={ERA.tariffs} x2={ERA.end} fill="#f4e6dc" fillOpacity={1} ifOverflow="hidden"
+      <ReferenceArea x1={ERA.tariffs} x2={ERA.end} fill={CLAY_100} fillOpacity={1} ifOverflow="hidden"
         label={compact ? undefined : (p: object) => <EraLabel vb={(p as { viewBox?: Box }).viewBox} text="Tariff era" />} />
       {!compact && <CartesianGrid stroke="#ffffff" strokeOpacity={0.9} vertical={false} />}
       <XAxis
@@ -80,11 +81,11 @@ export function EraChart({ rolling, partner, markers = [], width, height, compac
         domain={[ERA.start, ERA.end]}
         ticks={compact ? [] : [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]}
         tickFormatter={(v: number) => String(v)}
-        tick={{ fontSize: 10, fill: '#6b7268' }}
+        tick={{ fontSize: 10, fill: MUTED }}
         hide={compact}
         allowDataOverflow
       />
-      <YAxis tickFormatter={money} tick={{ fontSize: 10, fill: '#6b7268' }} width={48} hide={compact} />
+      <YAxis tickFormatter={money} tick={{ fontSize: 10, fill: MUTED }} width={48} hide={compact} />
       {!compact && (
         <Tooltip
           formatter={(v, name) => [money(Number(v)), name === 'exp' ? `Exports to ${partner}` : `Imports from ${partner}`]}
@@ -101,14 +102,14 @@ export function EraChart({ rolling, partner, markers = [], width, height, compac
           formatter={(v: string) => (v === 'exp' ? `Exports to ${partner}` : `Imports from ${partner}`)}
         />
       )}
-      <Line dataKey="exp" stroke="#2f5a43" strokeWidth={compact ? 1.5 : 2} dot={false} isAnimationActive={false} />
-      <Line dataKey="imp" stroke="#b5793a" strokeWidth={compact ? 1.5 : 2} dot={false} isAnimationActive={false} />
+      <Line dataKey="exp" stroke={BRAND_700} strokeWidth={compact ? 1.5 : 2} dot={false} isAnimationActive={false} />
+      <Line dataKey="imp" stroke={OCHRE} strokeWidth={compact ? 1.5 : 2} dot={false} isAnimationActive={false} />
       {!compact && (
-        <ReferenceLine x={latest} stroke="#6b7268" strokeDasharray="3 3" />
+        <ReferenceLine x={latest} stroke={MUTED} strokeDasharray="3 3" />
       )}
       {!compact &&
         markers.map((m, k) => (
-          <ReferenceLine key={m.n} x={m.x} stroke="#8a4b2a" strokeOpacity={0.5} ifOverflow="extendDomain"
+          <ReferenceLine key={m.n} x={m.x} stroke={CLAY_DARK} strokeOpacity={0.5} ifOverflow="extendDomain"
             label={(p: object) => <EventMarker vb={(p as { viewBox?: Box }).viewBox} n={m.n} level={levels[k]} />} />
         ))}
     </ComposedChart>

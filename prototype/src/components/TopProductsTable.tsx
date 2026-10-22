@@ -1,5 +1,6 @@
 import type { ProductValue } from '../data/types'
 import { money } from '../lib/format'
+import { EXPORT_BAR, IMPORT_BAR } from '../lib/palette'
 
 function List({ title, rows, color }: { title: string; rows: ProductValue[]; color: string }) {
   const max = Math.max(...rows.map((r) => r.value), 0.001)
@@ -30,8 +31,8 @@ interface Props {
 export function TopProductsTable({ exports, imports, partner }: Props) {
   return (
     <div className="products-grid">
-      <List title={`Top exports to ${partner}`} rows={exports} color="#dfe8d8" />
-      <List title={`Top imports from ${partner}`} rows={imports} color="#f1e4cf" />
+      <List title={`Top exports to ${partner}`} rows={exports} color={EXPORT_BAR} />
+      <List title={`Top imports from ${partner}`} rows={imports} color={IMPORT_BAR} />
     </div>
   )
 }

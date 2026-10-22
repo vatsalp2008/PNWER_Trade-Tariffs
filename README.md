@@ -125,7 +125,7 @@ prototype/
       news.json       updates feed (written by pipeline/fetch_news.py)
       mock.json       generated sample data for sections not yet real (run npm run mock)
       index.ts        the only place the screens read data from
-    index.css         all styling (minimal, earth-tone palette)
+    index.css         all styling (minimal, PNWER blue palette)
   scripts/            sample-data generator, 2-page fit check
   README.md           technical notes, including how to swap in real data
 ```

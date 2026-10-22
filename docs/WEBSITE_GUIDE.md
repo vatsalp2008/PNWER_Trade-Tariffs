@@ -124,8 +124,8 @@ A **scope** is either "All traded goods", one sector, or one business.
 
 | Option | Meaning | How to read the colours |
 |---|---|---|
-| Two-way trade (last 12 months) | Exports + imports with the partner over the latest 12 months | Darker green = more trade (log scale, so small places still show differences) |
-| Change since 2024 (tariff era) | Last 12 months vs. calendar 2024, the last full year before tariffs | Clay/red = fell, green = grew |
+| Two-way trade (last 12 months) | Exports + imports with the partner over the latest 12 months | Darker blue = more trade (log scale, so small places still show differences) |
+| Change since 2024 (tariff era) | Last 12 months vs. calendar 2024, the last full year before tariffs | Clay/red = fell, blue = grew |
 | Share of exports to partner | How much of the place's exports in this scope go to the partner | Darker = more dependent |
 | Jobs in sector | Jobs in the industries that make up the scope | Darker = more jobs |
 | Extra U.S. duties if USMCA ends (% of trade) | Extra duties as a share of the trade U.S. tariffs apply to | Darker = more exposed |
@@ -160,7 +160,7 @@ A **scope** is either "All traded goods", one sector, or one business.
 "U.S.-bound trade" means what U.S. tariffs apply to: a **state's imports from Canada**, or a **province's exports to the U.S.**
 
 Below the tiles:
-- **A mini chart:** trade from 2018 to 2026. The green line is exports to the partner, the brown line imports, and the shading marks the tariff era.
+- **A mini chart:** trade from 2018 to 2026. The blue line is exports to the partner, the amber line imports, and the shading marks the tariff era.
 - **Open 2-page fact sheet:** goes to the fact sheet for this place and scope.
 - **Back to all PNWER**.
 
@@ -350,7 +350,7 @@ Every number on the sheet names its source, and its year where sources differ.
 **Every day at 7:23 a.m. Pacific**, a GitHub Actions job (`.github/workflows/refresh.yml`) does the following:
 1. **Refreshes the news feed** (`news.json`).
 2. **Checks the Federal Register** for new U.S. presidential tariff actions on Canada. For each new one, it **opens a GitHub issue** labelled `tariff-watch` so a teammate can review it.
-3. **Checks whether a new month of trade data is out.** If it is, it rebuilds all the data: trade, jobs, GDP, duties and the scenario (`real.json`). The build runs its checks first and won't publish if any fail.
+3. **Checks whether a new month of trade data is out.** If it is, it rebuilds all the data: trade, jobs, GDP, duties and the scenario (`real.json`). The build runs its checks first and won't publish if any fail. If Statistics Canada or Census is down that day, it keeps the current data, shows a warning on the run, and tries again tomorrow.
 4. **Makes sure the website still builds.**
 5. **Commits any changes.** Vercel then redeploys the live site automatically, within a couple of minutes.
 
@@ -499,7 +499,7 @@ prototype/                      the website (Vite + React + TypeScript)
     mock.json                   sample data, only used if a real section is missing
     types.ts                    the exact shape of the data
     index.ts                    the one place the pages read data from
-  src/index.css                 all styling (minimal, earth-tone palette)
+  src/index.css                 all styling (minimal, PNWER blue palette)
   scripts/check-factsheets.sh   2-page fit check
 ```
 

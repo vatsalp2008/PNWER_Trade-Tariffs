@@ -287,11 +287,13 @@ Related docs:
 
 ## 5. Design
 
-### D26. Minimalist, earth-toned design
-- **Decision:** forest and sage greens, with clay and ochre for declines and tariffs, on warm off-white. Serif headings, system fonts elsewhere (the user's preference).
+### D26. Minimalist design in PNWER's colours (changed Oct 2026)
+- **Decision:** PNWER's own colours, taken from its "Region Overview" sheet: navy (#132048) for headings, royal blue (#1b4585) for buttons and the exports line, sky blue (#64b6d2) for bars and highlights, on a pale blue-grey background. Clay and ochre stay for declines/tariffs and imports, because they carry meaning and are easy to tell apart from blue (including for colour-blind readers). Serif headings, system fonts elsewhere.
+- **History:** the first version used earth tones (forest and sage greens on warm off-white). PNWER asked for blue in Oct 2026.
+- **Where the colours live:** the `:root` variables at the top of `prototype/src/index.css`, mirrored for charts and the map in `prototype/src/lib/palette.ts`. Change both together.
 - **Map colours:**
-  - Sequential green for amounts.
-  - Clay-to-green for change.
+  - Pale sky blue to royal blue for amounts.
+  - Clay-to-blue for change.
   - Grey for "no data".
 - **Fact sheet:** fixed 8.5×11 in pages with print CSS. "Download PDF" uses the browser's print dialog, which gives sharp vector text. Each chart has a PNG button for slides.
 
@@ -301,6 +303,11 @@ Related docs:
 - **What happened:** the first economy build showed Washington's GDP as "$892M" instead of $892B. BEA's file is already in millions, and we divided by 1,000 again.
 - **What we did:** `build.py` now refuses to publish unless WA GDP is in the hundreds of billions and GDP per person is between $50k and $250k.
 - **Lesson:** every new data source gets at least one "order of magnitude" check against a figure you know.
+
+### D28. A source being down for a day doesn't fail the daily job (Oct 2026)
+- **What happened:** the daily job failed on Oct 15 and Oct 21 because Statistics Canada's server timed out once and returned an error page instead of the data file once. Both times the next day's run worked, but that day's news update was lost because the job stopped before committing.
+- **What we did:** downloads from Statistics Canada now retry a few times. If the daily run still can't check for a new month, it logs a warning, keeps the current data and carries on, so the news still updates. A manual "Rebuild trade data" run still fails loudly.
+- **Tradeoff:** a long outage would quietly delay new trade data. Check the warnings on the Actions page if the "Data as of" month looks stale.
 
 ## 6. How we check our work
 - **`python pipeline/build.py`:** the data checks in D14, plus range checks on jobs, GDP shares, duty rates and the scenario. It also has sanity anchors:

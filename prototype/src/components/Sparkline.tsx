@@ -1,4 +1,5 @@
 import { ERA } from '../lib/era'
+import { BRAND_700, CLAY, CLAY_100 } from '../lib/palette'
 
 interface Props {
   rolling: [number, number, number][]
@@ -20,8 +21,8 @@ export function Sparkline({ rolling, width = 96, height = 26 }: Props) {
   const falling = ys[ys.length - 1] < ys[ys.length - 5]
   return (
     <svg width={width} height={height} className="sparkline" aria-hidden="true">
-      <rect x={sx(ERA.tariffs)} y={0} width={width - sx(ERA.tariffs)} height={height} fill="#f4e6dc" />
-      <path d={d} fill="none" stroke={falling ? '#9c4a2b' : '#2f5a43'} strokeWidth={1.5} />
+      <rect x={sx(ERA.tariffs)} y={0} width={width - sx(ERA.tariffs)} height={height} fill={CLAY_100} />
+      <path d={d} fill="none" stroke={falling ? CLAY : BRAND_700} strokeWidth={1.5} />
     </svg>
   )
 }
