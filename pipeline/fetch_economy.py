@@ -47,7 +47,8 @@ def eval_codes(codes: list[str], lookup) -> tuple[float | None, bool]:
     """Sum industries in `codes` using lookup(code) -> value or None (confidential).
 
     '-code' subtracts; 'a|b' uses b when a is confidential. Returns (total, partial),
-    where partial means some industries were not published.
+    where partial means some industries were not published. A partial total of zero
+    is None: "nothing published" must not read as "no jobs".
     """
     total, partial, any_value = 0.0, False, False
     for raw in codes:
@@ -63,7 +64,9 @@ def eval_codes(codes: list[str], lookup) -> tuple[float | None, bool]:
             continue
         total += sign * val
         any_value = True
-    return (max(total, 0.0) if any_value else None), partial
+    if not any_value or (partial and total <= 0):
+        return None, partial
+    return max(total, 0.0), partial
 
 
 # ---------- U.S. ----------
@@ -208,8 +211,11 @@ def latest_year_with_data(df: pd.DataFrame, geo: str = "British Columbia") -> in
 
 def statcan_lookup(df: pd.DataFrame, geo: str, year: int):
     sub = df[(df["GEO"] == geo) & (df["year"] == year)].set_index("code")["value"]
+    published = set(df["code"].dropna())
 
     def look(code: str):
+        if code not in published:
+            return None  # the table doesn't publish this industry at all
         if code not in sub.index:
             return 0.0
         v = sub.loc[code]
