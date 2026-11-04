@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-02",
+ "updated": "2026-11-04",
  "items": [
   {
    "id": "f37b4490736e",
@@ -305,30 +305,6 @@
    "jurisdictions": [],
    "sectors": [
     "mfg",
-    "forest"
-   ]
-  },
-  {
-   "id": "103053d7f1f2",
-   "title": "Government of Canada acts to protect Canadian softwood lumber jobs, announces support to lumber company",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/07/government-of-canada-acts-to-protect-canadian-softwood-lumber-jobs-announces-support-to-lumber-company.html",
-   "date": "2026-07-28",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
-    "forest"
-   ]
-  },
-  {
-   "id": "273435a0b31c",
-   "title": "Government of Canada announces loan support to Millar Western Forest Products Ltd.",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/07/government-of-canada-announces-loan-support-to-millar-western-forest-products-ltd.html",
-   "date": "2026-07-27",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
     "forest"
    ]
   },
