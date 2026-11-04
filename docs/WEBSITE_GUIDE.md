@@ -15,14 +15,15 @@ The site shows how trade between the U.S. and Canada, tariffs, and the USMCA tra
 
 It answers three questions, for any sector or business in any of the 10 places:
 1. **How tied together are the two sides?** Trade, dependence, cross-border partners.
-2. **How are today's tariffs hurting?** Trade changes since tariffs began, duties being paid, prices.
-3. **What would be lost if USMCA ended?** Extra duties, and how exposed the place is.
+2. **How are today's tariffs hurting?** Trade changes since tariffs began, tariffs being paid, prices.
+3. **What would be lost if USMCA ended?** Extra tariffs, and the place's risk level.
 
 It's the **tool** half of the project. The written assessment for PNWER is a separate document that uses the site's numbers and charts.
 
 **Data status:**
 - **Official public data:** every number comes from a U.S. or Canadian government source: Census Bureau, BLS, BEA, Statistics Canada, Bank of Canada.
-- **Data as of:** trade runs to **August 2026**. Other figures show their own year.
+- **Currency:** every dollar amount is in **U.S. dollars (US$)**. Canadian figures are converted at Bank of Canada rates.
+- **Dates:** every page shows when the site was last updated and the latest month of trade data (currently **August 2026**). Other figures show their own year.
 - **Placeholders:** only the "What businesses are saying" quotes, until PNWER supplies real stakeholder input.
 
 ### The three pages
@@ -80,7 +81,7 @@ A **scope** is either "All traded goods", one sector, or one business.
 ```
 ┌────────────────────────────────────────────────────────────────────┐
 │ Cross-Border Trade & Tariff Explorer      [Official public data]   │
-│ Dashboard · Trade & tariff updates        [Data as of Aug 2026]    │
+│ Dashboard · Updates · Terms   [Updated Nov 4 · trade through Aug 2026]│
 ├────────────────────────────────────────────────────────────────────┤
 │ [All sectors] [Agriculture & Food ●] [Energy ●] [Manufacturing ●] …│
 │ Business ▾   Jurisdiction ▾   Colour map by ▾   (Today | If USMCA ends)│
@@ -101,10 +102,10 @@ A **scope** is either "All traded goods", one sector, or one business.
 
 ### 2.1 Header
 - **Title and tagline.** Click the title to return to the dashboard from any page.
-- **Navigation:** *Dashboard* and *Trade & tariff updates*.
+- **Navigation:** *Dashboard*, *Trade & tariff updates*, and *What the terms mean* (a plain-language glossary page, `/glossary`).
 - **Badges:**
   - **Official public data:** every section uses real data. If a section ever falls back to placeholders, this changes to a warning badge.
-  - **Data as of Aug 2026:** the latest month of trade data both countries have published, usually 5–6 weeks behind today.
+  - **Updated [date] · trade data through Aug 2026:** the last date the site's content changed (it checks daily), and the latest month of trade data both countries have published, usually 5–6 weeks behind today.
 
 ### 2.2 Sector tabs
 - One round button for **All sectors**, plus one for each of the 7 sectors.
@@ -124,11 +125,11 @@ A **scope** is either "All traded goods", one sector, or one business.
 
 | Option | Meaning | How to read the colours |
 |---|---|---|
-| Two-way trade (last 12 months) | Exports + imports with the partner over the latest 12 months | Darker blue = more trade (log scale, so small places still show differences) |
+| Total trade, exports + imports (last 12 months) | Exports + imports with the partner over the latest 12 months | Darker blue = more trade (log scale, so small places still show differences) |
 | Change since 2024 (tariff era) | Last 12 months vs. calendar 2024, the last full year before tariffs | Clay/red = fell, blue = grew |
 | Share of exports to partner | How much of the place's exports in this scope go to the partner | Darker = more dependent |
 | Jobs in sector | Jobs in the industries that make up the scope | Darker = more jobs |
-| Extra U.S. duties if USMCA ends (% of trade) | Extra duties as a share of the trade U.S. tariffs apply to | Darker = more exposed |
+| Extra U.S. tariffs if USMCA ends (% of trade) | Extra tariffs as a share of the trade U.S. tariffs apply to | Darker = higher risk |
 
 **Grey means "no data"**, for example a territory with no trade in that business in 2024.
 
@@ -152,9 +153,9 @@ A **scope** is either "All traded goods", one sector, or one business.
 
 | Lens | *Today's tariffs* view | *If USMCA ends* view |
 |---|---|---|
-| **Integration** | % of exports in this scope that go to the partner | % of the U.S.-bound trade that crosses duty-free today |
+| **Integration** | % of exports in this scope that go to the partner | % of the U.S.-bound trade that crosses tariff-free today |
 | **Competitiveness** | Export growth to the partner under USMCA, 2019→2024 | Average U.S. tariff this trade would face without USMCA |
-| **Affordability** | Estimated U.S. duties paid over the last 12 months | Extra U.S. duties per year if USMCA ended |
+| **Affordability** | Estimated U.S. tariffs paid over the last 12 months | Extra U.S. tariffs per year if USMCA ended |
 | **Employment** | Jobs in the industry (with year) | Same jobs, shown as the workforce exposed |
 
 "U.S.-bound trade" means what U.S. tariffs apply to: a **state's imports from Canada**, or a **province's exports to the U.S.**
@@ -171,7 +172,7 @@ One row per business in the chosen sector (or all 28 under "All sectors").
 | Column | With a place selected | With "All PNWER" |
 |---|---|---|
 | Business | Name (and sector, when showing all) | same |
-| Trade | **Two-way trade**, last 12 months | Two columns: **U.S. states ↔ Canada** and **Provinces ↔ U.S.**, each with its change since 2024 |
+| Trade | **Total trade**, last 12 months | Two columns: **U.S. states ↔ Canada** and **Provinces ↔ U.S.**, each with its change since 2024 |
 | Since 2024 | % change vs. 2024 (red = down). "—" means there was no trade in 2024 to compare. | (inside the trade columns) |
 | Tariffs today | Coloured tags (below) | same |
 | Trend | Tiny chart of trade over time; the shaded end is the tariff era | same |
@@ -242,13 +243,13 @@ Every number on the sheet names its source, and its year where sources differ.
 
 | Section | What it shows | Source |
 |---|---|---|
-| **Header** | "[Scope] in [Jurisdiction]", an *Official data* badge, and tags: *Focus sector*, *In-depth jurisdiction*, *Data as of Aug 2026* | |
-| **Four headline numbers** | Exports to the partner (last 12 months); imports from the partner; change in two-way trade vs. the previous 12 months; the partner's rank among this place's export markets (e.g. Canada is **#2** for Washington) | Census / Statistics Canada |
+| **Header** | "[Scope] in [Jurisdiction]", the date the site was last updated, an *Official data* badge, and tags: *Focus sector*, *In-depth jurisdiction*, *Trade data through Aug 2026 (latest published)*, *All amounts in US$* | |
+| **Four headline numbers** | Exports to the partner (last 12 months, in US$); imports from the partner; change in total trade vs. the previous 12 months; the partner's rank among this place's export markets (e.g. Canada is **#2** for Washington) | Census / Statistics Canada |
 | **Trade across three eras** | Trade with the partner over the previous 12 months, quarterly from Dec 2017, in three shaded periods (see notes below) | Census / Statistics Canada |
 | **Economic integration** | Share of exports going to the partner and share of imports coming from it, plus a bar chart of the **main trading partners across the border** (e.g. WA's top provinces: B.C., Alberta, Ontario…) | Census / Statistics Canada; Statistics Canada CIMT for province ↔ state |
 | **Competitiveness** | Export growth to the partner under USMCA (2019→2024) vs. growth to the rest of the world; this place's share of the partner's imports in the scope; a one-line summary | Census / Statistics Canada |
 | **Top products, last 12 months** | Top 5 exports to and top 5 imports from the partner, with HS codes and values | Census / Statistics Canada |
-| **Footer** | Page number and source credits | |
+| **Footer** | Page number, last-updated date and source credits | |
 
 **Notes on the three-eras chart:**
 - The three periods are:
@@ -265,40 +266,42 @@ Every number on the sheet names its source, and its year where sources differ.
 |---|---|---|
 | **Employment** | Jobs in the industry (with year); jobs at partner-owned companies; employment rate with a small trend line (see below) | BLS QCEW and LAUS; BEA; Statistics Canada |
 | **Economic output** | GDP of the sector (with year), its share of the economy, GDP per person with a trend line, and the total economy. A business sheet shows its **whole sector's** GDP, labelled as such. | BEA; Statistics Canada |
-| **Affordability** | Food, fuel & farm inputs imported from the partner; estimated U.S. duties paid; duties per household or average duty rate; prices (see below) | Census; BLS; Statistics Canada |
+| **Affordability · today's tariffs** | Food, fuel & farm inputs imported from the partner; estimated U.S. tariffs paid; tariffs per household or average tariff rate; prices (see below) | Census; BLS; Statistics Canada |
 | **Tariff actions since January 2025** | Numbered table: date, action (linked to its official source), who, rate, whether USMCA goods are exempt, status. It shows the 10 most relevant actions, and the subtitle says how many touched the scope and how many are still in effect. | Curated timeline |
-| **If USMCA isn't renewed** | Share crossing duty-free today; average U.S. tariff without USMCA; extra U.S. duties per year (and % of the trade); an upper-bound Section 301 line; an exposure rating (see below) | Census duty data |
+| **If USMCA ends (estimate)** | Share crossing tariff-free today; average U.S. tariff if USMCA ends; extra U.S. tariffs per year (and % of the trade); an upper-bound Section 301 line; a **risk level** with its key (see below) | Census duty data |
 | **What businesses are saying** | A quote box. **Currently a placeholder**, to be replaced with stakeholder input from PNWER. | |
-| **About these numbers** | Three short method notes for that jurisdiction | |
+| **About these numbers** | Three short method notes for that jurisdiction, plus where to find the glossary | |
 
 **Employment details:**
 - **Jobs in the industry:**
-  - "At least N" means some detailed industries are confidential, so N is a lower bound.
-  - "Not published" means the whole figure is confidential.
+  - Job counts are rounded to the nearest hundred.
+  - "**minimum (part not published)**" next to a number means some detailed industries are confidential, so the number is a lower bound.
+  - "**Not available** · not published for this industry" means the source doesn't publish the figure at all. We never show a missing figure as 0.
+  - "**0** · none reported" means the source really reports zero jobs (common in the territories).
 - **Partner-owned companies:**
   - U.S. states show jobs at **Canadian-owned** companies.
-  - Provinces show jobs at **all foreign-owned** multinationals, because no U.S.-only figure exists by province. The territories are reported together, so YT and NT show "not published".
+  - Provinces show jobs at **all foreign-owned** multinationals, because no U.S.-only figure exists by province. The territories are reported together, so YT and NT show "Not available · Statistics Canada combines the territories".
 
 **Affordability details:**
 - **Food, fuel & farm inputs:** imports in Agriculture & Food, Energy and Fertilizer, all sectors combined.
-- **Estimated U.S. duties paid** over the last 12 months, on a state's imports from Canada or a province's exports to the U.S.
-- **Duties per household** for states, or the **average duty rate** for provinces.
+- **Estimated U.S. tariffs paid** over the last 12 months, on a state's imports from Canada or a province's exports to the U.S.
+- **Tariffs per household** for states, or the **average tariff rate** for provinces.
 - **Prices:** U.S. import prices from Canada for states, or consumer prices for provinces (Whitehorse and Yellowknife for the territories), 12-month change.
 
-**"If USMCA isn't renewed" details:**
-- **Section 301 line:** "Plus, if the 10% Section 301 tariff applied" is an upper bound. It depends on future policy.
-- **Exposure rating:** *High* when extra duties are ≥ 2.5% of the trade, *Moderate* when ≥ 1%, otherwise *Low*.
+**"If USMCA ends (estimate)" details:**
+- **Section 301 line:** "Plus, if the 10% Section 301 tariff also applied" is an upper bound. It depends on future policy.
+- **Risk level** (called "Exposure" before Nov 2026): how hard this trade would be hit if USMCA ends. *High* when extra tariffs are ≥ 2.5% of the trade, *Moderate* when ≥ 1%, otherwise *Low*. The key is printed under the box.
 
 ### 3.4 Every number, explained
 
 | Number | What it means | How it's worked out | Source (year) |
 |---|---|---|---|
 | Exports / imports with partner | Value of goods crossing the border in the latest 12 months | Sum of monthly values, Sep 2025–Aug 2026. Provinces converted to USD at each month's Bank of Canada rate. | Census; Statistics Canada CIMT; Bank of Canada |
-| Change in two-way trade | Latest 12 months vs. the 12 before | (exports + imports) ÷ previous (exports + imports) − 1 | same |
+| Change in total trade | Latest 12 months vs. the 12 before | (exports + imports) ÷ previous (exports + imports) − 1 | same |
 | Change since 2024 | Latest 12 months vs. calendar 2024 | Same formula against 2024 | same |
 | Partner's export-market rank | Where the partner ranks among all destinations | All countries, last full year (2025), no regional groups | Census; Statistics Canada |
 | Share of exports to partner | Dependence on the partner | Exports to partner ÷ exports to the world, last 12 months | same |
-| Main trading partners across the border | Which provinces (for states) or states (for provinces) trade most with this place | Share of two-way trade, last 12 months | Statistics Canada CIMT |
+| Main trading partners across the border | Which provinces (for states) or states (for provinces) trade most with this place | Share of total trade, last 12 months | Statistics Canada CIMT |
 | Export growth under USMCA | How sales to the partner grew while USMCA was in force | 2024 ÷ 2019 − 1, to the partner and to the world | Census; Statistics Canada |
 | Share of partner's imports | This place's slice of the partner's total imports in the scope | States: Canada's imports from the state ÷ Canada's total. Provinces: exports to U.S. ÷ U.S. total imports. | Statistics Canada; Census |
 | Top products | Biggest 4-digit HS products each way | Last 12 months | Census; Statistics Canada |
@@ -307,14 +310,14 @@ Every number on the sheet names its source, and its year where sources differ.
 | Employment rate | % of working-age people with a job | U.S.: annual average of monthly ratio. Canada: annual rate. | BLS LAUS (2025); Statistics Canada 14-10-0464 (2025) |
 | GDP of sector, share of economy | Value added by the sector, as a share of the whole economy | Sum of matching industries ÷ total GDP | BEA SAGDP2 (2025); Statistics Canada 36-10-0711 (2022) |
 | GDP per person, total economy | Size of the economy per resident | GDP ÷ population | BEA (2025); Statistics Canada 36-10-0222 and 17-10-0005 (2024) |
-| Estimated U.S. duties | What U.S. tariffs cost on this trade | For each product: national duty actually collected on Canadian goods ÷ their value, × this place's trade in that product | Census imports from Canada with calculated duty, last 12 months |
-| Duties per household | The duties spread across the state's households | Estimated duties ÷ households | Census ACS (2024) |
+| Estimated U.S. tariffs paid | What U.S. tariffs cost on this trade | For each product: national duty actually collected on Canadian goods ÷ their value, × this place's trade in that product | Census imports from Canada with calculated duty, last 12 months |
+| Tariffs per household | The tariffs spread across the state's households | Estimated tariffs ÷ households | Census ACS (2024) |
 | Price change | How prices moved over 12 months | U.S.: import prices for goods from Canada. Canada: consumer prices. | BLS; Statistics Canada 18-10-0004 |
-| Share crossing duty-free | Trade that pays no U.S. duty today | (value − dutiable value) ÷ value, by product | Census, last 12 months |
+| Share crossing tariff-free | Trade that pays no U.S. tariff today | (value − dutiable value) ÷ value, by product | Census, last 12 months |
 | Average U.S. tariff without USMCA | Standard rate this trade would face | What the U.S. collected on the same products from the EU and Japan in 2024, before the new tariffs, weighted by this trade | Census (2024) |
-| Extra U.S. duties if USMCA ends | Added yearly cost | Duty-free value × standard rate, by product | Census |
+| Extra U.S. tariffs if USMCA ends | Added yearly cost | Duty-free value × standard rate, by product | Census |
 | Section 301 upper bound | Further cost if the 10% Section 301 tariff hit all goods now exempt | Duty-free value × 10% | Census |
-| Exposure | Quick rating | High ≥ 2.5%, Moderate ≥ 1% of the trade | Team threshold |
+| Risk level | How hard the trade would be hit | High ≥ 2.5%, Moderate ≥ 1% of the trade, otherwise Low | Team threshold |
 
 **Caveats to repeat whenever you quote these numbers:**
 - **Duty estimates leave out anti-dumping and countervailing duties**, so softwood lumber's real duties are higher than shown.
@@ -507,11 +510,11 @@ prototype/                      the website (Vite + React + TypeScript)
 
 ## 8. FAQ
 
-**Why does a number say "at least"?**
-Some detailed industries are confidential in U.S. job data, so the total is a lower bound.
+**Why does a job count say "minimum"?**
+Some detailed industries are confidential, so the total is a lower bound.
 
-**Why do Yukon and the Northwest Territories show "—" or "not published" in places?**
-Their trade in some businesses is zero or tiny, and Statistics Canada reports some figures for the three territories together.
+**Why do some figures say "Not available"?**
+The source doesn't publish them, usually to protect one company's confidential numbers or because it doesn't break the figure down that far. Statistics Canada also reports some figures for the three territories together. We show "Not available" with the reason rather than guessing, and never show a missing figure as 0.
 
 **Why don't our Washington numbers exactly match the Embassy of Canada fact sheet?**
 They're within 2%. The Embassy used Census's February release; Census revises the previous year each June, and we use the latest release.
@@ -549,12 +552,14 @@ The team, through pull requests. The automatic watcher only *flags* new actions 
 | **MFN rate** | The standard ("most-favoured-nation") tariff a country charges trading partners without a trade deal. |
 | **HS code** | The international product classification. 2 digits = chapter (e.g. 44 = wood); 4 digits = product group (e.g. 4407 = sawn lumber). |
 | **NAICS** | The North American industry classification used for jobs and GDP (e.g. 3364 = aerospace manufacturing). |
-| **Two-way trade** | Exports plus imports. |
+| **Total trade** | Exports plus imports (called "two-way trade" before Nov 2026). |
 | **Last 12 months** | The latest 12 months both countries have published (currently Sep 2025–Aug 2026). |
 | **State of origin of movement** | How the U.S. assigns exports to states: where goods begin their journey to the border. |
 | **Province of clearance** | How Canada assigns imports to provinces: where goods clear customs. |
-| **Duty-free share** | The part of trade that paid no U.S. duty. |
-| **Exposure** | Our quick rating of how much a place would pay in extra U.S. duties if USMCA ended. |
+| **Tariff-free share** | The part of trade that paid no U.S. tariff. |
+| **Risk level** | Our rating of how hard a place's trade would be hit by extra U.S. tariffs if USMCA ended: Low (< 1% of the trade), Moderate (1–2.5%), High (≥ 2.5%). Called "Exposure" before Nov 2026. |
+| **Today's tariffs vs. If USMCA ends** | *Today's tariffs* is what is actually paid now, with USMCA in place. *If USMCA ends* is our estimate if goods lost USMCA's tariff-free access; a scenario, not a forecast. |
+| **US$** | Every dollar amount on the site. Canadian figures are converted at Bank of Canada rates. |
 
 ---
 

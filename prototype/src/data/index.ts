@@ -3,6 +3,7 @@
 
 import mockRaw from './mock.json?raw'
 import { TARIFFS_AS_OF } from '../config'
+import { dateLabel } from '../lib/format'
 import {
   BUSINESS_BY_ID,
   COUNTRY_NAME,
@@ -45,6 +46,12 @@ const newsFiles = import.meta.glob<string>('./news.json', { query: '?raw', impor
 const newsData = newsFiles['./news.json'] ? (JSON.parse(newsFiles['./news.json']) as { updated: string; items: NewsItem[] }) : null
 export const news: NewsItem[] = newsData?.items ?? []
 export const newsUpdated = newsData?.updated ?? null
+
+/** Last time the site's content changed (daily news refresh or data rebuild), YYYY-MM-DD. */
+export const lastUpdated: string | null = [newsUpdated, real?.meta.generatedAt].filter((d): d is string => !!d).sort().slice(-1)[0] ?? null
+/** "Updated Nov 4, 2026 · trade data through Aug 2026", shown on every page. */
+export const updatedLine = (): string =>
+  `${lastUpdated ? `Updated ${dateLabel(lastUpdated)} · ` : ''}trade data through ${data.meta.dataAsOfLabel}`
 
 /**
  * Updates most relevant to a sector and/or jurisdiction: tagged matches first,
@@ -107,8 +114,8 @@ export function scopeLabel(scope: ScopeId): string {
 
 /** For sentences about trade: "goods" or "seafood". */
 export const goodsNoun = (scope: ScopeId) => (scope === 'all' ? 'goods' : scopeLabel(scope).toLowerCase())
-/** For sentences about jobs and output: "traded-goods industries" or "seafood". */
-export const industryNoun = (scope: ScopeId) => (scope === 'all' ? 'traded-goods industries' : scopeLabel(scope).toLowerCase())
+/** For sentences about jobs and output: "industries that make traded goods" or "seafood". */
+export const industryNoun = (scope: ScopeId) => (scope === 'all' ? 'industries that make traded goods' : scopeLabel(scope).toLowerCase())
 
 export function scopeBusinesses(scope: ScopeId): Business[] {
   if (scope === 'all') return SECTORS.flatMap((s) => s.businesses)

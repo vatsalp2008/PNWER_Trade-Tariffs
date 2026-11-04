@@ -31,11 +31,11 @@ import { compactNum, money, pct, signedPct } from '../lib/format'
 type Metric = 'trade' | 'change' | 'dependence' | 'jobs' | 'risk'
 
 const METRICS: Record<Metric, { label: string; legend: string }> = {
-  trade: { label: 'Two-way trade (last 12 months)', legend: 'Two-way trade' },
+  trade: { label: 'Total trade, exports + imports (last 12 months)', legend: 'Total trade' },
   change: { label: 'Change since 2024 (tariff era)', legend: 'Change since 2024' },
   dependence: { label: 'Share of exports to partner', legend: 'Exports to partner' },
   jobs: { label: 'Jobs in sector', legend: 'Jobs' },
-  risk: { label: 'Extra U.S. duties if USMCA ends (% of trade)', legend: 'Extra duties' },
+  risk: { label: 'Extra U.S. tariffs if USMCA ends (% of trade)', legend: 'Extra tariffs' },
 }
 
 function metricValue(m: Metric, j: JurisdictionId, scope: ScopeId): number | null {
@@ -111,7 +111,8 @@ export function Dashboard() {
       <main className="dash">
         <p className="intro">
           Pick a sector or business and a jurisdiction to see how cross-border trade, tariffs and USMCA affect it, then
-          open a two-page fact sheet.
+          open a two-page fact sheet. All dollar amounts are in U.S. dollars (US$); Canadian figures are converted at Bank of
+          Canada rates.
         </p>
 
         <nav className="sector-tabs" aria-label="Sector">
@@ -179,6 +180,10 @@ export function Dashboard() {
             </button>
           </div>
         </div>
+        <p className="mode-note">
+          <strong>Today’s tariffs</strong> shows what is being paid now, with USMCA in place. <strong>If USMCA ends</strong> shows our
+          estimate of what would change if goods lost USMCA’s tariff-free access. It is a scenario, not a forecast.
+        </p>
 
         <div className="dash-grid">
           <ChartCard
@@ -212,7 +217,7 @@ export function Dashboard() {
                   {selected.inDepth && <span className="tag">In-depth</span>}
                 </div>
                 {mode === 'noUsmca' && (
-                  <p className="scenario-note">Scenario: USMCA ends and standard tariffs apply to trade that is duty-free today.</p>
+                  <p className="scenario-note">Estimate: if USMCA ends, trade that crosses tariff-free today would pay standard U.S. tariffs.</p>
                 )}
                 <LensTiles j={selected} scope={scope} mode={mode} />
                 <div className="panel-chart">
@@ -239,8 +244,8 @@ export function Dashboard() {
           title={`Businesses${sector === 'all' ? '' : ` in ${SECTOR_BY_ID[sector].name}`}`}
           subtitle={
             j === 'ALL'
-              ? 'Two-way trade over the latest 12 months and change since 2024, shown separately for each side of the border.'
-              : `Two-way trade between ${JURISDICTION_BY_ID[j].name} and ${partnerName(JURISDICTION_BY_ID[j])} over the latest 12 months.`
+              ? 'Total trade (exports + imports) over the latest 12 months and change since 2024, shown separately for each side of the border.'
+              : `Total trade (exports + imports) between ${JURISDICTION_BY_ID[j].name} and ${partnerName(JURISDICTION_BY_ID[j])} over the latest 12 months.`
           }
           source={`${SOURCES.tradeUS}; ${SOURCES.tradeCA}; ${SOURCES.tariffs}`}
           sample={!isReal('trade')}

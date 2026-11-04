@@ -307,7 +307,19 @@ Related docs:
 ### D28. A source being down for a day doesn't fail the daily job (Oct 2026)
 - **What happened:** the daily job failed on Oct 15 and Oct 21 because Statistics Canada's server timed out once and returned an error page instead of the data file once. Both times the next day's run worked, but that day's news update was lost because the job stopped before committing.
 - **What we did:** downloads from Statistics Canada now retry a few times. If the daily run still can't check for a new month, it logs a warning, keeps the current data and carries on, so the news still updates. A manual "Rebuild trade data" run still fails loudly.
-- **Tradeoff:** a long outage would quietly delay new trade data. Check the warnings on the Actions page if the "Data as of" month looks stale.
+- **Tradeoff:** a long outage would quietly delay new trade data. Check the warnings on the Actions page if the "trade data through" month looks stale.
+
+### D29. Clarity changes from industry partners' feedback (Nov 2026)
+- **Feedback:** PNWER's industry partners couldn't tell US$ from C$, saw job figures shown four different ways, didn't know what "Exposure" meant, couldn't easily see when data was updated, found some terms unclear, and couldn't tell "Today's tariffs" from "If USMCA ends".
+- **What we did:**
+  - **Currency:** everything stays in **US$**, so all 10 jurisdictions compare directly. We chose this over showing C$ on Canadian sheets. Headline numbers say "US$", and every page says "All amounts in US$".
+  - **Missing figures:** one label, **"Not available"**, with a short reason. Job counts are rounded to the nearest hundred; partial totals say "minimum (part not published)"; real zeros say "none reported".
+  - **Pipeline fix:** an industry that Statistics Canada's table doesn't publish now counts as missing, not zero. A total that is part confidential and otherwise zero is also missing. Canadian auto jobs now use the codes the jobs table publishes (3361–3363). This fixed B.C., Alberta and Saskatchewan auto sheets that showed 0 jobs. Non-metallic mining now uses the jobs table's two detailed codes (diamond mining and other); the old combined code is only in the GDP table, so NWT's minerals jobs had left out its diamond mines (335 jobs → about 1,850).
+  - **Risk level:** "Exposure" is now "Risk level", with its key printed on every sheet (Low < 1% of the trade, Moderate 1–2.5%, High ≥ 2.5%).
+  - **Dates:** every page shows "Updated [date] · trade data through [month]". The date is the last time the site's content changed (news or data).
+  - **Plain terms:** "tariff" everywhere instead of mixing in "duty"; "total trade" instead of "two-way trade"; "industries that make traded goods". A new glossary page, "What the terms mean" (`/glossary`), defines every term.
+  - **One name for the scenario:** "If USMCA ends (estimate)" everywhere, with a one-line explanation of both views under the dashboard toggle.
+- **Tradeoff:** a few labels are longer. All 360 fact sheets were re-checked and still print as exactly 2 pages.
 
 ## 6. How we check our work
 - **`python pipeline/build.py`:** the data checks in D14, plus range checks on jobs, GDP shares, duty rates and the scenario. It also has sanity anchors:

@@ -35,7 +35,7 @@ export function BusinessesTable({ sector, jurisdiction, highlight }: Props) {
           ) : (
             <tr>
               <th>Business</th>
-              <th className="r">Two-way trade</th>
+              <th className="r">Total trade</th>
               <th className="r">Since 2024</th>
               <th>Tariffs today</th>
               <th>Trend</th>

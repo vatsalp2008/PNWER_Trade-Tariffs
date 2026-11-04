@@ -22,6 +22,7 @@ import {
   isScope,
   jurisdictionEconomy,
   keyEvents,
+  lastUpdated,
   partnerName,
   partnerShort,
   scenario,
@@ -31,7 +32,7 @@ import {
 } from '../data'
 import { JURISDICTION_BY_ID, JURISDICTIONS, SECTOR_BY_ID, SECTORS, SOURCES } from '../data/reference'
 import type { Jurisdiction, ScopeId } from '../data/types'
-import { compactNum, decimalYear, dollars, money, num, pct, signedPct } from '../lib/format'
+import { compactNum, dateLabel, decimalYear, dollars, jobCount, money, NOT_AVAILABLE, pct, possessive, signedPct, usd } from '../lib/format'
 
 const PAGE_W = 816 // 8.5in at 96 dpi
 const CHART_W = 720
@@ -110,11 +111,14 @@ function SheetHeader({ j, scope, title, sub, tags = true, sample }: { j: Jurisdi
     <header className="sheet-head">
       <div className="sheet-kicker">
         <span>{SITE_TITLE}</span>
-        {sample ? (
-          <span className="badge badge-sample">Sample data · not for citation</span>
-        ) : (
-          <span className="badge badge-real">Official data · sources below</span>
-        )}
+        <span className="sheet-kicker-right">
+          {lastUpdated && <span>Updated {dateLabel(lastUpdated)}</span>}
+          {sample ? (
+            <span className="badge badge-sample">Sample data · not for citation</span>
+          ) : (
+            <span className="badge badge-real">Official data · sources below</span>
+          )}
+        </span>
       </div>
       <h1>{title}</h1>
       <p className="sheet-sub">{sub}</p>
@@ -122,7 +126,8 @@ function SheetHeader({ j, scope, title, sub, tags = true, sample }: { j: Jurisdi
         <div className="sheet-tags">
           {sector && SECTOR_BY_ID[sector].focus && <span className="tag">Focus sector</span>}
           {j.inDepth && <span className="tag">In-depth jurisdiction</span>}
-          <span className="tag tag-quiet">Data as of {data.meta.dataAsOfLabel}</span>
+          <span className="tag tag-quiet">Trade data through {data.meta.dataAsOfLabel} (latest published)</span>
+          <span className="tag tag-quiet">All amounts in US$</span>
         </div>
       )}
     </header>
@@ -157,19 +162,19 @@ function PageOne({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
         scope={scope}
         sample={sample}
         title={`${label} in ${j.name}`}
-        sub={`How closely is it tied to ${partner}? Latest 12 months of trade, in U.S. dollars.`}
+        sub={`How closely is it tied to ${partner}? Latest 12 months of trade, in U.S. dollars (US$).`}
       />
 
       <div className="stat-row">
-        <Stat label={`Exports to ${partner}`} value={money(t.last12.exports)} note="last 12 months" />
-        <Stat label={`Imports from ${partner}`} value={money(t.last12.imports)} note="last 12 months" />
+        <Stat label={`Exports to ${partner}`} value={usd(t.last12.exports)} note="last 12 months" />
+        <Stat label={`Imports from ${partner}`} value={usd(t.last12.imports)} note="last 12 months" />
         <Stat
-          label="Change in two-way trade"
-          value={change === null ? '—' : signedPct(change)}
+          label="Change in total trade"
+          value={change === null ? NOT_AVAILABLE : signedPct(change)}
           note="vs. previous 12 months"
           tone={change === null ? 'neutral' : change < 0 ? 'down' : 'up'}
         />
-        <Stat label={`${partnerShort(j)} as an export market`} value={t.partnerRank ? `#${t.partnerRank}` : '—'} note={`for ${j.name}’s ${lower}`} />
+        <Stat label={`${partnerShort(j)} as an export market`} value={t.partnerRank ? `#${t.partnerRank}` : NOT_AVAILABLE} note={`for ${possessive(j.name)} ${lower}`} />
       </div>
 
       <ChartCard
@@ -187,7 +192,7 @@ function PageOne({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
           <div className="big-pair">
             <div>
               <div className="big">{pct(t.exportShareToPartner)}</div>
-              <div className="big-cap">of {j.name}’s {lower} exports go to {partner}</div>
+              <div className="big-cap">of {possessive(j.name)} {lower} exports go to {partner}</div>
             </div>
             <div>
               <div className="big">{pct(t.importShareFromPartner)}</div>
@@ -235,7 +240,7 @@ function PageOne({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
       </ChartCard>
 
       <footer className="sheet-foot">
-        <span>Page 1 of 2</span>
+        <span>Page 1 of 2{lastUpdated ? ` · Updated ${dateLabel(lastUpdated)}` : ''}</span>
         <span>
           {sample
             ? data.meta.note
@@ -263,13 +268,13 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
   const empRate = je.employmentRate
   const gdpPc = je.gdpPerCapita
   const us = j.country === 'US'
-  const outputLabel = e.gdpScope === 'all' ? 'traded-goods industries' : sector ? `${SECTOR_BY_ID[sector].name.toLowerCase()}${scope !== sector ? ' (whole sector)' : ''}` : industry
-  const flow = us ? `${j.name}’s imports from Canada` : `${j.name}’s exports to the U.S.`
+  const outputLabel = e.gdpScope === 'all' ? industry : sector ? `${SECTOR_BY_ID[sector].name.toLowerCase()}${scope !== sector ? ' (whole sector)' : ''}` : industry
+  const flow = us ? `${possessive(j.name)} imports from Canada` : `${possessive(j.name)} exports to the U.S.`
   const anySample = !isReal('economy') || !isReal('affordability') || !isReal('scenario')
 
   return (
     <article className="sheet-page">
-      <SheetHeader j={j} scope={scope} title="Why it matters and what’s at risk" sub={`${label} in ${j.name} · data as of ${data.meta.dataAsOfLabel}`} tags={false} sample={anySample} />
+      <SheetHeader j={j} scope={scope} title="Why it matters and what’s at risk" sub={`${label} in ${j.name} · all amounts in US$ · trade data through ${data.meta.dataAsOfLabel}`} tags={false} sample={anySample} />
 
       <div className="three-col">
         <ChartCard title="Employment" source={`${us ? SOURCES.jobsUS : SOURCES.jobsCA}; ${us ? SOURCES.ownedUS : SOURCES.ownedCA}`} sample={!isReal('economy')}>
@@ -277,13 +282,28 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
             <dt>
               Jobs in {industry}, {e.jobsYear}
             </dt>
-            <dd>{e.jobs === null ? 'Not published' : `${e.jobsPartial ? 'At least ' : ''}${num(e.jobs)}`}</dd>
+            <dd>
+              {e.jobs === null ? (
+                <Missing why="not published for this industry" />
+              ) : (
+                <>
+                  {jobCount(e.jobs)}
+                  {e.jobsPartial ? <span className="dd-note">minimum (part not published)</span> : e.jobs === 0 && <span className="dd-note">none reported</span>}
+                </>
+              )}
+            </dd>
             <dt>
               {je.ownedJobsKind === 'partner' ? `Jobs at Canadian-owned companies in ${j.name}` : 'Jobs at foreign-owned multinationals'}, {je.ownedJobsYear}
             </dt>
             <dd>
-              {je.ownedJobs === null ? 'Not published' : num(je.ownedJobs)}
-              {je.ownedJobsKind === 'foreign' && <span className="dd-note">{je.ownedJobs === null ? 'territories combined' : 'all countries (no U.S.-only figure)'}</span>}
+              {je.ownedJobs === null ? (
+                <Missing why="Statistics Canada combines the territories" />
+              ) : (
+                <>
+                  {jobCount(je.ownedJobs)}
+                  {je.ownedJobsKind === 'foreign' && <span className="dd-note">all countries (no U.S.-only figure)</span>}
+                </>
+              )}
             </dd>
             <dt>Employment rate, {empRate[empRate.length - 1].year}</dt>
             <dd className="with-line">
@@ -297,9 +317,9 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
             <dt>
               GDP of {outputLabel}, {e.gdpYear}
             </dt>
-            <dd>{e.gdp === null ? 'Not published' : money(e.gdp)}</dd>
-            <dt>Share of {j.name}’s economy</dt>
-            <dd>{e.gdpShare === null ? '—' : pct(e.gdpShare, 1)}</dd>
+            <dd>{e.gdp === null ? <Missing why="not published for this industry" /> : money(e.gdp)}</dd>
+            <dt>Share of {possessive(j.name)} economy</dt>
+            <dd>{e.gdpShare === null ? NOT_AVAILABLE : pct(e.gdpShare, 1)}</dd>
             <dt>GDP per person, {gdpPc[gdpPc.length - 1].year}</dt>
             <dd className="with-line">
               {dollars(gdpPc[gdpPc.length - 1].value)} <MiniLine values={gdpPc.map((x) => x.value)} width={70} height={20} />
@@ -309,20 +329,20 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
           </dl>
         </ChartCard>
 
-        <ChartCard title="Affordability" source={`${SOURCES.duties}; ${SOURCES.prices}`} sample={!isReal('affordability')}>
+        <ChartCard title="Affordability · today’s tariffs" source={`${SOURCES.duties}; ${SOURCES.prices}`} sample={!isReal('affordability')}>
           <dl className="facts">
             <dt>Food, fuel & farm inputs from {partner} (all sectors)</dt>
             <dd>{money(a.foodFuelInputImports)}</dd>
-            <dt>Est. U.S. duties on {us ? 'imports from Canada' : 'exports to the U.S.'} (12 mo.)</dt>
+            <dt>Est. U.S. tariffs paid on {us ? 'imports from Canada' : 'exports to the U.S.'}, last 12 months</dt>
             <dd>{money(a.estDuties)}</dd>
             {us ? (
               <>
                 <dt>Per household</dt>
-                <dd>{a.dutiesPerHousehold === null ? '—' : dollars(a.dutiesPerHousehold)}</dd>
+                <dd>{a.dutiesPerHousehold === null ? NOT_AVAILABLE : dollars(a.dutiesPerHousehold)}</dd>
               </>
             ) : (
               <>
-                <dt>Average U.S. duty rate on these exports</dt>
+                <dt>Average U.S. tariff rate on these exports</dt>
                 <dd>{pct(a.effectiveDutyRate, 1)}</dd>
               </>
             )}
@@ -340,21 +360,22 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
         <TariffTable events={shown} />
       </ChartCard>
 
-      <ChartCard title="If USMCA isn’t renewed" source={`${SOURCES.duties}; ${SOURCES.mfn}`} exportName={`${j.id}-${scope}-no-usmca`} sample={!isReal('scenario')}>
+      <ChartCard title="If USMCA ends (estimate)" source={`${SOURCES.duties}; ${SOURCES.mfn}`} exportName={`${j.id}-${scope}-no-usmca`} sample={!isReal('scenario')}>
         <div className="scenario-grid">
-          <Stat label={`Share of ${us ? 'imports from Canada' : 'exports to the U.S.'} crossing duty-free today`} value={pct(s.dutyFreeShare)} />
-          <Stat label="Average U.S. tariff without USMCA" value={pct(s.usTariffWithoutUsmca, 1)} />
-          <Stat label="Extra U.S. duties per year" value={money(s.extraDuties)} note={`${pct(s.extraDutiesShare, 1)} of this trade`} tone="down" />
-          <Stat label="Plus, if the 10% Section 301 tariff applied" value={`+${money(s.extraDutiesSection301)}`} note="upper bound" tone="down" />
+          <Stat label={`Share of ${us ? 'imports from Canada' : 'exports to the U.S.'} that cross tariff-free today`} value={pct(s.dutyFreeShare)} />
+          <Stat label="Average U.S. tariff on this trade if USMCA ends" value={pct(s.usTariffWithoutUsmca, 1)} />
+          <Stat label="Extra U.S. tariffs per year" value={money(s.extraDuties)} note={`${pct(s.extraDutiesShare, 1)} of this trade`} tone="down" />
+          <Stat label="Plus, if the 10% Section 301 tariff also applied" value={`+${money(s.extraDutiesSection301)}`} note="upper bound" tone="down" />
           <div className={`exposure exposure-${s.exposure.toLowerCase()}`}>
-            <span>Exposure</span>
+            <span>Risk level</span>
             <strong>{s.exposure}</strong>
           </div>
         </div>
         <p className="micro">
-          Method: goods that cross duty-free today would pay the average rate the U.S. charged on the same products from the EU and
-          Japan in 2024. Based on U.S. duty collections on {flow} over the last 12 months ({money(us ? t.last12.imports : t.last12.exports)}),
-          before businesses adjust. Canadian tariffs on U.S. goods are not included.
+          How we estimate this: goods that cross tariff-free today would pay what the U.S. charged the same products from the EU
+          and Japan in 2024, applied to {flow} over the last 12 months ({usd(us ? t.last12.imports : t.last12.exports)}), before
+          businesses adjust. Canadian tariffs on U.S. goods are not included. <strong>Risk level</strong> = extra tariffs as a share of
+          this trade: Low under 1%, Moderate 1–2.5%, High 2.5% or more.
         </p>
       </ChartCard>
 
@@ -367,21 +388,34 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
         <section className="card notes-card">
           <h3>About these numbers</h3>
           <ul className="micro">
-            <li>{us ? 'Exports are by state of origin of movement; imports by state of destination.' : 'Converted to U.S. dollars at Bank of Canada average rates.'}</li>
-            <li>Duty figures apply national U.S. duty rates by product; they exclude anti-dumping and countervailing duties (e.g. on softwood lumber).</li>
-            <li>{anySample ? 'Sections tagged “Sample” are placeholders.' : 'Years differ by source; each figure shows its year.'}</li>
+            <li>{us ? 'Exports are counted by the state they ship from; imports by the state they go to.' : 'Canadian figures are converted to US$ at Bank of Canada average rates.'}</li>
+            <li>Tariff figures use U.S. rates by product and leave out anti-dumping and countervailing duties (e.g. on softwood lumber).</li>
+            <li>
+              {anySample ? 'Sections tagged “Sample” are placeholders. ' : 'Years differ by source; each figure shows its year. '}
+              Terms explained at {window.location.host}/glossary.
+            </li>
           </ul>
         </section>
       </div>
 
       <footer className="sheet-foot">
-        <span>Page 2 of 2</span>
+        <span>Page 2 of 2{lastUpdated ? ` · Updated ${dateLabel(lastUpdated)}` : ''}</span>
         <span>
           {e.jobs === null ? '' : `${compactNum(e.jobs)} jobs · `}
-          {money(t.last12.exports + t.last12.imports)} two-way trade{anySample ? ' · some sample data' : ''}
+          {usd(t.last12.exports + t.last12.imports)} total trade{anySample ? ' · some sample data' : ''}
         </span>
       </footer>
     </article>
+  )
+}
+
+/** "Not available" plus a short reason, for figures a source doesn't publish. */
+function Missing({ why }: { why: string }) {
+  return (
+    <>
+      {NOT_AVAILABLE}
+      <span className="dd-note">{why}</span>
+    </>
   )
 }
 

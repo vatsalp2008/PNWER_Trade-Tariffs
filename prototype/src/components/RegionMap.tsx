@@ -55,7 +55,7 @@ interface MapProps {
 export function RegionMap({ values, colorOf: color, format: fmt, selected, onSelect, legend }: MapProps) {
   const [hover, setHover] = useState<JurisdictionId | null>(null)
   const colorOf = (v: number | null) => (v === null || !Number.isFinite(v) ? NO_DATA : color(v))
-  const format = (v: number | null) => (v === null || !Number.isFinite(v) ? 'no data' : fmt(v))
+  const format = (v: number | null) => (v === null || !Number.isFinite(v) ? 'not available' : fmt(v))
   const focus = hover ?? (selected === 'ALL' ? null : selected)
   return (
     <div className="region-map">

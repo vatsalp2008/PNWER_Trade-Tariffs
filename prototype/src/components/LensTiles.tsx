@@ -1,6 +1,6 @@
 import { affordability, economy, goodsNoun, industryNoun, isReal, partnerName, scenario, trade } from '../data'
 import type { Jurisdiction, ScopeId, SectionKey } from '../data/types'
-import { compactNum, money, pct, signedPct } from '../lib/format'
+import { compactNum, money, NOT_AVAILABLE, pct, signedPct } from '../lib/format'
 
 export type Mode = 'today' | 'noUsmca'
 
@@ -21,7 +21,8 @@ export function LensTiles({ j, scope, mode }: { j: Jurisdiction; scope: ScopeId;
   const goods = goodsNoun(scope)
   const industry = industryNoun(scope)
   const us = j.country === 'US'
-  const jobs = e.jobs === null ? 'n/a' : `${e.jobsPartial ? '≥' : ''}${compactNum(e.jobs)}`
+  const jobs = e.jobs === null ? NOT_AVAILABLE : compactNum(e.jobs)
+  const minimum = e.jobs !== null && e.jobsPartial ? ', minimum' : ''
   // U.S. tariffs apply to a state's imports from Canada, or to a province's exports to the U.S.
   const flow = us ? 'imports from Canada' : 'exports to the U.S.'
   const tiles: Tile[] =
@@ -29,14 +30,14 @@ export function LensTiles({ j, scope, mode }: { j: Jurisdiction; scope: ScopeId;
       ? [
           { lens: 'Integration', value: pct(t.exportShareToPartner), caption: `of ${goods} exports go to ${partner}`, section: 'trade' },
           { lens: 'Competitiveness', value: signedPct(t.growthUsmcaToPartner), caption: `export growth to ${partner} under USMCA (2019→2024)`, section: 'trade' },
-          { lens: 'Affordability', value: money(a.estDuties), caption: `estimated U.S. duties on ${flow}, last 12 months`, section: 'affordability' },
-          { lens: 'Employment', value: jobs, caption: `jobs in ${industry} (${e.jobsYear})`, section: 'economy' },
+          { lens: 'Affordability', value: money(a.estDuties), caption: `estimated U.S. tariffs paid on ${flow}, last 12 months`, section: 'affordability' },
+          { lens: 'Employment', value: jobs, caption: `jobs in ${industry} (${e.jobsYear}${minimum})`, section: 'economy' },
         ]
       : [
-          { lens: 'Integration', value: pct(s.dutyFreeShare), caption: `of ${flow} cross duty-free today`, section: 'scenario' },
-          { lens: 'Competitiveness', value: pct(s.usTariffWithoutUsmca, 1), caption: `average U.S. tariff on this trade without USMCA`, section: 'scenario' },
-          { lens: 'Affordability', value: money(s.extraDuties), caption: 'extra U.S. duties per year if USMCA ends', section: 'scenario' },
-          { lens: 'Employment', value: jobs, caption: `jobs in ${industry} exposed (${e.jobsYear})`, section: 'economy' },
+          { lens: 'Integration', value: pct(s.dutyFreeShare), caption: `of ${flow} cross tariff-free today`, section: 'scenario' },
+          { lens: 'Competitiveness', value: pct(s.usTariffWithoutUsmca, 1), caption: 'average U.S. tariff on this trade if USMCA ends', section: 'scenario' },
+          { lens: 'Affordability', value: money(s.extraDuties), caption: 'extra U.S. tariffs per year if USMCA ends', section: 'scenario' },
+          { lens: 'Employment', value: jobs, caption: `jobs exposed in ${industry} (${e.jobsYear}${minimum})`, section: 'economy' },
         ]
   return (
     <div className="lens-tiles">

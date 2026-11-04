@@ -7,7 +7,7 @@ interface Props {
   height?: number
 }
 
-/** Two-way trade over the previous 12 months; tariff era shaded. */
+/** Total trade (exports + imports) over the previous 12 months; tariff era shaded. */
 export function Sparkline({ rolling, width = 96, height = 26 }: Props) {
   const pts = rolling.map(([x, e, i]) => [x, e + i] as const)
   if (pts.length < 2) return null

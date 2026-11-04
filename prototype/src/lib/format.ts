@@ -13,10 +13,22 @@ export function money(m: number): string {
   return `${sign}$${Math.round(a * 1000)}K`
 }
 
+/** Money with its currency spelled out, for headline figures: "US$7.6B". */
+export const usd = (m: number) => money(m).replace('$', 'US$')
+
 /** Whole US dollars, e.g. per-household figures. */
 export const dollars = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`
 
 export const num = (n: number) => Math.round(n).toLocaleString('en-US')
+
+/** Job counts to the nearest hundred, as BEA publishes them; exact counts suggest false precision. */
+export const jobCount = (n: number) => num(n < 100 ? n : Math.round(n / 100) * 100)
+
+/** Shown wherever a source doesn't publish a figure; pair it with a short reason. */
+export const NOT_AVAILABLE = 'Not available'
+
+/** "Washington’s", but "Northwest Territories’". */
+export const possessive = (name: string) => (name.endsWith('s') ? `${name}’` : `${name}’s`)
 
 export const compactNum = (n: number) =>
   n >= 1_000_000 ? `${(n / 1_000_000).toFixed(1)}M` : n >= 10_000 ? `${Math.round(n / 1000)}K` : num(n)
