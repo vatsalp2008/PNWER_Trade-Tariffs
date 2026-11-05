@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04",
+ "updated": "2026-11-05",
  "items": [
   {
    "id": "f37b4490736e",
@@ -264,26 +264,6 @@
    ]
   },
   {
-   "id": "95f5527697ba",
-   "title": "Minister of Finance meets with provincial and territorial counterparts on Canada’s response to latest U.S. tariffs",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/08/minister-of-finance-meets-with-provincial-and-territorial-counterparts-on-canadas-response-to-latest-us-tariffs.html",
-   "date": "2026-08-24",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
-  },
-  {
-   "id": "1e029f186e34",
-   "title": "Ministers Champagne, Joly, Hajdu and Solomon to announce Canadian response to U.S. tariffs",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/08/ministers-champagne-joly-hajdu-and-solomon-to-announce-canadian-response-to-us-tariffs.html",
-   "date": "2026-08-24",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
-  },
-  {
    "id": "129f8bd330f0",
    "title": "Letter to Ambassador Greer & Minister LeBlanc supporting extension of USMCA, with agriculture leaders",
    "url": "https://www.pnwer.org/uploads/2/3/2/9/23295822/ag_usmca_cusma_letter_08.19.pdf",
@@ -293,19 +273,6 @@
    "jurisdictions": [],
    "sectors": [
     "ag"
-   ]
-  },
-  {
-   "id": "3d88918564e2",
-   "title": "Canada imposes provisional safeguard tariff on imports of wood cabinets and vanities to protect Canadian manufacturers and workers",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/07/canada-imposes-provisional-safeguard-tariff-on-imports-of-wood-cabinets-and-vanities-to-protect-canadian-manufacturers-and-workers.html",
-   "date": "2026-07-31",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
-    "mfg",
-    "forest"
    ]
   },
   {
