@@ -4,6 +4,7 @@ Python scripts that pull **real public data** and write JSON files the website r
 
 | Script | What it writes | Sources |
 |---|---|---|
+| `provincial_trade.py` | Versioned CSV/JSON, computed insights and two-pass checks under `prototype/public/data/provincial/`, used by `/data` | Statistics Canada 12-10-0175-01 WDS; BC/AB domestic exports; CAD/NAPCS; no API key |
 | `build.py` | `prototype/src/data/real.json`: trade, jobs, GDP, affordability (duties) and the "If USMCA ends" scenario for all 10 jurisdictions × 36 sectors/businesses | Census trade API (key needed); Statistics Canada CIMT and tables; Bank of Canada; BLS (QCEW, LAUS, import prices); BEA (state GDP, population, foreign-owned employment); Census ACS |
 | `fetch_news.py` | `prototype/src/data/news.json`: the "Trade & tariff updates" feed | Federal Register, USTR, Government of Canada news (Finance, Global Affairs), CBP, PNWER blog, plus the two hand-kept files below |
 | `watch_federal_register.py` | Opens a GitHub issue (label `tariff-watch`) for each new presidential tariff action on Canada | Federal Register |
@@ -11,12 +12,15 @@ Python scripts that pull **real public data** and write JSON files the website r
 ## Run it locally
 
 ```bash
+python pipeline/provincial_trade.py          # BC/AB overview, standard library only, no key
 pip install -r pipeline/requirements.txt
 python pipeline/fetch_news.py                # ~30 seconds
 python pipeline/watch_federal_register.py    # prints new tariff actions (no issues opened locally)
 python pipeline/build.py                     # first run 30-60 min; later runs are faster
 python pipeline/build.py --if-new            # skips if real.json already has the latest month
 ```
+
+The provincial overview has its own daily workflow and does not overwrite the main HS/USD dataset. Read [PROVINCIAL_DATA.md](../docs/PROVINCIAL_DATA.md) for its source capture, checks, replay, published tables and UI contract.
 
 - `build.py` needs your Census key in `prototype/.env.local` (`CENSUS_API_KEY=...`) or in the environment.
 - Downloads are cached in `pipeline/.cache/`, which is git-ignored and safe to delete. Set `PIPELINE_CACHE=/some/other/folder` to keep the cache elsewhere.

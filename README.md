@@ -69,6 +69,7 @@ Open the link it prints, usually **http://localhost:5173**. The page reloads aut
   - http://localhost:5173/factsheet/ID/all: all goods in Idaho
 - **Download PDF:** the button opens the print dialog; choose **Save as PDF**.
 - **PNG:** every chart has a PNG button that saves the chart as an image for slides. The image is watermarked.
+- **Data & verification** (`/data`): BC/Alberta monthly domestic exports in **CAD**, with product/time filters, precomputed insights, CSV tables and the two-pass quality report. These NAPCS groups are separate from the main dashboard's HS tariff scopes. See [the pipeline and architecture guide](docs/PROVINCIAL_DATA.md).
 
 ## Everyday commands
 
@@ -85,6 +86,7 @@ Run these inside `prototype/`.
 
 ## How the data stays up to date
 
+- **Verified provincial exports:** `.github/workflows/provincial-data.yml` refreshes the official 36-month window daily at 17:41 UTC, checks source records and exported tables, builds the site, and publishes only a passing data version. No API key is needed. Raw evidence is retained as workflow artifacts for 90 days. [Operation and limitations](docs/PROVINCIAL_DATA.md).
 - **`pipeline/`** has Python scripts that pull the data and news and write JSON into `prototype/src/data/`. See [pipeline/README.md](pipeline/README.md).
 - **GitHub Actions** (`.github/workflows/refresh.yml`) runs them every day at 7:23 a.m. Pacific. It:
   - refreshes the news,
