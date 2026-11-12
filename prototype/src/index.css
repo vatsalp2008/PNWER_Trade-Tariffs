@@ -22,6 +22,43 @@
   color-scheme: light;
 }
 
+/* Monthly provincial data: CAD/NAPCS, separate from the USD/HS explorer. */
+.provincial-data h1 { font-family: var(--serif); color: var(--brand-900); margin-bottom: 8px; }
+.prov-product { flex: 1; min-width: 0; }
+.prov-product select { width: 100%; min-width: 0; }
+.prov-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
+.prov-stats .stat { padding: 14px; }
+.prov-stats .stat-value { font-size: 28px; }
+.prov-insight { padding: 14px 18px; margin: 0 0 18px; }
+.prov-insight h2 { font-size: 14px; margin: 0 0 6px; }
+.prov-insight p { margin: 4px 0; }
+.prov-ranking { list-style: none; margin: 0; padding: 0; }
+.prov-ranking button { width: 100%; text-align: left; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; border: 0; background: transparent; padding: 8px 2px; cursor: pointer; }
+.prov-ranking button[aria-pressed='true'] { color: var(--brand-700); font-weight: 600; }
+.prov-ranking button > span:first-child { font-size: 12px; }
+.prov-ranking strong { font-size: 12px; font-variant-numeric: tabular-nums; }
+.prov-bar { grid-column: 1 / -1; display: block; background: var(--stone); height: 5px; }
+.prov-bar > span { display: block; height: 100%; background: var(--brand-700); }
+.prov-downloads { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
+.prov-table-wrap { overflow-x: auto; }
+.prov-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.prov-table th, .prov-table td { padding: 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+.prov-table th { color: var(--muted); font-weight: 500; }
+.prov-table th:first-child, .prov-table td:first-child { text-align: left; }
+.prov-pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 12px; }
+.prov-pagination button:disabled { opacity: 0.5; cursor: default; }
+.prov-quality { margin: 16px 0; }
+.prov-quality summary { cursor: pointer; font-weight: 600; }
+.prov-quality h2 { font-size: 14px; margin-top: 18px; }
+.prov-quality li { margin-bottom: 8px; }
+.prov-quality code { overflow-wrap: anywhere; }
+.prov-hashes { padding-left: 18px; }
+@media (max-width: 640px) {
+  .prov-stats { grid-template-columns: 1fr; }
+  .provincial-data .controls label { width: 100%; }
+  .provincial-data select { width: 100%; min-width: 0; }
+}
+
 * {
   box-sizing: border-box;
 }

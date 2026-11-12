@@ -1,0 +1,27 @@
+name: Check provincial pipeline and site
+on:
+  pull_request:
+    paths:
+      - 'pipeline/provincial_trade.py'
+      - 'pipeline/tests/**'
+      - 'prototype/**'
+      - '.github/workflows/*provincial*.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s pipeline/tests -v
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: prototype/package-lock.json
+      - run: npm ci && npm run test:provincial && npm run build
+        working-directory: prototype

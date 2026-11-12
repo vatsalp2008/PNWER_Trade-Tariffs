@@ -1,0 +1,77 @@
+name: Verified provincial data
+
+on:
+  schedule:
+    - cron: '41 17 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'pipeline/provincial_trade.py'
+      - '.github/workflows/provincial-data.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  # Share the existing writer's lock to avoid simultaneous main-branch commits.
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Pipeline regression checks
+        run: python -m unittest discover -s pipeline/tests -v
+      - name: Fetch, check, export and verify tables
+        run: python pipeline/provincial_trade.py
+      - name: Keep raw evidence and failure reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: provincial-evidence-${{ github.run_id }}
+          path: pipeline/.cache/provincial/
+          retention-days: 90
+          if-no-files-found: warn
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: prototype/package-lock.json
+      - name: Verify browser data calculations and build website
+        working-directory: prototype
+        run: |
+          npm ci
+          npm run test:provincial
+          npm run build
+      - name: Publish verified data snapshot
+        env:
+          COMMIT_EMAIL: ${{ vars.COMMIT_EMAIL }}
+        run: |
+          git add prototype/public/data/provincial/
+          if git diff --cached --quiet; then
+            echo 'No data revisions; latest verified version retained.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git -c user.name="${{ github.repository_owner }}" \
+              -c user.email="${COMMIT_EMAIL:-${{ github.repository_owner }}@users.noreply.github.com}" \
+              commit -m "Refresh verified provincial data ($(date -u +%Y-%m-%d))"
+          # The existing refresh job shares this lock. Rebase also handles normal team commits.
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
+      - name: Run summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          echo "Provincial pipeline: $JOB_STATUS. Raw evidence is attached for 90 days." >> "$GITHUB_STEP_SUMMARY"
+          echo 'A failed run never commits a new published dataset. Use workflow failure notifications to investigate.' >> "$GITHUB_STEP_SUMMARY"
