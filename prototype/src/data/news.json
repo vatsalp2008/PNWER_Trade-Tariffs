@@ -1,6 +1,18 @@
 {
- "updated": "2026-11-09",
+ "updated": "2026-11-13",
  "items": [
+  {
+   "id": "bd8af6fc1956",
+   "title": "Parliamentary Secretary Naqvi highlights new action plan to protect workers from tariffs and strengthen Ontario industries",
+   "url": "https://www.canada.ca/en/global-affairs/news/2026/11/parliamentary-secretary-naqvi-highlights-new-action-plan-to-protect-workers-from-tariffs-and-strengthen-ontario-industries.html",
+   "date": "2026-11-13",
+   "source": "Global Affairs Canada",
+   "kind": "official",
+   "jurisdictions": [],
+   "sectors": [
+    "metals"
+   ]
+  },
   {
    "id": "f747c8622ed7",
    "title": "Canada modifies tariff relief measures to better support workers and businesses",
@@ -187,16 +199,6 @@
    "sectors": [
     "ag"
    ]
-  },
-  {
-   "id": "ae6e3e6b7a0b",
-   "title": "Government of Canada Concludes Pre-Budget Consultations for Budget 2026",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/09/government-of-canada-concludes-pre-budget-consultations-for-budget-2026.html",
-   "date": "2026-09-08",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
   },
   {
    "id": "c84329ad7ced",
