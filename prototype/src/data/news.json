@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13",
+ "updated": "2026-11-14",
  "items": [
   {
    "id": "bd8af6fc1956",
@@ -104,19 +104,6 @@
    "kind": "official",
    "jurisdictions": [],
    "sectors": []
-  },
-  {
-   "id": "960898ebbb5f",
-   "title": "USTR Announces 2026 Award Recipients",
-   "url": "https://ustr.gov/about/policy-offices/press-office/press-releases/2026/october/ustr-announces-2026-award-recipients",
-   "date": "2026-10-21",
-   "source": "USTR",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
-    "ag",
-    "mfg"
-   ]
   },
   {
    "id": "38fef556bffa",
