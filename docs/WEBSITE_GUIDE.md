@@ -26,13 +26,15 @@ It's the **tool** half of the project. The written assessment for PNWER is a sep
 - **Dates:** every page shows when the site was last updated and the latest month of trade data (currently **August 2026**). Other figures show their own year.
 - **Placeholders:** only the "What businesses are saying" quotes, until PNWER supplies real stakeholder input.
 
-### The three pages
+### The pages
 
 | Page | Address | What it's for |
 |---|---|---|
 | **Dashboard** | `/` | Explore. Pick a sector, business and place; see the map, four headline numbers, the businesses table, the tariff timeline and the latest news. |
 | **Fact sheet** | `/factsheet/<jurisdiction>/<scope>` | Share. A 2-page US Letter document for one place and one sector or business, with a PDF download and image downloads. |
 | **Trade & tariff updates** | `/news` | Keep current. Recent official announcements, PNWER statements and articles picked by the team. |
+| **Data & verification** | `/data` | Check. B.C. and Alberta monthly exports by Statistics Canada product group, with the checks behind them and CSV downloads (see section 4.1). |
+| **What the terms mean** | `/glossary` | Plain-language definitions of every term on the site. |
 
 ### The 10 jurisdictions
 
@@ -102,7 +104,7 @@ A **scope** is either "All traded goods", one sector, or one business.
 
 ### 2.1 Header
 - **Title and tagline.** Click the title to return to the dashboard from any page.
-- **Navigation:** *Dashboard*, *Trade & tariff updates*, and *What the terms mean* (a plain-language glossary page, `/glossary`).
+- **Navigation:** *Dashboard*, *Trade & tariff updates*, *Data & verification* (`/data`), and *What the terms mean* (a plain-language glossary page, `/glossary`).
 - **Badges:**
   - **Official public data:** every section uses real data. If a section ever falls back to placeholders, this changes to a warning badge.
   - **Updated [date] · trade data through Aug 2026:** the last date the site's content changed (it checks daily), and the latest month of trade data both countries have published, usually 5–6 weeks behind today.
@@ -308,7 +310,7 @@ Every number on the sheet names its source, and its year where sources differ.
 | Jobs | Jobs in the matching industries | U.S.: private payroll jobs. Canada: all jobs incl. self-employed. Not directly comparable across the border. | BLS QCEW (2025); Statistics Canada 36-10-0489 (2024) |
 | Jobs at partner-owned companies | Employment at companies owned from the partner country | U.S.: majority-owned affiliates with a Canadian owner. Canada: all foreign-owned multinationals. | BEA Table II.G 8 (2024); Statistics Canada 36-10-0620 (2024) |
 | Employment rate | % of working-age people with a job | U.S.: annual average of monthly ratio. Canada: annual rate. | BLS LAUS (2025); Statistics Canada 14-10-0464 (2025) |
-| GDP of sector, share of economy | Value added by the sector, as a share of the whole economy | Sum of matching industries ÷ total GDP | BEA SAGDP2 (2025); Statistics Canada 36-10-0711 (2022) |
+| GDP of sector, share of economy | Value added by the sector, as a share of the whole economy | Sum of matching industries ÷ total GDP | BEA SAGDP2 (2025); Statistics Canada 36-10-0711 (2023) |
 | GDP per person, total economy | Size of the economy per resident | GDP ÷ population | BEA (2025); Statistics Canada 36-10-0222 and 17-10-0005 (2024) |
 | Estimated U.S. tariffs paid | What U.S. tariffs cost on this trade | For each product: national duty actually collected on Canadian goods ÷ their value, × this place's trade in that product | Census imports from Canada with calculated duty, last 12 months |
 | Tariffs per household | The tariffs spread across the state's households | Estimated tariffs ÷ households | Census ACS (2024) |
@@ -345,6 +347,14 @@ Every number on the sheet names its source, and its year where sources differ.
 - **Refresh:** daily. Items stay for 120 days; PNWER's own statements stay longer.
 - **Relevance filter:** an item is only included if it mentions both a trade term (tariff, duties, USMCA/CUSMA, Section 232/301/338…) and Canada.
 - **Updates vs. timeline:** the updates page is **automatic and not verified**. The **tariff timeline** on the dashboard and fact sheets is **curated and linked to official sources**, and it's what the site's tariff tags use.
+
+### 4.1 Data & verification page (`/data`)
+Added by Yifan in Nov 2026. Full details: [PROVINCIAL_DATA.md](PROVINCIAL_DATA.md).
+- **What it shows:** British Columbia's and Alberta's monthly exports to the U.S. and the world over 36 months, for all goods and 12 Statistics Canada product groups (energy, forestry, vehicles…). Pick a province, product group and time range.
+- **Numbers:** 12-month total, latest month, change from a year earlier and U.S. share; a trend chart; a ranking of product groups; a table of every month; CSV downloads.
+- **Same as the dashboard:** amounts are in **US$** at the dashboard's exchange rates, and the page stops at the dashboard's latest month. For all goods, the 12-month total shows the matching dashboard figure next to it; they agree within 0.1%.
+- **Different from the dashboard:** the **product groups** are Statistics Canada's, not our sectors, so "Energy products" here won't equal "Energy" on a fact sheet.
+- **Source:** Statistics Canada table 12-10-0175-01, refreshed daily by its own workflow (`provincial-data.yml`) with 9 automatic checks.
 
 ---
 
@@ -519,7 +529,7 @@ The source doesn't publish them, usually to protect one company's confidential n
 **Why don't our Washington numbers exactly match the Embassy of Canada fact sheet?**
 They're within 2%. The Embassy used Census's February release; Census revises the previous year each June, and we use the latest release.
 
-**Why is Canadian GDP by industry from 2022 when U.S. GDP is 2025?**
+**Why is Canadian GDP by industry from 2023 when U.S. GDP is 2025?**
 Statistics Canada publishes current-dollar GDP by detailed industry about three years late. The sheet always shows the year.
 
 **Why do provinces show "foreign-owned" jobs instead of U.S.-owned?**

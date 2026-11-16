@@ -26,7 +26,7 @@
 .provincial-data h1 { font-family: var(--serif); color: var(--brand-900); margin-bottom: 8px; }
 .prov-product { flex: 1; min-width: 0; }
 .prov-product select { width: 100%; min-width: 0; }
-.prov-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
+.prov-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
 .prov-stats .stat { padding: 14px; }
 .prov-stats .stat-value { font-size: 28px; }
 .prov-insight { padding: 14px 18px; margin: 0 0 18px; }

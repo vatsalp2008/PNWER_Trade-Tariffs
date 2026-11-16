@@ -41,6 +41,8 @@ const SECTIONS: SectionKey[] = ['trade', 'economy', 'affordability', 'scenario']
 export const realSections = SECTIONS.filter(isReal)
 export const allReal = realSections.length === SECTIONS.length
 export const sources: string[] = real?.meta.sources ?? []
+/** C$ per US$ by month: the rates the dashboard used, so other pages can convert the same way. */
+export const fxMonthly: Record<string, number> = real?.meta.fx ?? {}
 
 const newsFiles = import.meta.glob<string>('./news.json', { query: '?raw', import: 'default', eager: true })
 const newsData = newsFiles['./news.json'] ? (JSON.parse(newsFiles['./news.json']) as { updated: string; items: NewsItem[] }) : null

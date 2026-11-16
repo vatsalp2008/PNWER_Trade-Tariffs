@@ -89,17 +89,27 @@ export async function loadProvincial(signal?: AbortSignal): Promise<ProvincialBu
   return { manifest, dataset, base }
 }
 
-export function monthlySelection(data: ProvincialDataset, province: string, product: string, count: number) {
-  const selection = data.rows.filter((r) => r.province === province && r.product === product)
+/** A C$ amount in US$ millions at that month's Bank of Canada rate (C$ per US$); null without a rate. */
+export const cadToUsdM = (cad: number, month: string, fx: Record<string, number>): number | null =>
+  fx[month] ? cad / fx[month] / 1e6 : null
+
+/** U.S.-bound rows for one province and product group, oldest first; `through` caps the last month (YYYY-MM). */
+export function monthlySelection(data: ProvincialDataset, province: string, product: string, count: number, through?: string) {
+  const selection = data.rows.filter((r) => r.province === province && r.product === product && (!through || r.month <= through))
   const world = new Map(selection.filter((r) => r.partner === 'world').map((r) => [r.month, r.valueCad]))
   return selection.filter((r) => r.partner === 'us').sort((a, b) => a.month.localeCompare(b.month)).slice(-count)
     .map((r) => ({ ...r, worldCad: world.get(r.month) ?? null }))
 }
 
-export function selectionCsv(data: ProvincialDataset, province: string, product: string, count: number): string {
+/** The selected months as CSV: original C$ values, plus US$ at the dashboard's rates when `fx` is given. */
+export function selectionCsv(data: ProvincialDataset, province: string, product: string, count: number,
+  { fx, through }: { fx?: Record<string, number>; through?: string } = {}): string {
   const quote = (value: unknown) => `"${String(value ?? '').replaceAll('"', '""')}"`
-  const headers = ['province', 'product', 'month', 'us_exports_cad', 'world_exports_cad', 'us_share', 'us_vector_id', 'source']
-  const rows = monthlySelection(data, province, product, count).map((r) => [data.provinces[province], data.products[product],
-    r.month, r.valueCad, r.worldCad, r.worldCad !== null && r.worldCad > 0 ? r.valueCad / r.worldCad : null, r.vectorId, data.source])
+  const usd = (cad: number | null, month: string) => (cad === null || !fx?.[month] ? null : cad / fx[month])
+  const headers = ['province', 'product', 'month', 'us_exports_cad', 'world_exports_cad', 'us_share', 'us_vector_id', 'source',
+    ...(fx ? ['cad_per_usd', 'us_exports_usd', 'world_exports_usd'] : [])]
+  const rows = monthlySelection(data, province, product, count, through).map((r) => [data.provinces[province], data.products[product],
+    r.month, r.valueCad, r.worldCad, r.worldCad !== null && r.worldCad > 0 ? r.valueCad / r.worldCad : null, r.vectorId, data.source,
+    ...(fx ? [fx[r.month] ?? null, usd(r.valueCad, r.month), usd(r.worldCad, r.month)] : [])])
   return '\uFEFF' + [headers, ...rows].map((row) => row.map(quote).join(',')).join('\r\n')
 }

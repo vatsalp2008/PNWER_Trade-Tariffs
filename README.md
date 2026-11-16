@@ -69,7 +69,7 @@ Open the link it prints, usually **http://localhost:5173**. The page reloads aut
   - http://localhost:5173/factsheet/ID/all: all goods in Idaho
 - **Download PDF:** the button opens the print dialog; choose **Save as PDF**.
 - **PNG:** every chart has a PNG button that saves the chart as an image for slides. The image is watermarked.
-- **Data & verification** (`/data`): BC/Alberta monthly domestic exports in **CAD**, with product/time filters, precomputed insights, CSV tables and the two-pass quality report. These NAPCS groups are separate from the main dashboard's HS tariff scopes. See [the pipeline and architecture guide](docs/PROVINCIAL_DATA.md).
+- **Data & verification** (`/data`): BC/Alberta monthly domestic exports in **US$** (converted at the dashboard's Bank of Canada rates; original C$ in the table and downloads), with product/time filters, CSV tables and the two-pass quality report. Its all-goods totals match the dashboard and fact sheets; its NAPCS product groups are different from the dashboard's sectors. See [the pipeline and architecture guide](docs/PROVINCIAL_DATA.md).
 
 ## Everyday commands
 

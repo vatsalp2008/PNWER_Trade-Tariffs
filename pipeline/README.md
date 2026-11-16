@@ -46,6 +46,9 @@ All three files live in `prototype/src/data/`. Edit them and open a pull request
    - WA aerospace jobs are 50k–150k.
    - AB oil & gas jobs are 40k–250k.
    - WA GDP is in the hundreds of billions.
+7. B.C. and Alberta exports to the U.S. over the last 12 months match table 12-10-0175 (the `/data` page's published snapshot) within 0.5%, at the same exchange rates. Skipped if that snapshot doesn't cover the same 12 months yet.
+
+`real.json` also carries the monthly exchange rates (`meta.fx`) so other pages convert C$ the same way.
 
 Every method and its limitations is explained in [docs/DECISIONS.md](../docs/DECISIONS.md).
 

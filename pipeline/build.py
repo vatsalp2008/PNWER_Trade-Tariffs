@@ -257,6 +257,38 @@ def run_checks(trade: dict, census: dict, cimt_recent: list[dict], last_ym: str)
     return problems
 
 
+PROVINCIAL_DIR = ROOT / "prototype" / "public" / "data" / "provincial"
+
+
+def check_provincial(inputs: dict, fx: dict, months: list[str]) -> list[str]:
+    """5. B.C. and Alberta exports to the U.S. match table 12-10-0175, the source of the /data page.
+
+    Both come from Statistics Canada's customs records, so the last-12-month totals must agree
+    within 0.5% once converted at the same exchange rates. Skipped if that page's published
+    snapshot doesn't cover the same 12 months yet.
+    """
+    try:
+        pointer = json.loads((PROVINCIAL_DIR / "latest.json").read_text())
+        rows = json.loads((PROVINCIAL_DIR / "versions" / pointer["version"] / "dataset.json").read_text())["rows"]
+    except (OSError, KeyError, ValueError) as e:
+        log(f"  (skipped table 12-10-0175 cross-check: {e})")
+        return []
+    window = set(months[-12:])
+    problems = []
+    for prov in ("BC", "AB"):
+        sel = [r for r in rows if r["province"] == prov and r["product"] == "all" and r["partner"] == "us" and r["month"] in window]
+        if len(sel) < 12:
+            log(f"  (skipped table 12-10-0175 cross-check for {prov}: snapshot covers {len(sel)} of the last 12 months)")
+            continue
+        theirs = sum(r["valueCad"] / fx[r["month"]] for r in sel)
+        m = inputs[prov].monthly
+        ours = float(m[m["ym"].isin(window)]["exp"].sum())
+        log(f"  {prov} exports to the U.S., last 12 months: CIMT US${ours / 1e9:.2f}B vs table 12-10-0175 US${theirs / 1e9:.2f}B")
+        if abs(ours / theirs - 1) > 0.005:
+            problems.append(f"{prov} exports to the U.S., last 12 months: CIMT {ours:,.0f} vs table 12-10-0175 {theirs:,.0f} (US$)")
+    return problems
+
+
 def check_sections(economy: dict, jur: dict, afford: dict, scen: dict) -> list[str]:
     problems = []
     for j in economy:
@@ -364,7 +396,7 @@ def main() -> None:
         )
     problems_extra = check_sections(economy, jur_economy, affordability, scenario)
 
-    problems = run_checks(trade, census, cimt_recent, last_ym) + problems_extra
+    problems = run_checks(trade, census, cimt_recent, last_ym) + problems_extra + check_provincial(inputs, fx, months)
     if problems:
         log("DATA CHECKS FAILED — real.json not written:")
         for p in problems:
@@ -378,6 +410,8 @@ def main() -> None:
             "dataAsOf": last_ym,
             "dataAsOfLabel": f"{MONTH_ABBR[m - 1]} {y}",
             "sections": {"trade": True, "economy": True, "affordability": True, "scenario": True},
+            # Canadian dollars per U.S. dollar by month; the /data page converts with these same rates.
+            "fx": {ym: round(fx[ym], 6) for ym in months},
             "sources": [
                 "U.S. Census Bureau, USA Trade / international trade API (state exports and imports by HS code)",
                 "Adapted from Statistics Canada, Canadian International Merchandise Trade database (monthly). This does not constitute an endorsement by Statistics Canada of this product.",

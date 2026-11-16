@@ -10,7 +10,7 @@ const GROUPS: { title: string; terms: [string, string][] }[] = [
       ['Updated · trade data through', '“Updated” is the last date the site’s content changed; it checks for new data every day. “Trade data through” is the latest month of trade data published so far.'],
       ['Not available', 'The source doesn’t publish this figure, usually to protect one company’s confidential numbers, or because it isn’t broken down to that industry or place. We don’t estimate it.'],
       ['Minimum', 'Some industries in this total aren’t published, so the real number is at least this high.'],
-      ['Years', 'Each source publishes on its own schedule, so every figure shows its year. For example, Canadian GDP by industry is only available up to 2022.'],
+      ['Years', 'Each source publishes on its own schedule, so every figure shows its year. For example, Canadian GDP by industry is published about three years late (currently up to 2023).'],
     ],
   },
   {

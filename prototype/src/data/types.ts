@@ -216,6 +216,8 @@ export interface RealData {
     dataAsOfLabel: string
     sections: Partial<Record<SectionKey, boolean>>
     sources: string[]
+    /** Canadian dollars per U.S. dollar by month (Bank of Canada), the rates used for every conversion. */
+    fx?: Record<string, number>
   }
   trade?: ByJurisdiction<ByScope<TradeRecord>>
   economy?: ByJurisdiction<ByScope<EconomyRecord>>

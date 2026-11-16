@@ -30,6 +30,16 @@ Raw responses and failure reports go in `pipeline/.cache/provincial/<run>/`. The
 - Year-over-year change = latest month's US exports / same month one year earlier − 1. A zero/missing denominator yields `null`, displayed as unavailable.
 - Insights describe observed changes only. Commodity prices, currency, demand, fires, supply and other drivers are not controlled for. This is not a causal tariff-loss estimate.
 
+## How the page lines up with the dashboard
+
+The pipeline stores the official values in Canadian dollars, unchanged. The page then makes them match the rest of the site:
+
+- **Currency:** it shows US$, converting each month at the Bank of Canada rate the dashboard used (`meta.fx` in `prototype/src/data/real.json`). The original C$ values stay in the table and in every download; the selected-months CSV also has `cad_per_usd` and US$ columns.
+- **Months:** it shows the dashboard's latest month ("trade data through"), or the snapshot's if that is earlier. A newer month published by Statistics Canada appears once the dashboard updates.
+- **Indicators:** the 12-month total, latest month, year-over-year change (in US$) and U.S. share are computed on the page from the shown records. The all-goods 12-month total shows the matching dashboard figure next to it.
+- **Cross-check:** every dashboard rebuild (`pipeline/build.py`) compares B.C.'s and Alberta's last-12-month exports to the U.S. with this snapshot and refuses to publish if they differ by more than 0.5%. In Nov 2026 they differed by 0.01% (B.C.) and 0.04% (Alberta). Both come from Statistics Canada's customs records.
+- **Product groups** are Statistics Canada's NAPCS groups, not the dashboard's HS-based sectors, so only the all-goods total has an exact dashboard equivalent. The page says so under the product filter.
+
 ## Two validation passes
 
 Before generating tables:

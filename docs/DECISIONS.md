@@ -172,7 +172,7 @@ Related docs:
   - BEA's line "Forestry, fishing & related activities" (113–115) is split between Agriculture & Food and Forest Products in proportion to QCEW jobs.
   - BEA puts coal mining inside "Mining (except oil & gas)", so U.S. coal GDP sits in Minerals & Metals. In Canada it's in Energy.
 - **Canada source:** Statistics Canada table 36-10-0711, current dollars.
-  - **Industry detail in current dollars is only published to 2022.** The sheet shows "2022" next to those figures.
+  - **Industry detail in current dollars is published about three years late** (2022 when this was written; 2023 since Nov 2026). The sheet shows the year next to those figures.
   - Total GDP comes from table 36-10-0222 (market prices, to 2024).
 - **Tradeoff:** U.S. and Canadian GDP figures are from different years, labelled on the sheet.
 - **Business-level output:** a business fact sheet (e.g. Seafood) shows its **whole sector's** GDP, labelled "(whole sector)". BEA doesn't publish GDP that finely, and we chose not to estimate it.
@@ -320,6 +320,17 @@ Related docs:
   - **Plain terms:** "tariff" everywhere instead of mixing in "duty"; "total trade" instead of "two-way trade"; "industries that make traded goods". A new glossary page, "What the terms mean" (`/glossary`), defines every term.
   - **One name for the scenario:** "If USMCA ends (estimate)" everywhere, with a one-line explanation of both views under the dashboard toggle.
 - **Tradeoff:** a few labels are longer. All 360 fact sheets were re-checked and still print as exactly 2 pages.
+
+### D30. The `/data` page matches the dashboard (Nov 2026)
+- **Context:** Yifan added a Data & verification page (PR #6) built on Statistics Canada table 12-10-0175, in C$ and by NAPCS product group. Its numbers looked different from the dashboard's B.C. and Alberta figures.
+- **Finding:** they weren't really different. Both come from Statistics Canada's customs records, and over the same 12 months, converted at the same rates, the totals agree within 0.04%.
+- **What we did:**
+  - The page shows **US$** at the dashboard's monthly Bank of Canada rates, now saved in `real.json` (`meta.fx`). Original C$ values stay in the table and downloads.
+  - It stops at the dashboard's latest month, and shows the matching dashboard figure next to its all-goods 12-month total.
+  - `build.py` has a new check: B.C. and Alberta last-12-month exports to the U.S. must match the `/data` snapshot within 0.5%, or the dashboard data isn't published. Tests check the same thing and the US$ downloads.
+  - Dates use the site's "Sep 2026" style.
+- **Kept on purpose:** Statistics Canada's product groups. Mapping them onto our sectors isn't possible exactly, and the official groups are a useful second view. The page explains that only the all-goods total has a dashboard equivalent.
+- **Tradeoff:** a month Statistics Canada publishes before Census appears on `/data` only when the dashboard catches up.
 
 ## 6. How we check our work
 - **`python pipeline/build.py`:** the data checks in D14, plus range checks on jobs, GDP shares, duty rates and the scenario. It also has sanity anchors:
