@@ -1,4 +1,5 @@
 import { Link, useSearchParams } from 'react-router-dom'
+import { AcrossBorder } from '../components/AcrossBorder'
 import { BusinessesTable } from '../components/BusinessesTable'
 import { ChartCard } from '../components/ChartCard'
 import { EraChart } from '../components/EraChart'
@@ -220,6 +221,7 @@ export function Dashboard() {
                   <p className="scenario-note">Estimate: if USMCA ends, trade that crosses tariff-free today would pay standard U.S. tariffs.</p>
                 )}
                 <LensTiles j={selected} scope={scope} mode={mode} />
+                <AcrossBorder j={selected.id} variant="panel" />
                 <div className="panel-chart">
                   <EraChart rolling={trade(selected.id, scope).rolling} partner={partnerName(selected)} height={84} compact />
                   <p className="micro">

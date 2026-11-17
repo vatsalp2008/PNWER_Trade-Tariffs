@@ -40,6 +40,22 @@ The pipeline stores the official values in Canadian dollars, unchanged. The page
 - **Cross-check:** every dashboard rebuild (`pipeline/build.py`) compares B.C.'s and Alberta's last-12-month exports to the U.S. with this snapshot and refuses to publish if they differ by more than 0.5%. In Nov 2026 they differed by 0.01% (B.C.) and 0.04% (Alberta). Both come from Statistics Canada's customs records.
 - **Product groups** are Statistics Canada's NAPCS groups, not the dashboard's HS-based sectors, so only the all-goods total has an exact dashboard equivalent. The page says so under the product filter.
 
+## Washington & Idaho on the same page
+
+`/data?province=WA` and `?province=ID` show a separate dataset built by `pipeline/regional_indicators.py` (run daily by `refresh.yml`, after `build.py`). It follows the same publication pattern: `prototype/public/data/regional/latest.json` points to a checksummed `versions/<id>/dataset.json`, written only when every check passes, and the page refuses a version whose checks or checksum don't match.
+
+| Section | Source | Detail |
+|---|---|---|
+| Trade by industry | U.S. Census Bureau international trade API, `exports/statenaics` and `imports/statenaics` (Census key) | WA/ID with Canada and the world, NAICS 3-digit, 36 months to the dashboard's month, US$ |
+| Crossings into the state | BTS Border Crossing Entry Data (`data.bts.gov/resource/keg4-3bc2.json`, no key) | Personal vehicles, trucks and more, monthly, all 15 WA/ID ports |
+| Canadians driving home | Statistics Canada 24-10-0053 (no key) | Canadian residents returning from the U.S. by car, by B.C. port facing WA/ID |
+| WA/ID-plated vehicles into B.C. | Statistics Canada 24-10-0057 (no key) | Daily leading indicator, summed by month |
+| Energy links | EIA API v2 (`EIA_API_KEY`): natural gas imports by point of entry, crude imports by refinery state, gas prices; Canada Energy Regulator open data (no key) | Gas at Sumas/Eastport (volume, price, share of all Canadian pipeline gas), Canada's share of WA refineries' foreign crude, WA/ID citygate and residential gas prices, electricity trade with Canada |
+| Border communities | BLS QCEW county files (no key) | Private jobs and wages in retail, accommodation and food services in Whatcom, Okanogan, Spokane, Boundary, Bonner and Kootenai counties, quarterly |
+| Canadian investment | BEA, U.S. affiliates 2024 tables II.C9, II.G8, II.G13 (no key) | Property, plant and equipment, jobs and manufacturing jobs of Canadian-owned companies |
+
+Its 16 checks (all must pass): industries add up to the official Census total to the dollar every month; last-12-month totals with Canada match the dashboard; latest month present at Blaine, Sumas and Eastport, and at Douglas, Pacific Highway and Kingsgate; no negative counts; passengers ≥ vehicles; the 15 B.C. ports never exceed the B.C. total; complete months of daily data; EIA and Canada Energy Regulator gas volumes agree within 5%; Canadian crude ≤ all imported crude; county industry jobs ≤ the county total; Canadian-owned ≤ all foreign-owned. The same run writes `prototype/src/data/regional-headlines.json`, the "Across the border" headlines for the dashboard (three per state) and fact sheets (the first two). Tests: `pipeline/tests/test_regional_indicators.py` and `prototype/tests/regional.test.ts` (`npm run test:data` runs both page test files).
+
 ## Two validation passes
 
 Before generating tables:

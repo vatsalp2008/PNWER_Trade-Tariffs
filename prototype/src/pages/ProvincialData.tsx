@@ -5,9 +5,11 @@ import { ChartCard } from '../components/ChartCard'
 import { SiteHeader } from '../components/SiteHeader'
 import { data as site, fxMonthly, trade } from '../data'
 import { cadToUsdM, loadProvincial, monthlySelection, selectionCsv, type ProvincialBundle } from '../data/provincial'
+import { isStatePlace } from '../data/regional'
 import type { JurisdictionId } from '../data/types'
 import { money, monthLabel, NOT_AVAILABLE, usd } from '../lib/format'
 import { BRAND_700, MUTED, STONE } from '../lib/palette'
+import { PlaceSelect, StateData } from './StateData'
 
 /** '2026-09' → 'Sep 2026', matching the rest of the site. */
 const month = (ym: string) => monthLabel(`${ym}-01`)
@@ -17,7 +19,24 @@ const pct = (v: number | null, signed = false) => v === null ? 'Not available' :
   style: 'percent', maximumFractionDigits: 1, signDisplay: signed ? 'exceptZero' : 'auto',
 }).format(v)
 
+/** Data & verification page: Washington and Idaho (StateData) or B.C. and Alberta (Yifan's view below). */
 export function ProvincialData() {
+  const [params] = useSearchParams()
+  const place = params.get('province') ?? 'WA'
+  return <div className="app provincial-data">
+    <SiteHeader />
+    <main className="dash">
+      <h1>Washington, Idaho, B.C. & Alberta: data and verification</h1>
+      {isStatePlace(place) ? <StateData state={place} /> : <ProvinceData />}
+    </main>
+    <footer className="site-foot"><p>Canadian figures adapted from Statistics Canada; this does not constitute an endorsement by
+      Statistics Canada of this product. U.S. figures: Census Bureau, Bureau of Transportation Statistics, EIA, BLS and BEA (public domain). Canada Energy Regulator data:
+      Open Government Licence – Canada.</p>
+      <p><Link to="/">Return to the PNWER dashboard</Link></p></footer>
+  </div>
+}
+
+function ProvinceData() {
   const [bundle, setBundle] = useState<ProvincialBundle | null>(null)
   const [error, setError] = useState('')
   const [attempt, setAttempt] = useState(0)
@@ -28,10 +47,7 @@ export function ProvincialData() {
     })
     return () => controller.abort()
   }, [attempt])
-  return <div className="app provincial-data">
-    <SiteHeader />
-    <main className="dash">
-      <h1>BC & Alberta: data and verification</h1>
+  return <>
       <p className="intro">Monthly domestic exports to the U.S. and the world. Explore product groups, inspect the checks,
         and download the records behind each chart. Amounts are in <strong>U.S. dollars (US$)</strong>, converted at the same
         Bank of Canada monthly rates as the dashboard and fact sheets, so the all-goods totals match them. The original
@@ -41,10 +57,7 @@ export function ProvincialData() {
         <button className="btn-primary" onClick={() => { setError(''); setAttempt(attempt + 1) }}>Retry</button>
         <p>No sample figures are substituted.</p></section>}
       {bundle && <Explorer bundle={bundle} />}
-    </main>
-    <footer className="site-foot"><p>Adapted from Statistics Canada. This does not constitute an endorsement by Statistics Canada of this product.</p>
-      <p><Link to="/">Return to the PNWER dashboard</Link></p></footer>
-  </div>
+  </>
 }
 
 function Explorer({ bundle }: { bundle: ProvincialBundle }) {
@@ -103,8 +116,7 @@ function Explorer({ bundle }: { bundle: ProvincialBundle }) {
       {' · '}<strong>{manifest.quality.checks.length} automated checks passed</strong>; independent-source review is not complete.</p>
     {stale && <p className="scenario-note" role="status">This series is more than 100 days behind today. Check the source release and refresh workflow before citing it as current.</p>}
     <div className="controls">
-      <label><span>Province</span><select value={province} onChange={(e) => update({ province: e.target.value })}>
-        {Object.entries(data.provinces).map(([id, name]) => <option key={id} value={id}>{name}</option>)}</select></label>
+      <PlaceSelect value={province} onChange={(p) => update({ province: p })} />
       <label className="prov-product"><span>Product group (NAPCS)</span><select value={product} onChange={(e) => update({ product: e.target.value })}>
         {Object.entries(data.products).map(([id, name]) => <option key={id} value={id}>{name}</option>)}</select></label>
       <label><span>Trend range</span><select value={count} onChange={(e) => update({ months: e.target.value })}>

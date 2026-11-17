@@ -36,6 +36,9 @@ jobs:
 
       - run: pip install -r pipeline/requirements.txt
 
+      - name: Pipeline tests
+        run: python -m unittest discover -s pipeline/tests
+
       - name: News feed
         run: python pipeline/fetch_news.py
 
@@ -50,6 +53,12 @@ jobs:
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
 
+      - name: Washington & Idaho trade by industry, border, energy and investment data
+        run: python pipeline/regional_indicators.py
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+
       - uses: actions/setup-node@v5
         with:
           node-version: "22"
@@ -58,11 +67,12 @@ jobs:
 
       - name: Make sure the site still builds
         working-directory: prototype
-        run: npm ci && npm run build
+        run: npm ci && npm run test:data && npm run build
 
       - name: Commit changes
         run: |
           git add prototype/src/data/news.json prototype/src/data/real.json pipeline/fr-seen.json 2>/dev/null || true
+          git add -A prototype/public/data/regional/ prototype/src/data/regional-headlines.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0

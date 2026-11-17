@@ -9,7 +9,9 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "mock": "tsx scripts/generate-mock-data.ts",
-    "test:provincial": "node --import tsx --test tests/provincial.test.ts"
+    "test:provincial": "node --import tsx --test tests/provincial.test.ts",
+    "test:regional": "node --import tsx --test tests/regional.test.ts",
+    "test:data": "node --import tsx --test tests/provincial.test.ts tests/regional.test.ts"
   },
   "dependencies": {
     "d3-geo": "^3.1.1",

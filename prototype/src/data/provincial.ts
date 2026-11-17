@@ -61,7 +61,7 @@ export interface ProvincialManifest {
 
 export interface ProvincialBundle { manifest: ProvincialManifest; dataset: ProvincialDataset; base: string }
 
-async function checkedResponse(url: string, signal?: AbortSignal) {
+export async function checkedResponse(url: string, signal?: AbortSignal) {
   const response = await fetch(url, { signal, cache: 'no-cache' })
   if (!response.ok) throw new Error(`Data request failed (${response.status}). Please retry later.`)
   return response

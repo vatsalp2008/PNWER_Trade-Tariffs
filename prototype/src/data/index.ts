@@ -49,6 +49,26 @@ const newsData = newsFiles['./news.json'] ? (JSON.parse(newsFiles['./news.json']
 export const news: NewsItem[] = newsData?.items ?? []
 export const newsUpdated = newsData?.updated ?? null
 
+// "Across the border" headlines for WA and ID (pipeline/regional_indicators.py); optional like real.json.
+const headlineFiles = import.meta.glob<string>('./regional-headlines.json', { query: '?raw', import: 'default', eager: true })
+export interface BorderHeadline {
+  /** "change": vs the same month two years earlier. "share": a part of a whole. */
+  kind: 'change' | 'share'
+  change?: number | null
+  share?: number
+  value: number
+  month: string
+  baseMonth?: string
+  /** For shares: "month", or "12 months" ending at `month`. */
+  period?: string
+  text: string
+  source: string
+}
+const headlineData = headlineFiles['./regional-headlines.json']
+  ? (JSON.parse(headlineFiles['./regional-headlines.json']) as { states: Record<string, BorderHeadline[]> })
+  : null
+export const borderHeadlines = (j: JurisdictionId): BorderHeadline[] => headlineData?.states[j] ?? []
+
 /** Last time the site's content changed (daily news refresh or data rebuild), YYYY-MM-DD. */
 export const lastUpdated: string | null = [newsUpdated, real?.meta.generatedAt].filter((d): d is string => !!d).sort().slice(-1)[0] ?? null
 /** "Updated Nov 4, 2026 · trade data through Aug 2026", shown on every page. */

@@ -33,7 +33,7 @@ It's the **tool** half of the project. The written assessment for PNWER is a sep
 | **Dashboard** | `/` | Explore. Pick a sector, business and place; see the map, four headline numbers, the businesses table, the tariff timeline and the latest news. |
 | **Fact sheet** | `/factsheet/<jurisdiction>/<scope>` | Share. A 2-page US Letter document for one place and one sector or business, with a PDF download and image downloads. |
 | **Trade & tariff updates** | `/news` | Keep current. Recent official announcements, PNWER statements and articles picked by the team. |
-| **Data & verification** | `/data` | Check. B.C. and Alberta monthly exports by Statistics Canada product group, with the checks behind them and CSV downloads (see section 4.1). |
+| **Data & verification** | `/data` | Check. Washington and Idaho trade by industry and border crossings; B.C. and Alberta exports by product group; the checks behind them and CSV downloads (see section 4.1). |
 | **What the terms mean** | `/glossary` | Plain-language definitions of every term on the site. |
 
 ### The 10 jurisdictions
@@ -271,7 +271,7 @@ Every number on the sheet names its source, and its year where sources differ.
 | **Affordability · today's tariffs** | Food, fuel & farm inputs imported from the partner; estimated U.S. tariffs paid; tariffs per household or average tariff rate; prices (see below) | Census; BLS; Statistics Canada |
 | **Tariff actions since January 2025** | Numbered table: date, action (linked to its official source), who, rate, whether USMCA goods are exempt, status. It shows the 10 most relevant actions, and the subtitle says how many touched the scope and how many are still in effect. | Curated timeline |
 | **If USMCA ends (estimate)** | Share crossing tariff-free today; average U.S. tariff if USMCA ends; extra U.S. tariffs per year (and % of the trade); an upper-bound Section 301 line; a **risk level** with its key (see below) | Census duty data |
-| **What businesses are saying** | A quote box. **Currently a placeholder**, to be replaced with stakeholder input from PNWER. | |
+| **What businesses are saying** | A quote box. **Currently a placeholder**, to be replaced with stakeholder input from PNWER. On **Washington and Idaho** sheets it's replaced by **Across the border**: Canadians driving home through the nearby B.C. crossings (vs. the same month in 2024), and an energy link: Canada's share of the foreign crude run by Washington refineries, or Eastport's share of all Canadian gas piped into the U.S. | Statistics Canada 24-10-0053; EIA |
 | **About these numbers** | Three short method notes for that jurisdiction, plus where to find the glossary | |
 
 **Employment details:**
@@ -349,7 +349,18 @@ Every number on the sheet names its source, and its year where sources differ.
 - **Updates vs. timeline:** the updates page is **automatic and not verified**. The **tariff timeline** on the dashboard and fact sheets is **curated and linked to official sources**, and it's what the site's tariff tags use.
 
 ### 4.1 Data & verification page (`/data`)
-Added by Yifan in Nov 2026. Full details: [PROVINCIAL_DATA.md](PROVINCIAL_DATA.md).
+Added by Yifan in Nov 2026 for B.C. and Alberta; Washington and Idaho added later in Nov 2026 (decision D31). Full details: [PROVINCIAL_DATA.md](PROVINCIAL_DATA.md). Pick the place from the **Jurisdiction** menu.
+
+**Washington and Idaho:**
+- **Trade by industry:** exports to or imports from Canada by Census NAICS industry group, 12/24/36 months: 12-month total (matches the dashboard exactly for all industries), latest month, change from a year earlier, Canada's share; a trend chart, the largest industries, a table and CSV download.
+- **At the border:** crossings into the state at each port (personal vehicles and trucks vs. 2024), Canadians driving home through the B.C. crossings facing the state, and travellers in WA- or ID-plated vehicles entering B.C.
+- **Energy links:** Canadian natural gas entering at Sumas or Eastport (volume, price, share of all Canadian pipeline gas), Canada's share of the foreign crude run by Washington refineries, electricity trade with Canada, and gas prices for utilities and homes.
+- **Border communities:** jobs and wages in retail, accommodation and food services in the six border counties, vs. one and two years earlier.
+- **Canadian investment:** property, plant and equipment, jobs and manufacturing jobs of Canadian-owned companies.
+- **Sources:** U.S. Census Bureau, Bureau of Transportation Statistics, Statistics Canada tables 24-10-0053 and 24-10-0057, EIA, Canada Energy Regulator, BLS, BEA; refreshed daily by `refresh.yml` with 16 automatic checks.
+- **On the dashboard:** select Washington or Idaho and the side panel shows three "Across the border" numbers.
+
+**B.C. and Alberta:**
 - **What it shows:** British Columbia's and Alberta's monthly exports to the U.S. and the world over 36 months, for all goods and 12 Statistics Canada product groups (energy, forestry, vehicles…). Pick a province, product group and time range.
 - **Numbers:** 12-month total, latest month, change from a year earlier and U.S. share; a trend chart; a ranking of product groups; a table of every month; CSV downloads.
 - **Same as the dashboard:** amounts are in **US$** at the dashboard's exchange rates, and the page stops at the dashboard's latest month. For all goods, the 12-month total shows the matching dashboard figure next to it; they agree within 0.1%.

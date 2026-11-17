@@ -69,7 +69,7 @@ Open the link it prints, usually **http://localhost:5173**. The page reloads aut
   - http://localhost:5173/factsheet/ID/all: all goods in Idaho
 - **Download PDF:** the button opens the print dialog; choose **Save as PDF**.
 - **PNG:** every chart has a PNG button that saves the chart as an image for slides. The image is watermarked.
-- **Data & verification** (`/data`): BC/Alberta monthly domestic exports in **US$** (converted at the dashboard's Bank of Canada rates; original C$ in the table and downloads), with product/time filters, CSV tables and the two-pass quality report. Its all-goods totals match the dashboard and fact sheets; its NAPCS product groups are different from the dashboard's sectors. See [the pipeline and architecture guide](docs/PROVINCIAL_DATA.md).
+- **Data & verification** (`/data`): Washington/Idaho trade with Canada by industry, border crossings at every port, Canadians driving home through the B.C. crossings, energy links (gas, crude, electricity), border-county jobs and Canadian-owned companies (with "Across the border" headlines on the dashboard and fact sheets). BC/Alberta monthly domestic exports in **US$** (converted at the dashboard's Bank of Canada rates; original C$ in the table and downloads), with product/time filters, CSV tables and the two-pass quality report. Its all-goods totals match the dashboard and fact sheets; its NAPCS product groups are different from the dashboard's sectors. See [the pipeline and architecture guide](docs/PROVINCIAL_DATA.md).
 
 ## Everyday commands
 
@@ -109,6 +109,7 @@ The prototype runs without any keys. When we start pulling real data from the U.
    CENSUS_API_KEY=your-key-here
    ```
 3. `.env.local` is already git-ignored. **Never commit a key.** Don't add the `VITE_` prefix either: that would bundle the key into the public website.
+4. For the Washington & Idaho energy data (`pipeline/regional_indicators.py`), also add a free EIA key from https://www.eia.gov/opendata/register.php as `EIA_API_KEY=...` in the same file. The daily GitHub job reads both keys from repository secrets of the same names.
 
 ## Where things are
 

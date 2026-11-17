@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { AcrossBorder } from '../components/AcrossBorder'
 import { ChartCard } from '../components/ChartCard'
 import { EraChart, type Marker } from '../components/EraChart'
 import { MiniLine } from '../components/MiniLine'
@@ -11,6 +12,7 @@ import { TopProductsTable } from '../components/TopProductsTable'
 import { SITE_TITLE } from '../config'
 import {
   affordability,
+  borderHeadlines,
   data,
   economy,
   factSheetEvents,
@@ -380,11 +382,16 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
       </ChartCard>
 
       <div className="two-col">
-        <section className="card quote-card">
-          <h3>What businesses are saying</h3>
-          <blockquote>“{quote.text}”</blockquote>
-          <p className="micro">{quote.attribution}</p>
-        </section>
+        {/* WA and ID show real border and energy indicators in place of the placeholder quote. */}
+        {borderHeadlines(j.id).length ? (
+          <AcrossBorder j={j.id} variant="sheet" />
+        ) : (
+          <section className="card quote-card">
+            <h3>What businesses are saying</h3>
+            <blockquote>“{quote.text}”</blockquote>
+            <p className="micro">{quote.attribution}</p>
+          </section>
+        )}
         <section className="card notes-card">
           <h3>About these numbers</h3>
           <ul className="micro">

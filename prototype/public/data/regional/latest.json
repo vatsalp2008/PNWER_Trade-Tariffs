@@ -1,0 +1,93 @@
+{
+ "schemaVersion": 1,
+ "version": "b478a0ef80c169c76502",
+ "generatedAt": "2026-11-17T06:04:10Z",
+ "files": {
+  "dataset.json": "b478a0ef80c169c765029d6125a0c56c41bdf193833c3511816777650f4dfd4e"
+ },
+ "quality": {
+  "passed": true,
+  "checks": [
+   {
+    "name": "Every month has an official Census total",
+    "passed": true,
+    "detail": "8 state/flow/partner series \u00d7 36 months"
+   },
+   {
+    "name": "Industries add up to the Census total, every month",
+    "passed": true,
+    "detail": "Sum of NAICS 3-digit industries equals the state total to the dollar"
+   },
+   {
+    "name": "Last-12-month totals with Canada match the dashboard",
+    "passed": true,
+    "detail": "Within 0.6% (dashboard figures are rounded to 3 significant figures)"
+   },
+   {
+    "name": "Latest month present at Blaine, Sumas and Eastport",
+    "passed": true,
+    "detail": "Latest month 2026-09"
+   },
+   {
+    "name": "No negative crossing counts",
+    "passed": true,
+    "detail": "107 port \u00d7 measure series"
+   },
+   {
+    "name": "Passengers are never fewer than vehicles",
+    "passed": true,
+    "detail": "Personal-vehicle passengers \u2265 personal vehicles at every port and month"
+   },
+   {
+    "name": "Latest month present at Douglas, Pacific Highway and Kingsgate",
+    "passed": true,
+    "detail": "Latest month 2026-08"
+   },
+   {
+    "name": "Ports facing WA and ID never exceed the B.C. total",
+    "passed": true,
+    "detail": "Sum of the 15 ports \u2264 all B.C. ports, every month"
+   },
+   {
+    "name": "Every complete month has daily counts for every day",
+    "passed": true,
+    "detail": "Daily data through 2026-10-31"
+   },
+   {
+    "name": "Latest gas imports present at Sumas and Eastport",
+    "passed": true,
+    "detail": "Latest month 2026-08"
+   },
+   {
+    "name": "EIA and Canada Energy Regulator gas volumes agree",
+    "passed": true,
+    "detail": "Sumas vs Huntingdon and Eastport vs Kingsgate within 5% over 12 months"
+   },
+   {
+    "name": "Canadian crude never exceeds all imported crude",
+    "passed": true,
+    "detail": "Washington refineries, through 2026-08"
+   },
+   {
+    "name": "No negative electricity trade",
+    "passed": true,
+    "detail": "Through 2026-08"
+   },
+   {
+    "name": "Latest quarter present for all six border counties",
+    "passed": true,
+    "detail": "Latest quarter 2026-Q1"
+   },
+   {
+    "name": "Industry jobs never exceed all private jobs",
+    "passed": true,
+    "detail": "Retail, accommodation and food services \u2264 the county's private total"
+   },
+   {
+    "name": "Canadian-owned figures never exceed all foreign-owned figures",
+    "passed": true,
+    "detail": "BEA 2024, Washington and Idaho"
+   }
+  ]
+ }
+}

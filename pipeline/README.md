@@ -4,6 +4,7 @@ Python scripts that pull **real public data** and write JSON files the website r
 
 | Script | What it writes | Sources |
 |---|---|---|
+| `regional_indicators.py` | Versioned dataset under `prototype/public/data/regional/` (Washington & Idaho trade by NAICS industry, border crossings, Canadian travellers, energy, border-county jobs, Canadian-owned companies) and `prototype/src/data/regional-headlines.json`, used by `/data`, the dashboard and fact sheets; publishes only when its 16 checks pass | Census `statenaics` (key); BTS Border Crossing Entry Data; Statistics Canada 24-10-0053 and 24-10-0057; EIA API (key); Canada Energy Regulator; BLS QCEW counties; BEA U.S. affiliates |
 | `provincial_trade.py` | Versioned CSV/JSON, computed insights and two-pass checks under `prototype/public/data/provincial/`, used by `/data` | Statistics Canada 12-10-0175-01 WDS; BC/AB domestic exports; CAD/NAPCS; no API key |
 | `build.py` | `prototype/src/data/real.json`: trade, jobs, GDP, affordability (duties) and the "If USMCA ends" scenario for all 10 jurisdictions × 36 sectors/businesses | Census trade API (key needed); Statistics Canada CIMT and tables; Bank of Canada; BLS (QCEW, LAUS, import prices); BEA (state GDP, population, foreign-owned employment); Census ACS |
 | `fetch_news.py` | `prototype/src/data/news.json`: the "Trade & tariff updates" feed | Federal Register, USTR, Government of Canada news (Finance, Global Affairs), CBP, PNWER blog, plus the two hand-kept files below |
@@ -13,6 +14,7 @@ Python scripts that pull **real public data** and write JSON files the website r
 
 ```bash
 python pipeline/provincial_trade.py          # BC/AB overview, standard library only, no key
+python pipeline/regional_indicators.py       # WA/ID trade, border, energy, county jobs, ownership (~4 minutes; Census + EIA keys)
 pip install -r pipeline/requirements.txt
 python pipeline/fetch_news.py                # ~30 seconds
 python pipeline/watch_federal_register.py    # prints new tariff actions (no issues opened locally)

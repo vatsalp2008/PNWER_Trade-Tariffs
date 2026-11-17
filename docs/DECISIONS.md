@@ -332,6 +332,23 @@ Related docs:
 - **Kept on purpose:** Statistics Canada's product groups. Mapping them onto our sectors isn't possible exactly, and the official groups are a useful second view. The page explains that only the all-goods total has a dashboard equivalent.
 - **Tradeoff:** a month Statistics Canada publishes before Census appears on `/data` only when the dashboard catches up.
 
+### D31. More data for Washington and Idaho (Nov 2026)
+- **Why:** Yifan's `/data` page gave B.C. and Alberta detailed monthly data; Washington and Idaho had nothing comparable, and the dashboard's set of sources was thin. Three researchers checked 48 free sources live; this adds the strongest ones that need no new key.
+- **Added (`pipeline/regional_indicators.py`, published to `prototype/public/data/regional/`):**
+  - **Trade by industry:** Census state exports and imports by NAICS 3-digit industry (`statenaics`), with Canada and the world, 36 months. The U.S. counterpart of Yifan's Statistics Canada product groups, and it includes imports, which matter most for Washington (oil and gas).
+  - **U.S. border crossings:** BTS Border Crossing Entry Data, monthly personal vehicles, trucks, passengers and more at all 15 Washington and Idaho ports.
+  - **Canadians driving home:** Statistics Canada 24-10-0053, Canadian residents returning from the U.S. by car through each of the 15 B.C. crossings facing Washington and Idaho.
+  - **WA/ID-plated vehicles into B.C.:** Statistics Canada 24-10-0057, daily leading indicator summed by month.
+  - **Energy:** EIA natural gas imports from Canada at Sumas and Eastport (and every other entry point, for shares), crude imports run by Washington refineries, WA/ID gas prices; Canada Energy Regulator electricity trade and gas exports by port. Needs a free `EIA_API_KEY` (in `prototype/.env.local` and the GitHub secret of the same name).
+  - **Border communities:** BLS QCEW county files for Whatcom, Okanogan, Spokane, Boundary, Bonner and Kootenai counties: private jobs and wages in retail, accommodation and food services, quarterly.
+  - **Canadian investment:** BEA 2024 tables II.C9, II.G8 and II.G13: property, plant and equipment, jobs and manufacturing jobs of Canadian-owned companies, vs. all foreign-owned.
+- **Checks before publishing (16):** industries add up to the official Census total to the dollar, every month; last-12-month totals match the dashboard; latest months present at the big ports; no negative counts; passengers ≥ vehicles; the 15 B.C. ports never exceed the B.C. total; complete months of daily data; EIA and Canada Energy Regulator gas volumes agree within 5% at Sumas/Huntingdon and Eastport/Kingsgate; Canadian crude never exceeds all imported crude; county industry jobs never exceed the county total; Canadian-owned figures never exceed all foreign-owned figures. A source that's down keeps yesterday's files; a failed check stops the run.
+- **Where it shows:**
+  - `/data` now covers Washington, Idaho, B.C. and Alberta; for WA/ID it shows trade by industry plus an "At the border" section.
+  - "Across the border" headlines: three per state on the dashboard panel, the first two on the fact sheets, where they replace the placeholder "What businesses are saying" card (other places keep it until PNWER sends quotes). WA: Canadians driving home through the B.C. crossings facing Washington (−28% vs 2024); 95% of the foreign crude run by Washington refineries is Canadian; trucks entering. ID: Canadians driving home through Kingsgate and Rykerts (−37%); 28% of all Canadian gas piped into the U.S. enters at Eastport; trucks entering.
+- **Not yet added (researched, kept for later):** USDA farm exports and NASS production, NOAA seafood trade, USDA AMS cattle imports, WA retail sales by city, exporter counts, ITA export jobs, BTS freight by mode (bts.gov blocks scripts), Census port-level trade.
+- **Tradeoff:** Census industry groups (NAICS) differ from the dashboard's sectors, so only the all-industry total has an exact dashboard equivalent; the page says so.
+
 ## 6. How we check our work
 - **`python pipeline/build.py`:** the data checks in D14, plus range checks on jobs, GDP shares, duty rates and the scenario. It also has sanity anchors:
   - WA aerospace jobs between 50k and 150k;

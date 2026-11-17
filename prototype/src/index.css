@@ -27,6 +27,7 @@
 .prov-product { flex: 1; min-width: 0; }
 .prov-product select { width: 100%; min-width: 0; }
 .prov-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
+.ownership-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 4px; }
 .prov-stats .stat { padding: 14px; }
 .prov-stats .stat-value { font-size: 28px; }
 .prov-insight { padding: 14px 18px; margin: 0 0 18px; }
@@ -1010,6 +1011,68 @@ input[type='search'] {
 
 .mode-note strong {
   color: var(--ink);
+}
+
+/* ---------- across the border (WA/ID headlines) ---------- */
+.across {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.across-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12.5px;
+}
+
+.across-list li {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--line);
+  line-height: 1.35;
+}
+
+.across-list li:last-child {
+  border-bottom: 0;
+}
+
+.across-list strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.across-list strong.share {
+  color: var(--brand-700);
+}
+
+.sheet-page .across-list {
+  font-size: 10px;
+}
+
+.sheet-page .across-list li {
+  grid-template-columns: 32px 1fr;
+  padding: 2px 0;
+  line-height: 1.28;
+}
+
+.sheet-page .across-card .micro {
+  margin-top: 2px;
+}
+
+.section-title {
+  margin: 28px 0 12px;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--brand-900);
+}
+
+.prov-table .total-row td {
+  font-weight: 600;
+  border-top: 1px solid var(--line);
 }
 
 /* ---------- glossary ---------- */

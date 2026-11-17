@@ -1,0 +1,63 @@
+{
+ "version": "b478a0ef80c169c76502",
+ "states": {
+  "WA": [
+   {
+    "kind": "change",
+    "change": -0.2776,
+    "value": 506690.0,
+    "month": "2026-08",
+    "baseMonth": "2024-08",
+    "text": "Canadians driving home through the 13 B.C. crossings facing Washington",
+    "source": "Statistics Canada, table 24-10-0053"
+   },
+   {
+    "kind": "share",
+    "share": 0.953,
+    "value": 8203.0,
+    "month": "2026-08",
+    "period": "month",
+    "text": "of Washington refineries' foreign crude oil came from Canada",
+    "source": "U.S. Energy Information Administration, crude oil imports"
+   },
+   {
+    "kind": "change",
+    "change": -0.0752,
+    "value": 45475.0,
+    "month": "2026-09",
+    "baseMonth": "2024-09",
+    "text": "Trucks entering Washington from Canada",
+    "source": "U.S. Bureau of Transportation Statistics, Border Crossing Entry Data"
+   }
+  ],
+  "ID": [
+   {
+    "kind": "change",
+    "change": -0.3659,
+    "value": 27222.0,
+    "month": "2026-08",
+    "baseMonth": "2024-08",
+    "text": "Canadians driving home through Kingsgate and Rykerts",
+    "source": "Statistics Canada, table 24-10-0053"
+   },
+   {
+    "kind": "share",
+    "share": 0.2823,
+    "value": 853861.0,
+    "month": "2026-08",
+    "period": "12 months",
+    "text": "of Canadian natural gas piped into the U.S. came in at Eastport",
+    "source": "U.S. Energy Information Administration, natural gas imports by point of entry"
+   },
+   {
+    "kind": "change",
+    "change": -0.1424,
+    "value": 4190.0,
+    "month": "2026-09",
+    "baseMonth": "2024-09",
+    "text": "Trucks entering Idaho from Canada",
+    "source": "U.S. Bureau of Transportation Statistics, Border Crossing Entry Data"
+   }
+  ]
+ }
+}
