@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16",
+ "updated": "2026-11-17",
  "items": [
   {
    "id": "964bcb538290",
@@ -57,6 +57,22 @@
    "jurisdictions": [],
    "sectors": [
     "mfg"
+   ]
+  },
+  {
+   "id": "f3737abbc0dc",
+   "title": "CSMS # 70314289 - Further Modifying Section 338 Additional Duties on Certain Goods of Canada",
+   "url": "https://content.govdelivery.com/accounts/USDHSCBP/bulletins/430e931",
+   "date": "2026-10-29",
+   "source": "U.S. Customs and Border Protection",
+   "kind": "official",
+   "jurisdictions": [],
+   "sectors": [
+    "ag",
+    "mfg",
+    "forest",
+    "metals",
+    "chem"
    ]
   },
   {
