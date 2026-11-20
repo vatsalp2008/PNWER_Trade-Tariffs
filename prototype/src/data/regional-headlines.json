@@ -1,5 +1,5 @@
 {
- "version": "b478a0ef80c169c76502",
+ "version": "64d8522510eddc1940ff",
  "states": {
   "WA": [
    {
@@ -22,10 +22,10 @@
    },
    {
     "kind": "change",
-    "change": -0.0752,
-    "value": 45475.0,
-    "month": "2026-09",
-    "baseMonth": "2024-09",
+    "change": -0.1379,
+    "value": 46252.0,
+    "month": "2026-10",
+    "baseMonth": "2024-10",
     "text": "Trucks entering Washington from Canada",
     "source": "U.S. Bureau of Transportation Statistics, Border Crossing Entry Data"
    }
@@ -51,10 +51,10 @@
    },
    {
     "kind": "change",
-    "change": -0.1424,
-    "value": 4190.0,
-    "month": "2026-09",
-    "baseMonth": "2024-09",
+    "change": -0.147,
+    "value": 4189.0,
+    "month": "2026-10",
+    "baseMonth": "2024-10",
     "text": "Trucks entering Idaho from Canada",
     "source": "U.S. Bureau of Transportation Statistics, Border Crossing Entry Data"
    }

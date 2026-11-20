@@ -1,9 +1,9 @@
 {
  "schemaVersion": 1,
- "version": "b478a0ef80c169c76502",
- "generatedAt": "2026-11-17T06:04:10Z",
+ "version": "64d8522510eddc1940ff",
+ "generatedAt": "2026-11-20T21:53:34Z",
  "files": {
-  "dataset.json": "b478a0ef80c169c765029d6125a0c56c41bdf193833c3511816777650f4dfd4e"
+  "dataset.json": "64d8522510eddc1940ff8a15d751222790cbf945a92650b60e1721274492e838"
  },
  "quality": {
   "passed": true,
@@ -26,7 +26,7 @@
    {
     "name": "Latest month present at Blaine, Sumas and Eastport",
     "passed": true,
-    "detail": "Latest month 2026-09"
+    "detail": "Latest month 2026-10"
    },
    {
     "name": "No negative crossing counts",
