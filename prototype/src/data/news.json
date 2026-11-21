@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20",
+ "updated": "2026-11-21",
  "items": [
   {
    "id": "3f726a379c31",
@@ -187,42 +187,6 @@
    "date": "2026-08-19",
    "source": "PNWER",
    "kind": "pnwer",
-   "jurisdictions": [],
-   "sectors": [
-    "ag"
-   ]
-  },
-  {
-   "id": "f1d93abe88b1",
-   "title": "Imposing Additional Duties To Offset Canadian Discrimination Against the Commerce of the United States With Respect to Motor Vehicles",
-   "url": "https://www.federalregister.gov/documents/2026/07/23/2026-14997/imposing-additional-duties-to-offset-canadian-discrimination-against-the-commerce-of-the-united",
-   "date": "2026-07-23",
-   "source": "Federal Register",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
-    "mfg"
-   ]
-  },
-  {
-   "id": "5039e3af6665",
-   "title": "Imposing Additional Duties To Offset Canadian Discrimination Against the Commerce of the United States With Respect to Dairy",
-   "url": "https://www.federalregister.gov/documents/2026/07/23/2026-14992/imposing-additional-duties-to-offset-canadian-discrimination-against-the-commerce-of-the-united",
-   "date": "2026-07-23",
-   "source": "Federal Register",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
-    "ag"
-   ]
-  },
-  {
-   "id": "77955a03118e",
-   "title": "Imposing Additional Duties To Offset Canadian Discrimination Against the Commerce of the United States With Respect to Alcoholic Beverages",
-   "url": "https://www.federalregister.gov/documents/2026/07/23/2026-14991/imposing-additional-duties-to-offset-canadian-discrimination-against-the-commerce-of-the-united",
-   "date": "2026-07-23",
-   "source": "Federal Register",
-   "kind": "official",
    "jurisdictions": [],
    "sectors": [
     "ag"
