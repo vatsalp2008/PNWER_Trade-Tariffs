@@ -1,0 +1,2628 @@
+{
+ "asOf": "2026-11-21",
+ "window": [
+  "2025-10",
+  "2026-09"
+ ],
+ "measures": [
+  {
+   "id": "ca-counter-2026",
+   "name": "September 2026 list: dairy, lumber & plywood, paper, apparel, furniture, machinery and more",
+   "start": "2026-09-08",
+   "end": null,
+   "rates": [
+    0.15,
+    0.25,
+    0.5
+   ],
+   "items": 335,
+   "itemsWithProductRelief": 12,
+   "inForce": true,
+   "costed": true,
+   "notCostedWhy": null,
+   "order": "SOR/2026-186",
+   "sourceUrl": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2026-186/FullText.html",
+   "verified": false,
+   "note": "Finance Canada's C$27.6B covers the whole September 2026 package (this order plus the steel and aluminum increase); no per-order value was published. Fish and seafood were dropped from the draft before the order was made.",
+   "canadaImportsUsd": 13900.0
+  },
+  {
+   "id": "ca-counter-metals",
+   "name": "Steel and aluminum",
+   "start": "2025-03-13",
+   "end": null,
+   "rates": [
+    0.25,
+    0.5
+   ],
+   "items": 294,
+   "itemsWithProductRelief": 185,
+   "inForce": true,
+   "costed": true,
+   "notCostedWhy": null,
+   "order": "SOR/2025-95, as amended",
+   "sourceUrl": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2025-95/FullText.html",
+   "verified": false,
+   "note": "In force since March 13, 2025 at 25%; most items rose to 50% on Sept 8, 2026. Many specific steel and aluminum products have relief (remission) for all importers.",
+   "canadaImportsUsd": 8940.0
+  },
+  {
+   "id": "ca-counter-autos",
+   "name": "Passenger vehicles and light trucks",
+   "start": "2025-04-09",
+   "end": null,
+   "rates": [
+    0.25
+   ],
+   "items": 19,
+   "itemsWithProductRelief": 3,
+   "inForce": true,
+   "costed": false,
+   "notCostedWhy": "vehicles that qualify under CUSMA pay only on their non-Canadian, non-Mexican content, and automakers import set quotas surtax-free, so trade values can't show what's paid",
+   "order": "SOR/2025-118",
+   "sourceUrl": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2025-118/FullText.html",
+   "verified": false,
+   "note": "25% on vehicles that don't qualify under CUSMA; qualifying vehicles pay 25% on their non-Canadian, non-Mexican content. Trucks over 5 tonnes are exempt.",
+   "canadaImportsUsd": 22000.0
+  }
+ ],
+ "ended": [
+  {
+   "name": "First round (25% on C$30B of U.S. goods)",
+   "order": "SOR/2025-66",
+   "start": "2025-03-04",
+   "end": "2025-09-01",
+   "note": "Repealed in full on Sept 1, 2025."
+  },
+  {
+   "name": "Other consumer goods on the March 2025 steel and aluminum list (C$14.2B: computers, sports equipment, cast iron…)",
+   "order": "SOR/2025-181",
+   "start": "2025-03-13",
+   "end": "2025-09-01",
+   "note": "Removed on Sept 1, 2025."
+  }
+ ],
+ "notIncluded": [
+  "Canada's 25% surtax on steel-derivative goods from all countries (SOR/2025-267) applies to U.S. goods too, but it isn't a counter-tariff and doesn't stack with the U.S. surtax.",
+  "Steel quota surtaxes, the surtax on China-melted steel and aluminum, and the provisional safeguards on canned vegetables and wood cabinets don't apply to U.S. goods."
+ ],
+ "jurisdictions": {
+  "WA": {
+   "name": "Washington",
+   "scopes": {
+    "all": {
+     "duties": 224.0,
+     "covered": 532.0,
+     "trade": 6790.0
+    },
+    "ag": {
+     "duties": 9.87,
+     "covered": 21.4,
+     "trade": 1390.0
+    },
+    "livestock": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 54.8
+    },
+    "grains": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 74.5
+    },
+    "produce": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 590.0
+    },
+    "seafood": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 251.0
+    },
+    "dairy": {
+     "duties": 2.58,
+     "covered": 6.79,
+     "trade": 29.4
+    },
+    "beverages": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 26.2
+    },
+    "agother": {
+     "duties": 7.29,
+     "covered": 14.6,
+     "trade": 359.0
+    },
+    "energy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 530.0
+    },
+    "crude": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 236.0
+    },
+    "natgas": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 5.56
+    },
+    "electricity": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 235.0
+    },
+    "energyother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 53.3
+    },
+    "mfg": {
+     "duties": 33.6,
+     "covered": 122.0,
+     "trade": 2800.0
+    },
+    "aerospace": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 1390.0
+    },
+    "machinery": {
+     "duties": 14.2,
+     "covered": 66.0,
+     "trade": 586.0
+    },
+    "autos": {
+     "duties": 1.64,
+     "covered": 6.53,
+     "trade": 180.0
+    },
+    "electronics": {
+     "duties": 13.5,
+     "covered": 32.4,
+     "trade": 546.0
+    },
+    "mfgother": {
+     "duties": 4.25,
+     "covered": 17.0,
+     "trade": 104.0
+    },
+    "forest": {
+     "duties": 91.4,
+     "covered": 202.0,
+     "trade": 759.0
+    },
+    "lumber": {
+     "duties": 8.58,
+     "covered": 34.3,
+     "trade": 40.4
+    },
+    "woodprod": {
+     "duties": 18.9,
+     "covered": 38.3,
+     "trade": 203.0
+    },
+    "paper": {
+     "duties": 64.0,
+     "covered": 130.0,
+     "trade": 516.0
+    },
+    "metals": {
+     "duties": 74.7,
+     "covered": 158.0,
+     "trade": 614.0
+    },
+    "steel": {
+     "duties": 54.5,
+     "covered": 113.0,
+     "trade": 121.0
+    },
+    "aluminum": {
+     "duties": 12.0,
+     "covered": 24.4,
+     "trade": 126.0
+    },
+    "critmin": {
+     "duties": 0.00316,
+     "covered": 0.00633,
+     "trade": 90.3
+    },
+    "metalsother": {
+     "duties": 8.2,
+     "covered": 20.7,
+     "trade": 276.0
+    },
+    "chem": {
+     "duties": 8.87,
+     "covered": 17.7,
+     "trade": 507.0
+    },
+    "fertilizer": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 8.61
+    },
+    "plastics": {
+     "duties": 7.47,
+     "covered": 14.9,
+     "trade": 245.0
+    },
+    "chemicals": {
+     "duties": 1.4,
+     "covered": 2.8,
+     "trade": 253.0
+    },
+    "other": {
+     "duties": 5.32,
+     "covered": 10.8,
+     "trade": 189.0
+    },
+    "consumer": {
+     "duties": 5.32,
+     "covered": 10.8,
+     "trade": 175.0
+    },
+    "special": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 13.6
+    }
+   },
+   "byMeasure": {
+    "ca-counter-2026": 162.0,
+    "ca-counter-metals": 61.7
+   },
+   "byPartner": {
+    "BC": 168.0,
+    "AB": 6.16,
+    "SK": 0.636,
+    "YT": 1.54e-05,
+    "NT": 0.0,
+    "other": 48.9
+   },
+   "top": [
+    {
+     "hs4": "4819",
+     "name": "Cartons & boxes",
+     "covered": 105.0,
+     "duties": 52.4,
+     "rate": 0.5
+    },
+    {
+     "hs4": "4412",
+     "name": "Plywood",
+     "covered": 25.6,
+     "duties": 12.8,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8517",
+     "name": "Phones & network gear",
+     "covered": 21.6,
+     "duties": 10.8,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7308",
+     "name": "Steel structures",
+     "covered": 19.4,
+     "duties": 9.72,
+     "rate": 0.5
+    },
+    {
+     "hs4": "4407",
+     "name": "Softwood lumber",
+     "covered": 34.3,
+     "duties": 8.58,
+     "rate": 0.25
+    },
+    {
+     "hs4": "1901",
+     "name": "Flour & malt food preparations",
+     "covered": 12.9,
+     "duties": 6.44,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7318",
+     "name": "Steel screws, bolts & nuts",
+     "covered": 12.8,
+     "duties": 6.39,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7606",
+     "name": "Aluminum plate & sheet",
+     "covered": 12.3,
+     "duties": 6.13,
+     "rate": 0.5
+    }
+   ]
+  },
+  "OR": {
+   "name": "Oregon",
+   "scopes": {
+    "all": {
+     "duties": 110.0,
+     "covered": 258.0,
+     "trade": 2350.0
+    },
+    "ag": {
+     "duties": 4.97,
+     "covered": 9.99,
+     "trade": 691.0
+    },
+    "livestock": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 31.3
+    },
+    "grains": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 75.0
+    },
+    "produce": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 359.0
+    },
+    "seafood": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 23.8
+    },
+    "dairy": {
+     "duties": 0.985,
+     "covered": 2.02,
+     "trade": 2.14
+    },
+    "beverages": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 22.3
+    },
+    "agother": {
+     "duties": 3.99,
+     "covered": 7.97,
+     "trade": 177.0
+    },
+    "energy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 116.0
+    },
+    "crude": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 113.0
+    },
+    "natgas": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.00486
+    },
+    "electricity": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.745
+    },
+    "energyother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 2.15
+    },
+    "mfg": {
+     "duties": 9.14,
+     "covered": 39.7,
+     "trade": 624.0
+    },
+    "aerospace": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 36.3
+    },
+    "machinery": {
+     "duties": 5.34,
+     "covered": 29.0,
+     "trade": 199.0
+    },
+    "autos": {
+     "duties": 1.19,
+     "covered": 4.73,
+     "trade": 134.0
+    },
+    "electronics": {
+     "duties": 2.58,
+     "covered": 5.87,
+     "trade": 242.0
+    },
+    "mfgother": {
+     "duties": 0.0321,
+     "covered": 0.128,
+     "trade": 12.9
+    },
+    "forest": {
+     "duties": 35.6,
+     "covered": 84.9,
+     "trade": 234.0
+    },
+    "lumber": {
+     "duties": 6.49,
+     "covered": 25.9,
+     "trade": 28.6
+    },
+    "woodprod": {
+     "duties": 25.8,
+     "covered": 52.3,
+     "trade": 181.0
+    },
+    "paper": {
+     "duties": 3.32,
+     "covered": 6.68,
+     "trade": 24.2
+    },
+    "metals": {
+     "duties": 54.7,
+     "covered": 113.0,
+     "trade": 380.0
+    },
+    "steel": {
+     "duties": 33.7,
+     "covered": 67.7,
+     "trade": 74.1
+    },
+    "aluminum": {
+     "duties": 14.3,
+     "covered": 28.7,
+     "trade": 28.9
+    },
+    "critmin": {
+     "duties": 0.00435,
+     "covered": 0.00869,
+     "trade": 94.9
+    },
+    "metalsother": {
+     "duties": 6.59,
+     "covered": 16.4,
+     "trade": 182.0
+    },
+    "chem": {
+     "duties": 1.94,
+     "covered": 3.88,
+     "trade": 244.0
+    },
+    "fertilizer": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.629
+    },
+    "plastics": {
+     "duties": 1.34,
+     "covered": 2.68,
+     "trade": 124.0
+    },
+    "chemicals": {
+     "duties": 0.602,
+     "covered": 1.2,
+     "trade": 119.0
+    },
+    "other": {
+     "duties": 3.19,
+     "covered": 6.6,
+     "trade": 58.2
+    },
+    "consumer": {
+     "duties": 3.19,
+     "covered": 6.6,
+     "trade": 56.3
+    },
+    "special": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 1.97
+    }
+   },
+   "byMeasure": {
+    "ca-counter-2026": 61.6,
+    "ca-counter-metals": 48.0
+   },
+   "byPartner": {
+    "BC": 77.6,
+    "AB": 5.68,
+    "SK": 0.228,
+    "YT": 0.0,
+    "NT": 0.0,
+    "other": 26.0
+   },
+   "top": [
+    {
+     "hs4": "4412",
+     "name": "Plywood",
+     "covered": 49.6,
+     "duties": 24.8,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7604",
+     "name": "Aluminum bars & profiles",
+     "covered": 21.9,
+     "duties": 10.9,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7213",
+     "name": "Hot-rolled steel bars & rods (coils)",
+     "covered": 21.8,
+     "duties": 10.9,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7305",
+     "name": "Large steel pipes",
+     "covered": 21.0,
+     "duties": 10.5,
+     "rate": 0.5
+    },
+    {
+     "hs4": "4407",
+     "name": "Softwood lumber",
+     "covered": 25.9,
+     "duties": 6.49,
+     "rate": 0.25
+    },
+    {
+     "hs4": "6809",
+     "name": "Plaster products (drywall)",
+     "covered": 9.21,
+     "duties": 4.6,
+     "rate": 0.5
+    },
+    {
+     "hs4": "1901",
+     "name": "Flour & malt food preparations",
+     "covered": 7.97,
+     "duties": 3.99,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7214",
+     "name": "Steel bars & rods",
+     "covered": 4.91,
+     "duties": 2.46,
+     "rate": 0.5
+    }
+   ]
+  },
+  "ID": {
+   "name": "Idaho",
+   "scopes": {
+    "all": {
+     "duties": 36.0,
+     "covered": 84.9,
+     "trade": 1940.0
+    },
+    "ag": {
+     "duties": 3.32,
+     "covered": 6.85,
+     "trade": 548.0
+    },
+    "livestock": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 270.0
+    },
+    "grains": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 39.5
+    },
+    "produce": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 69.5
+    },
+    "seafood": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.444
+    },
+    "dairy": {
+     "duties": 1.84,
+     "covered": 3.89,
+     "trade": 37.7
+    },
+    "beverages": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 6.11
+    },
+    "agother": {
+     "duties": 1.48,
+     "covered": 2.96,
+     "trade": 124.0
+    },
+    "energy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 2.66
+    },
+    "crude": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 2.09
+    },
+    "natgas": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0753
+    },
+    "electricity": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "energyother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.492
+    },
+    "mfg": {
+     "duties": 4.66,
+     "covered": 19.9,
+     "trade": 208.0
+    },
+    "aerospace": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 14.9
+    },
+    "machinery": {
+     "duties": 1.08,
+     "covered": 6.26,
+     "trade": 67.0
+    },
+    "autos": {
+     "duties": 3.06,
+     "covered": 12.2,
+     "trade": 43.3
+    },
+    "electronics": {
+     "duties": 0.517,
+     "covered": 1.4,
+     "trade": 81.2
+    },
+    "mfgother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 1.68
+    },
+    "forest": {
+     "duties": 19.1,
+     "covered": 39.1,
+     "trade": 85.4
+    },
+    "lumber": {
+     "duties": 0.345,
+     "covered": 1.38,
+     "trade": 5.25
+    },
+    "woodprod": {
+     "duties": 13.1,
+     "covered": 26.3,
+     "trade": 43.5
+    },
+    "paper": {
+     "duties": 5.69,
+     "covered": 11.4,
+     "trade": 36.7
+    },
+    "metals": {
+     "duties": 2.55,
+     "covered": 6.26,
+     "trade": 586.0
+    },
+    "steel": {
+     "duties": 1.41,
+     "covered": 3.01,
+     "trade": 3.03
+    },
+    "aluminum": {
+     "duties": 0.498,
+     "covered": 1.0,
+     "trade": 1.15
+    },
+    "critmin": {
+     "duties": 0.00176,
+     "covered": 0.00353,
+     "trade": 571.0
+    },
+    "metalsother": {
+     "duties": 0.64,
+     "covered": 2.25,
+     "trade": 10.2
+    },
+    "chem": {
+     "duties": 5.83,
+     "covered": 11.7,
+     "trade": 504.0
+    },
+    "fertilizer": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 334.0
+    },
+    "plastics": {
+     "duties": 0.809,
+     "covered": 1.62,
+     "trade": 46.3
+    },
+    "chemicals": {
+     "duties": 5.02,
+     "covered": 10.0,
+     "trade": 124.0
+    },
+    "other": {
+     "duties": 0.543,
+     "covered": 1.09,
+     "trade": 6.5
+    },
+    "consumer": {
+     "duties": 0.543,
+     "covered": 1.09,
+     "trade": 5.7
+    },
+    "special": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.795
+    }
+   },
+   "byMeasure": {
+    "ca-counter-2026": 34.1,
+    "ca-counter-metals": 1.88
+   },
+   "byPartner": {
+    "BC": 10.1,
+    "AB": 4.42,
+    "SK": 0.294,
+    "YT": 0.0,
+    "NT": 0.0,
+    "other": 21.2
+   },
+   "top": [
+    {
+     "hs4": "4412",
+     "name": "Plywood",
+     "covered": 24.3,
+     "duties": 12.2,
+     "rate": 0.5
+    },
+    {
+     "hs4": "4810",
+     "name": "Coated paper",
+     "covered": 8.97,
+     "duties": 4.48,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8716",
+     "name": "Trailers",
+     "covered": 12.2,
+     "duties": 3.06,
+     "rate": 0.25
+    },
+    {
+     "hs4": "3504",
+     "name": "Peptones & other proteins",
+     "covered": 3.77,
+     "duties": 1.89,
+     "rate": 0.5
+    },
+    {
+     "hs4": "3502",
+     "name": "Egg & milk proteins (albumins)",
+     "covered": 3.73,
+     "duties": 1.86,
+     "rate": 0.5
+    },
+    {
+     "hs4": "1901",
+     "name": "Flour & malt food preparations",
+     "covered": 2.66,
+     "duties": 1.33,
+     "rate": 0.5
+    },
+    {
+     "hs4": "0404",
+     "name": "Whey",
+     "covered": 2.37,
+     "duties": 1.19,
+     "rate": 0.5
+    },
+    {
+     "hs4": "4819",
+     "name": "Cartons & boxes",
+     "covered": 2.08,
+     "duties": 1.04,
+     "rate": 0.5
+    }
+   ]
+  },
+  "MT": {
+   "name": "Montana",
+   "scopes": {
+    "all": {
+     "duties": 5.84,
+     "covered": 20.4,
+     "trade": 1100.0
+    },
+    "ag": {
+     "duties": 0.00282,
+     "covered": 0.00565,
+     "trade": 534.0
+    },
+    "livestock": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 417.0
+    },
+    "grains": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 96.4
+    },
+    "produce": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 1.32
+    },
+    "seafood": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 3.05e-05
+    },
+    "dairy": {
+     "duties": 9.09e-05,
+     "covered": 0.000182,
+     "trade": 1.62
+    },
+    "beverages": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.159
+    },
+    "agother": {
+     "duties": 0.00273,
+     "covered": 0.00546,
+     "trade": 17.5
+    },
+    "energy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 126.0
+    },
+    "crude": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 124.0
+    },
+    "natgas": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.592
+    },
+    "electricity": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 1.05
+    },
+    "energyother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.164
+    },
+    "mfg": {
+     "duties": 2.97,
+     "covered": 13.9,
+     "trade": 81.9
+    },
+    "aerospace": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 4.49
+    },
+    "machinery": {
+     "duties": 1.14,
+     "covered": 6.61,
+     "trade": 34.0
+    },
+    "autos": {
+     "duties": 1.76,
+     "covered": 7.02,
+     "trade": 24.1
+    },
+    "electronics": {
+     "duties": 0.0607,
+     "covered": 0.233,
+     "trade": 14.1
+    },
+    "mfgother": {
+     "duties": 0.0135,
+     "covered": 0.0539,
+     "trade": 5.16
+    },
+    "forest": {
+     "duties": 0.574,
+     "covered": 1.66,
+     "trade": 8.14
+    },
+    "lumber": {
+     "duties": 0.244,
+     "covered": 0.977,
+     "trade": 0.998
+    },
+    "woodprod": {
+     "duties": 0.173,
+     "covered": 0.366,
+     "trade": 3.61
+    },
+    "paper": {
+     "duties": 0.157,
+     "covered": 0.318,
+     "trade": 3.53
+    },
+    "metals": {
+     "duties": 1.21,
+     "covered": 2.66,
+     "trade": 317.0
+    },
+    "steel": {
+     "duties": 0.852,
+     "covered": 1.73,
+     "trade": 9.12
+    },
+    "aluminum": {
+     "duties": 0.221,
+     "covered": 0.443,
+     "trade": 0.472
+    },
+    "critmin": {
+     "duties": 0.0257,
+     "covered": 0.0514,
+     "trade": 255.0
+    },
+    "metalsother": {
+     "duties": 0.113,
+     "covered": 0.435,
+     "trade": 52.1
+    },
+    "chem": {
+     "duties": 0.522,
+     "covered": 1.04,
+     "trade": 24.9
+    },
+    "fertilizer": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 1.23
+    },
+    "plastics": {
+     "duties": 0.0882,
+     "covered": 0.176,
+     "trade": 4.9
+    },
+    "chemicals": {
+     "duties": 0.434,
+     "covered": 0.867,
+     "trade": 18.7
+    },
+    "other": {
+     "duties": 0.56,
+     "covered": 1.13,
+     "trade": 7.68
+    },
+    "consumer": {
+     "duties": 0.56,
+     "covered": 1.13,
+     "trade": 7.26
+    },
+    "special": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.418
+    }
+   },
+   "byMeasure": {
+    "ca-counter-2026": 4.78,
+    "ca-counter-metals": 1.07
+   },
+   "byPartner": {
+    "BC": 0.848,
+    "AB": 2.18,
+    "SK": 0.266,
+    "YT": 0.0,
+    "NT": 0.0,
+    "other": 2.55
+   },
+   "top": [
+    {
+     "hs4": "8716",
+     "name": "Trailers",
+     "covered": 7.0,
+     "duties": 1.75,
+     "rate": 0.25
+    },
+    {
+     "hs4": "9506",
+     "name": "Sports equipment",
+     "covered": 0.982,
+     "duties": 0.491,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7318",
+     "name": "Steel screws, bolts & nuts",
+     "covered": 0.848,
+     "duties": 0.424,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8433",
+     "name": "Harvesting machinery",
+     "covered": 2.65,
+     "duties": 0.398,
+     "rate": 0.15
+    },
+    {
+     "hs4": "3504",
+     "name": "Peptones & other proteins",
+     "covered": 0.761,
+     "duties": 0.38,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8431",
+     "name": "Machinery parts",
+     "covered": 2.19,
+     "duties": 0.346,
+     "rate": 0.158
+    },
+    {
+     "hs4": "4407",
+     "name": "Softwood lumber",
+     "covered": 0.977,
+     "duties": 0.244,
+     "rate": 0.25
+    },
+    {
+     "hs4": "8413",
+     "name": "Pumps",
+     "covered": 0.672,
+     "duties": 0.168,
+     "rate": 0.25
+    }
+   ]
+  },
+  "AK": {
+   "name": "Alaska",
+   "scopes": {
+    "all": {
+     "duties": 1.88,
+     "covered": 5.17,
+     "trade": 914.0
+    },
+    "ag": {
+     "duties": 1.01e-05,
+     "covered": 2.03e-05,
+     "trade": 154.0
+    },
+    "livestock": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.132
+    },
+    "grains": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.319
+    },
+    "produce": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0191
+    },
+    "seafood": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 134.0
+    },
+    "dairy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "beverages": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0134
+    },
+    "agother": {
+     "duties": 1.01e-05,
+     "covered": 2.03e-05,
+     "trade": 19.4
+    },
+    "energy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 77.2
+    },
+    "crude": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 76.3
+    },
+    "natgas": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.00337
+    },
+    "electricity": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "energyother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.911
+    },
+    "mfg": {
+     "duties": 0.635,
+     "covered": 2.59,
+     "trade": 34.8
+    },
+    "aerospace": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 14.0
+    },
+    "machinery": {
+     "duties": 0.602,
+     "covered": 2.49,
+     "trade": 9.25
+    },
+    "autos": {
+     "duties": 0.00147,
+     "covered": 0.00587,
+     "trade": 1.84
+    },
+    "electronics": {
+     "duties": 0.0312,
+     "covered": 0.0898,
+     "trade": 8.91
+    },
+    "mfgother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.831
+    },
+    "forest": {
+     "duties": 0.0133,
+     "covered": 0.0269,
+     "trade": 5.63
+    },
+    "lumber": {
+     "duties": 0.00012,
+     "covered": 0.00048,
+     "trade": 4.28
+    },
+    "woodprod": {
+     "duties": 0.0092,
+     "covered": 0.0184,
+     "trade": 1.33
+    },
+    "paper": {
+     "duties": 0.00401,
+     "covered": 0.00804,
+     "trade": 0.0263
+    },
+    "metals": {
+     "duties": 1.19,
+     "covered": 2.47,
+     "trade": 640.0
+    },
+    "steel": {
+     "duties": 1.15,
+     "covered": 2.36,
+     "trade": 2.36
+    },
+    "aluminum": {
+     "duties": 0.0186,
+     "covered": 0.0372,
+     "trade": 0.0526
+    },
+    "critmin": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 637.0
+    },
+    "metalsother": {
+     "duties": 0.0235,
+     "covered": 0.0782,
+     "trade": 0.363
+    },
+    "chem": {
+     "duties": 0.00817,
+     "covered": 0.0163,
+     "trade": 0.999
+    },
+    "fertilizer": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0781
+    },
+    "plastics": {
+     "duties": 0.0081,
+     "covered": 0.0162,
+     "trade": 0.42
+    },
+    "chemicals": {
+     "duties": 6.35e-05,
+     "covered": 0.000127,
+     "trade": 0.501
+    },
+    "other": {
+     "duties": 0.033,
+     "covered": 0.066,
+     "trade": 1.12
+    },
+    "consumer": {
+     "duties": 0.033,
+     "covered": 0.066,
+     "trade": 0.65
+    },
+    "special": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.474
+    }
+   },
+   "byMeasure": {
+    "ca-counter-2026": 0.717,
+    "ca-counter-metals": 1.16
+   },
+   "byPartner": {
+    "BC": 0.346,
+    "AB": 0.0314,
+    "SK": 0.294,
+    "YT": 1.06,
+    "NT": 0.00192,
+    "other": 0.149
+   },
+   "top": [
+    {
+     "hs4": "7216",
+     "name": "Steel angles, shapes & sections",
+     "covered": 1.22,
+     "duties": 0.611,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8431",
+     "name": "Machinery parts",
+     "covered": 2.41,
+     "duties": 0.57,
+     "rate": 0.236
+    },
+    {
+     "hs4": "7208",
+     "name": "Hot-rolled steel",
+     "covered": 0.821,
+     "duties": 0.41,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8418",
+     "name": "Refrigerators, freezers & heat pumps",
+     "covered": 0.0516,
+     "duties": 0.0258,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7322",
+     "name": "Steel radiators & air heaters",
+     "covered": 0.1,
+     "duties": 0.025,
+     "rate": 0.25
+    },
+    {
+     "hs4": "9405",
+     "name": "Lighting fixtures",
+     "covered": 0.0435,
+     "duties": 0.0218,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7318",
+     "name": "Steel screws, bolts & nuts",
+     "covered": 0.0415,
+     "duties": 0.0208,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7308",
+     "name": "Steel structures",
+     "covered": 0.0404,
+     "duties": 0.0202,
+     "rate": 0.5
+    }
+   ]
+  },
+  "BC": {
+   "name": "British Columbia",
+   "scopes": {
+    "all": {
+     "duties": 725.0,
+     "covered": 1860.0,
+     "trade": 18500.0
+    },
+    "ag": {
+     "duties": 36.1,
+     "covered": 77.3,
+     "trade": 3770.0
+    },
+    "livestock": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 135.0
+    },
+    "grains": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 251.0
+    },
+    "produce": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 1600.0
+    },
+    "seafood": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 379.0
+    },
+    "dairy": {
+     "duties": 21.6,
+     "covered": 48.3,
+     "trade": 97.6
+    },
+    "beverages": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 243.0
+    },
+    "agother": {
+     "duties": 14.5,
+     "covered": 29.0,
+     "trade": 1070.0
+    },
+    "energy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 1640.0
+    },
+    "crude": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 1320.0
+    },
+    "natgas": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 19.4
+    },
+    "electricity": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 233.0
+    },
+    "energyother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 69.6
+    },
+    "mfg": {
+     "duties": 149.0,
+     "covered": 591.0,
+     "trade": 6420.0
+    },
+    "aerospace": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 1470.0
+    },
+    "machinery": {
+     "duties": 69.8,
+     "covered": 363.0,
+     "trade": 2140.0
+    },
+    "autos": {
+     "duties": 14.1,
+     "covered": 52.3,
+     "trade": 876.0
+    },
+    "electronics": {
+     "duties": 59.5,
+     "covered": 151.0,
+     "trade": 1690.0
+    },
+    "mfgother": {
+     "duties": 6.09,
+     "covered": 24.3,
+     "trade": 237.0
+    },
+    "forest": {
+     "duties": 181.0,
+     "covered": 431.0,
+     "trade": 1240.0
+    },
+    "lumber": {
+     "duties": 14.0,
+     "covered": 56.1,
+     "trade": 86.9
+    },
+    "woodprod": {
+     "duties": 64.4,
+     "covered": 140.0,
+     "trade": 493.0
+    },
+    "paper": {
+     "duties": 103.0,
+     "covered": 235.0,
+     "trade": 657.0
+    },
+    "metals": {
+     "duties": 257.0,
+     "covered": 543.0,
+     "trade": 2750.0
+    },
+    "steel": {
+     "duties": 180.0,
+     "covered": 375.0,
+     "trade": 403.0
+    },
+    "aluminum": {
+     "duties": 58.2,
+     "covered": 117.0,
+     "trade": 263.0
+    },
+    "critmin": {
+     "duties": 0.0746,
+     "covered": 0.149,
+     "trade": 1450.0
+    },
+    "metalsother": {
+     "duties": 18.8,
+     "covered": 50.4,
+     "trade": 630.0
+    },
+    "chem": {
+     "duties": 60.5,
+     "covered": 121.0,
+     "trade": 2010.0
+    },
+    "fertilizer": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 28.8
+    },
+    "plastics": {
+     "duties": 24.5,
+     "covered": 49.0,
+     "trade": 949.0
+    },
+    "chemicals": {
+     "duties": 36.0,
+     "covered": 72.1,
+     "trade": 1030.0
+    },
+    "other": {
+     "duties": 40.4,
+     "covered": 93.5,
+     "trade": 677.0
+    },
+    "consumer": {
+     "duties": 40.4,
+     "covered": 93.5,
+     "trade": 476.0
+    },
+    "special": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 201.0
+    }
+   },
+   "byMeasure": {
+    "ca-counter-2026": 492.0,
+    "ca-counter-metals": 233.0
+   },
+   "byPartner": {
+    "WA": 168.0,
+    "OR": 77.6,
+    "ID": 10.1,
+    "MT": 0.848,
+    "AK": 0.346,
+    "other": 468.0
+   },
+   "top": [
+    {
+     "hs4": "4819",
+     "name": "Cartons & boxes",
+     "covered": 114.0,
+     "duties": 57.2,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8517",
+     "name": "Phones & network gear",
+     "covered": 85.3,
+     "duties": 42.7,
+     "rate": 0.5
+    },
+    {
+     "hs4": "4412",
+     "name": "Plywood",
+     "covered": 74.4,
+     "duties": 37.2,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7318",
+     "name": "Steel screws, bolts & nuts",
+     "covered": 64.0,
+     "duties": 32.0,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8431",
+     "name": "Machinery parts",
+     "covered": 180.0,
+     "duties": 29.4,
+     "rate": 0.163
+    },
+    {
+     "hs4": "7308",
+     "name": "Steel structures",
+     "covered": 51.3,
+     "duties": 25.6,
+     "rate": 0.5
+    },
+    {
+     "hs4": "9403",
+     "name": "Furniture",
+     "covered": 43.3,
+     "duties": 19.6,
+     "rate": 0.451
+    },
+    {
+     "hs4": "0404",
+     "name": "Whey",
+     "covered": 37.1,
+     "duties": 18.6,
+     "rate": 0.5
+    }
+   ]
+  },
+  "AB": {
+   "name": "Alberta",
+   "scopes": {
+    "all": {
+     "duties": 342.0,
+     "covered": 947.0,
+     "trade": 13300.0
+    },
+    "ag": {
+     "duties": 2.97,
+     "covered": 6.81,
+     "trade": 2800.0
+    },
+    "livestock": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 829.0
+    },
+    "grains": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 196.0
+    },
+    "produce": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 614.0
+    },
+    "seafood": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 1.26
+    },
+    "dairy": {
+     "duties": 1.05,
+     "covered": 2.95,
+     "trade": 5.44
+    },
+    "beverages": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 564.0
+    },
+    "agother": {
+     "duties": 1.93,
+     "covered": 3.86,
+     "trade": 587.0
+    },
+    "energy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 2430.0
+    },
+    "crude": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 2370.0
+    },
+    "natgas": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 22.3
+    },
+    "electricity": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 2.71
+    },
+    "energyother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 30.0
+    },
+    "mfg": {
+     "duties": 134.0,
+     "covered": 501.0,
+     "trade": 4240.0
+    },
+    "aerospace": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 686.0
+    },
+    "machinery": {
+     "duties": 58.0,
+     "covered": 260.0,
+     "trade": 1660.0
+    },
+    "autos": {
+     "duties": 16.3,
+     "covered": 64.5,
+     "trade": 480.0
+    },
+    "electronics": {
+     "duties": 50.4,
+     "covered": 138.0,
+     "trade": 1200.0
+    },
+    "mfgother": {
+     "duties": 9.72,
+     "covered": 38.9,
+     "trade": 211.0
+    },
+    "forest": {
+     "duties": 28.8,
+     "covered": 65.8,
+     "trade": 274.0
+    },
+    "lumber": {
+     "duties": 0.106,
+     "covered": 0.422,
+     "trade": 11.2
+    },
+    "woodprod": {
+     "duties": 11.6,
+     "covered": 27.8,
+     "trade": 98.6
+    },
+    "paper": {
+     "duties": 17.1,
+     "covered": 37.6,
+     "trade": 164.0
+    },
+    "metals": {
+     "duties": 128.0,
+     "covered": 276.0,
+     "trade": 825.0
+    },
+    "steel": {
+     "duties": 94.3,
+     "covered": 200.0,
+     "trade": 212.0
+    },
+    "aluminum": {
+     "duties": 16.9,
+     "covered": 34.1,
+     "trade": 42.9
+    },
+    "critmin": {
+     "duties": 0.203,
+     "covered": 0.406,
+     "trade": 213.0
+    },
+    "metalsother": {
+     "duties": 16.7,
+     "covered": 41.2,
+     "trade": 357.0
+    },
+    "chem": {
+     "duties": 36.7,
+     "covered": 73.4,
+     "trade": 2330.0
+    },
+    "fertilizer": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 276.0
+    },
+    "plastics": {
+     "duties": 18.7,
+     "covered": 37.4,
+     "trade": 759.0
+    },
+    "chemicals": {
+     "duties": 18.0,
+     "covered": 36.0,
+     "trade": 1300.0
+    },
+    "other": {
+     "duties": 11.4,
+     "covered": 23.6,
+     "trade": 430.0
+    },
+    "consumer": {
+     "duties": 11.4,
+     "covered": 23.6,
+     "trade": 221.0
+    },
+    "special": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 209.0
+    }
+   },
+   "byMeasure": {
+    "ca-counter-2026": 232.0,
+    "ca-counter-metals": 110.0
+   },
+   "byPartner": {
+    "WA": 6.16,
+    "OR": 5.68,
+    "ID": 4.42,
+    "MT": 2.18,
+    "AK": 0.0314,
+    "other": 324.0
+   },
+   "top": [
+    {
+     "hs4": "8517",
+     "name": "Phones & network gear",
+     "covered": 63.0,
+     "duties": 31.5,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8413",
+     "name": "Pumps",
+     "covered": 82.3,
+     "duties": 20.6,
+     "rate": 0.25
+    },
+    {
+     "hs4": "7318",
+     "name": "Steel screws, bolts & nuts",
+     "covered": 39.0,
+     "duties": 19.5,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8431",
+     "name": "Machinery parts",
+     "covered": 84.5,
+     "duties": 16.4,
+     "rate": 0.195
+    },
+    {
+     "hs4": "8716",
+     "name": "Trailers",
+     "covered": 63.9,
+     "duties": 16.0,
+     "rate": 0.25
+    },
+    {
+     "hs4": "7307",
+     "name": "Steel pipe fittings",
+     "covered": 27.4,
+     "duties": 13.7,
+     "rate": 0.5
+    },
+    {
+     "hs4": "3923",
+     "name": "Plastic packaging",
+     "covered": 25.5,
+     "duties": 12.8,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8544",
+     "name": "Wire & cable",
+     "covered": 47.3,
+     "duties": 11.8,
+     "rate": 0.25
+    }
+   ]
+  },
+  "SK": {
+   "name": "Saskatchewan",
+   "scopes": {
+    "all": {
+     "duties": 325.0,
+     "covered": 983.0,
+     "trade": 11200.0
+    },
+    "ag": {
+     "duties": 4.47,
+     "covered": 10.6,
+     "trade": 957.0
+    },
+    "livestock": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 231.0
+    },
+    "grains": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 206.0
+    },
+    "produce": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 51.8
+    },
+    "seafood": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.473
+    },
+    "dairy": {
+     "duties": 2.58,
+     "covered": 6.8,
+     "trade": 15.5
+    },
+    "beverages": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 29.9
+    },
+    "agother": {
+     "duties": 1.89,
+     "covered": 3.78,
+     "trade": 422.0
+    },
+    "energy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 2460.0
+    },
+    "crude": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 2370.0
+    },
+    "natgas": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 79.4
+    },
+    "electricity": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "energyother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 11.4
+    },
+    "mfg": {
+     "duties": 121.0,
+     "covered": 541.0,
+     "trade": 5230.0
+    },
+    "aerospace": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 352.0
+    },
+    "machinery": {
+     "duties": 91.1,
+     "covered": 436.0,
+     "trade": 2930.0
+    },
+    "autos": {
+     "duties": 13.4,
+     "covered": 51.6,
+     "trade": 1180.0
+    },
+    "electronics": {
+     "duties": 13.9,
+     "covered": 42.3,
+     "trade": 610.0
+    },
+    "mfgother": {
+     "duties": 2.77,
+     "covered": 11.1,
+     "trade": 156.0
+    },
+    "forest": {
+     "duties": 23.0,
+     "covered": 55.5,
+     "trade": 159.0
+    },
+    "lumber": {
+     "duties": 0.046,
+     "covered": 0.184,
+     "trade": 1.14
+    },
+    "woodprod": {
+     "duties": 12.4,
+     "covered": 31.5,
+     "trade": 67.8
+    },
+    "paper": {
+     "duties": 10.6,
+     "covered": 23.9,
+     "trade": 89.7
+    },
+    "metals": {
+     "duties": 155.0,
+     "covered": 330.0,
+     "trade": 528.0
+    },
+    "steel": {
+     "duties": 137.0,
+     "covered": 292.0,
+     "trade": 318.0
+    },
+    "aluminum": {
+     "duties": 14.8,
+     "covered": 29.9,
+     "trade": 42.0
+    },
+    "critmin": {
+     "duties": 0.105,
+     "covered": 0.21,
+     "trade": 22.4
+    },
+    "metalsother": {
+     "duties": 2.95,
+     "covered": 8.36,
+     "trade": 146.0
+    },
+    "chem": {
+     "duties": 12.5,
+     "covered": 25.0,
+     "trade": 1740.0
+    },
+    "fertilizer": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 286.0
+    },
+    "plastics": {
+     "duties": 6.97,
+     "covered": 13.9,
+     "trade": 514.0
+    },
+    "chemicals": {
+     "duties": 5.55,
+     "covered": 11.1,
+     "trade": 936.0
+    },
+    "other": {
+     "duties": 9.55,
+     "covered": 20.5,
+     "trade": 123.0
+    },
+    "consumer": {
+     "duties": 9.55,
+     "covered": 20.5,
+     "trade": 109.0
+    },
+    "special": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 14.2
+    }
+   },
+   "byMeasure": {
+    "ca-counter-2026": 174.0,
+    "ca-counter-metals": 151.0
+   },
+   "byPartner": {
+    "WA": 0.636,
+    "OR": 0.228,
+    "ID": 0.294,
+    "MT": 0.266,
+    "AK": 0.294,
+    "other": 324.0
+   },
+   "top": [
+    {
+     "hs4": "8413",
+     "name": "Pumps",
+     "covered": 118.0,
+     "duties": 29.5,
+     "rate": 0.25
+    },
+    {
+     "hs4": "8431",
+     "name": "Machinery parts",
+     "covered": 100.0,
+     "duties": 17.8,
+     "rate": 0.177
+    },
+    {
+     "hs4": "7306",
+     "name": "Steel tubes",
+     "covered": 35.3,
+     "duties": 17.6,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8433",
+     "name": "Harvesting machinery",
+     "covered": 103.0,
+     "duties": 17.6,
+     "rate": 0.171
+    },
+    {
+     "hs4": "7308",
+     "name": "Steel structures",
+     "covered": 33.9,
+     "duties": 16.9,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8414",
+     "name": "Compressors & fans",
+     "covered": 63.3,
+     "duties": 15.8,
+     "rate": 0.25
+    },
+    {
+     "hs4": "7307",
+     "name": "Steel pipe fittings",
+     "covered": 27.6,
+     "duties": 13.8,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8716",
+     "name": "Trailers",
+     "covered": 49.5,
+     "duties": 12.4,
+     "rate": 0.25
+    }
+   ]
+  },
+  "YT": {
+   "name": "Yukon",
+   "scopes": {
+    "all": {
+     "duties": 1.17,
+     "covered": 3.73,
+     "trade": 50.6
+    },
+    "ag": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 20.4
+    },
+    "livestock": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0619
+    },
+    "grains": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "produce": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "seafood": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 20.2
+    },
+    "dairy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "beverages": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 6e-05
+    },
+    "agother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.113
+    },
+    "energy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0102
+    },
+    "crude": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0101
+    },
+    "natgas": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "electricity": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "energyother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0001
+    },
+    "mfg": {
+     "duties": 0.609,
+     "covered": 2.53,
+     "trade": 28.2
+    },
+    "aerospace": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 12.9
+    },
+    "machinery": {
+     "duties": 0.585,
+     "covered": 2.47,
+     "trade": 7.85
+    },
+    "autos": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 1.67
+    },
+    "electronics": {
+     "duties": 0.0245,
+     "covered": 0.0668,
+     "trade": 5.79
+    },
+    "mfgother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.00479
+    },
+    "forest": {
+     "duties": 0.00303,
+     "covered": 0.00606,
+     "trade": 0.0117
+    },
+    "lumber": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "woodprod": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.00552
+    },
+    "paper": {
+     "duties": 0.00303,
+     "covered": 0.00606,
+     "trade": 0.00616
+    },
+    "metals": {
+     "duties": 0.538,
+     "covered": 1.14,
+     "trade": 1.34
+    },
+    "steel": {
+     "duties": 0.512,
+     "covered": 1.07,
+     "trade": 1.08
+    },
+    "aluminum": {
+     "duties": 0.0146,
+     "covered": 0.0293,
+     "trade": 0.04
+    },
+    "critmin": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0137
+    },
+    "metalsother": {
+     "duties": 0.0113,
+     "covered": 0.0337,
+     "trade": 0.206
+    },
+    "chem": {
+     "duties": 0.000138,
+     "covered": 0.000276,
+     "trade": 0.486
+    },
+    "fertilizer": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0215
+    },
+    "plastics": {
+     "duties": 0.000138,
+     "covered": 0.000276,
+     "trade": 0.0805
+    },
+    "chemicals": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.384
+    },
+    "other": {
+     "duties": 0.0244,
+     "covered": 0.0488,
+     "trade": 0.134
+    },
+    "consumer": {
+     "duties": 0.0244,
+     "covered": 0.0488,
+     "trade": 0.096
+    },
+    "special": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0384
+    }
+   },
+   "byMeasure": {
+    "ca-counter-2026": 0.649,
+    "ca-counter-metals": 0.525
+   },
+   "byPartner": {
+    "WA": 1.54e-05,
+    "OR": 0.0,
+    "ID": 0.0,
+    "MT": 0.0,
+    "AK": 1.06,
+    "other": 0.114
+   },
+   "top": [
+    {
+     "hs4": "8431",
+     "name": "Machinery parts",
+     "covered": 2.45,
+     "duties": 0.581,
+     "rate": 0.237
+    },
+    {
+     "hs4": "7208",
+     "name": "Hot-rolled steel",
+     "covered": 0.479,
+     "duties": 0.239,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7216",
+     "name": "Steel angles, shapes & sections",
+     "covered": 0.376,
+     "duties": 0.188,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7322",
+     "name": "Steel radiators & air heaters",
+     "covered": 0.0936,
+     "duties": 0.0234,
+     "rate": 0.25
+    },
+    {
+     "hs4": "9405",
+     "name": "Lighting fixtures",
+     "covered": 0.0466,
+     "duties": 0.0233,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7308",
+     "name": "Steel structures",
+     "covered": 0.0404,
+     "duties": 0.0202,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7318",
+     "name": "Steel screws, bolts & nuts",
+     "covered": 0.038,
+     "duties": 0.019,
+     "rate": 0.5
+    },
+    {
+     "hs4": "7307",
+     "name": "Steel pipe fittings",
+     "covered": 0.0334,
+     "duties": 0.0167,
+     "rate": 0.5
+    }
+   ]
+  },
+  "NT": {
+   "name": "Northwest Territories",
+   "scopes": {
+    "all": {
+     "duties": 0.00192,
+     "covered": 0.00398,
+     "trade": 58.5
+    },
+    "ag": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "livestock": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "grains": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "produce": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "seafood": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "dairy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "beverages": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "agother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "energy": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 58.5
+    },
+    "crude": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 58.5
+    },
+    "natgas": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "electricity": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "energyother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "mfg": {
+     "duties": 2.99e-05,
+     "covered": 0.000199,
+     "trade": 0.0249
+    },
+    "aerospace": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0106
+    },
+    "machinery": {
+     "duties": 2.99e-05,
+     "covered": 0.000199,
+     "trade": 0.0137
+    },
+    "autos": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "electronics": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.000628
+    },
+    "mfgother": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "forest": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "lumber": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "woodprod": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "paper": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "metals": {
+     "duties": 0.00189,
+     "covered": 0.00378,
+     "trade": 0.00385
+    },
+    "steel": {
+     "duties": 0.00139,
+     "covered": 0.00279,
+     "trade": 0.00279
+    },
+    "aluminum": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "critmin": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "metalsother": {
+     "duties": 0.000498,
+     "covered": 0.000996,
+     "trade": 0.00106
+    },
+    "chem": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.000597
+    },
+    "fertilizer": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    },
+    "plastics": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.000497
+    },
+    "chemicals": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0001
+    },
+    "other": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.000368
+    },
+    "consumer": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.000368
+    },
+    "special": {
+     "duties": 0.0,
+     "covered": 0.0,
+     "trade": 0.0
+    }
+   },
+   "byMeasure": {
+    "ca-counter-2026": 0.000528,
+    "ca-counter-metals": 0.00139
+   },
+   "byPartner": {
+    "WA": 0.0,
+    "OR": 0.0,
+    "ID": 0.0,
+    "MT": 0.0,
+    "AK": 0.00192,
+    "other": 0.0
+   },
+   "top": [
+    {
+     "hs4": "7326",
+     "name": "Steel articles",
+     "covered": 0.00279,
+     "duties": 0.00139,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8205",
+     "name": "Hand tools",
+     "covered": 0.000996,
+     "duties": 0.000498,
+     "rate": 0.5
+    },
+    {
+     "hs4": "8428",
+     "name": "Lifting & loading machinery",
+     "covered": 0.000199,
+     "duties": 2.99e-05,
+     "rate": 0.15
+    }
+   ]
+  }
+ },
+ "checks": [
+  {
+   "name": "Every listed item is an 8-digit Canadian tariff item with a rate between 0 and 100%",
+   "passed": true,
+   "detail": "629 items in force on 2026-11-21"
+  },
+  {
+   "name": "Each list's imports are within 10% of the value the government announced",
+   "passed": true,
+   "detail": "Steel and aluminum: C$15.6B of 2024 imports vs C$15.6B announced; Passenger vehicles and light trucks: C$36.4B of 2024 imports vs C$35.6B announced"
+  },
+  {
+   "name": "The trade data covers the dashboard's last 12 months",
+   "passed": true,
+   "detail": "2025-10 to 2026-09"
+  },
+  {
+   "name": "No item pays more than 50% of its value",
+   "passed": true,
+   "detail": "highest rate on any list is 50%"
+  }
+ ]
+}

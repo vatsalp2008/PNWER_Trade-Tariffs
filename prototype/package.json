@@ -11,7 +11,9 @@
     "mock": "tsx scripts/generate-mock-data.ts",
     "test:provincial": "node --import tsx --test tests/provincial.test.ts",
     "test:regional": "node --import tsx --test tests/regional.test.ts",
-    "test:data": "node --import tsx --test tests/provincial.test.ts tests/regional.test.ts"
+    "test:corridors": "node --import tsx --test tests/corridors.test.ts",
+    "test:counter-tariffs": "node --import tsx --test tests/counter-tariffs.test.ts",
+    "test:data": "node --import tsx --test tests/provincial.test.ts tests/regional.test.ts tests/corridors.test.ts tests/counter-tariffs.test.ts"
   },
   "dependencies": {
     "d3-geo": "^3.1.1",

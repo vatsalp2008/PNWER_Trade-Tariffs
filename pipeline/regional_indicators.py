@@ -41,7 +41,7 @@ import requests
 
 import fetch_census
 import fetch_economy
-from common import DATA_DIR, ROOT, get_json, log
+from common import DATA_DIR, ROOT, get_json, log, statcan_points
 from provincial_trade import atomic_write, digest, dumps
 
 OUT_DIR = ROOT / "prototype" / "public" / "data" / "regional"
@@ -49,7 +49,6 @@ HEADLINES = DATA_DIR / "regional-headlines.json"
 STATES = {"WA": "Washington", "ID": "Idaho"}
 MONTHS = 36
 
-STATCAN = "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods"
 BTS = "https://data.bts.gov/resource/keg4-3bc2.json"
 
 # B.C. ports of entry (table 24-10-0053 member ids) and the U.S. port across from each.
@@ -138,28 +137,6 @@ def sentence_case(label: str) -> str:
 
 def check(name: str, problems: list[str], detail: str) -> dict:
     return {"name": name, "passed": not problems, "detail": detail if not problems else "; ".join(problems[:5])}
-
-
-def statcan_points(pid: int, coords: list[str], latest_n: int) -> dict[str, list[tuple[str, float | None]]]:
-    """{coordinate: [(refPer, value), ...]}. Keyed by coordinate: the API doesn't keep request order."""
-    out: dict[str, list[tuple[str, float | None]]] = {}
-    for i in range(0, len(coords), 100):
-        body = [{"productId": pid, "coordinate": c, "latestN": latest_n} for c in coords[i : i + 100]]
-        for attempt in range(4):
-            try:
-                r = requests.post(STATCAN, json=body, timeout=120)
-                r.raise_for_status()
-                break
-            except requests.RequestException:
-                if attempt == 3:
-                    raise
-                time.sleep(5 * 2**attempt)
-        for item in r.json():
-            if item.get("status") != "SUCCESS":
-                raise RuntimeError(f"Statistics Canada {pid}: {item.get('object')}")
-            obj = item["object"]
-            out[obj["coordinate"]] = [(p["refPer"], p["value"]) for p in obj["vectorDataPoint"]]
-    return out
 
 
 # ---------- 1. trade by industry (Census statenaics) ----------

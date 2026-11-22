@@ -207,7 +207,7 @@ Related docs:
   - It assumes each jurisdiction pays the national average rate for each product.
   - It counts duties at the border, not who ends up paying them (importers, consumers or Canadian exporters).
   - **Anti-dumping and countervailing duties (AD/CVD) are not in Census's calculated duty.** They're collected separately by Commerce/CBP, so softwood lumber's combined ~35% AD/CVD is missing; only its 10% Section 232 tariff shows up. Lumber duty figures are therefore understated.
-  - **Canadian counter-tariffs are not included.** No equivalent product-level duty data is published.
+  - **Canadian counter-tariffs are estimated separately** (D36), from Canada's surtax lists and its import records.
 - **Per household:** U.S. states only, using households from the ACS 2024 one-year survey. For provinces we show the average U.S. duty rate on their exports instead.
 - **Food, fuel & farm inputs:** imports from the partner in Agriculture & Food, Energy and Fertilizer, across all sectors. It's a simple, explainable stand-in for household-relevant goods.
 - **Prices:**
@@ -322,7 +322,7 @@ Related docs:
 - **Tradeoff:** a few labels are longer. All 360 fact sheets were re-checked and still print as exactly 2 pages.
 
 ### D30. The `/data` page matches the dashboard (Nov 2026)
-- **Context:** Yifan added a Data & verification page (PR #6) built on Statistics Canada table 12-10-0175, in C$ and by NAPCS product group. Its numbers looked different from the dashboard's B.C. and Alberta figures.
+- **Context:** a teammate added a Data & verification page (PR #6) built on Statistics Canada table 12-10-0175, in C$ and by NAPCS product group. Its numbers looked different from the dashboard's B.C. and Alberta figures.
 - **Finding:** they weren't really different. Both come from Statistics Canada's customs records, and over the same 12 months, converted at the same rates, the totals agree within 0.04%.
 - **What we did:**
   - The page shows **US$** at the dashboard's monthly Bank of Canada rates, now saved in `real.json` (`meta.fx`). Original C$ values stay in the table and downloads.
@@ -333,9 +333,9 @@ Related docs:
 - **Tradeoff:** a month Statistics Canada publishes before Census appears on `/data` only when the dashboard catches up.
 
 ### D31. More data for Washington and Idaho (Nov 2026)
-- **Why:** Yifan's `/data` page gave B.C. and Alberta detailed monthly data; Washington and Idaho had nothing comparable, and the dashboard's set of sources was thin. Three researchers checked 48 free sources live; this adds the strongest ones that need no new key.
+- **Why:** the `/data` page (PR #6) gave B.C. and Alberta detailed monthly data; Washington and Idaho had nothing comparable, and the dashboard's set of sources was thin. Three researchers checked 48 free sources live; this adds the strongest ones that need no new key.
 - **Added (`pipeline/regional_indicators.py`, published to `prototype/public/data/regional/`):**
-  - **Trade by industry:** Census state exports and imports by NAICS 3-digit industry (`statenaics`), with Canada and the world, 36 months. The U.S. counterpart of Yifan's Statistics Canada product groups, and it includes imports, which matter most for Washington (oil and gas).
+  - **Trade by industry:** Census state exports and imports by NAICS 3-digit industry (`statenaics`), with Canada and the world, 36 months. The U.S. counterpart of the Statistics Canada product groups used for B.C. and Alberta, and it includes imports, which matter most for Washington (oil and gas).
   - **U.S. border crossings:** BTS Border Crossing Entry Data, monthly personal vehicles, trucks, passengers and more at all 15 Washington and Idaho ports.
   - **Canadians driving home:** Statistics Canada 24-10-0053, Canadian residents returning from the U.S. by car through each of the 15 B.C. crossings facing Washington and Idaho.
   - **WA/ID-plated vehicles into B.C.:** Statistics Canada 24-10-0057, daily leading indicator summed by month.
@@ -349,11 +349,63 @@ Related docs:
 - **Not yet added (researched, kept for later):** USDA farm exports and NASS production, NOAA seafood trade, USDA AMS cattle imports, WA retail sales by city, exporter counts, ITA export jobs, BTS freight by mode (bts.gov blocks scripts), Census port-level trade.
 - **Tradeoff:** Census industry groups (NAICS) differ from the dashboard's sectors, so only the all-industry total has an exact dashboard equivalent; the page says so.
 
+### D32. Cross-border corridors (Nov 2026)
+- **Why:** PNWER's members work in pairs (e.g. the 2026 B.C.–Washington interparliamentary agreement), but the site only described one place at a time. A teammate cleaned Statistics Canada table 12-10-0099 (province ↔ U.S. state trade by HS section, both ways, monthly since 1990); this turns that work into a live "corridor" view.
+- **What:** `pipeline/corridors.py` publishes all 25 PNWER province/territory × state pairs, 21 HS sections plus totals, both directions, 1990 to the latest month, to `prototype/public/data/corridors/` (an index plus one file per pair, loaded on demand). The `/data` page has a **Cross-border corridors** tab: an overview of all corridors, a 1990–2026 chart with NAFTA, USMCA and tariff-era bands, trade by section, a supply-chain integration score, where the province's exports go, and a CSV download.
+- **Method choices:**
+  - **Series by series, not the 15-million-row table:** the daily run asks the Statistics Canada data API for the last 24 months only (where revisions happen) on top of the published history. `--from-zip` rebuilds the full history from the bulk files when the API is down (it has an overnight maintenance window).
+  - **Matched by Statistics Canada member ids, never by names** ("Washington, State" was the trap the team's notebook caught).
+  - **US$:** Bank of Canada monthly rates from 2017 (the dashboard's); U.S. Federal Reserve H.10 monthly rates (FRED EXCAUS) for 1990–2016. They agree within 0.15% where both exist. Original C$ values stay in the data and downloads.
+  - **Integration score:** Grubel–Lloyd index, 1 − |exports − imports| / (exports + imports), trade-weighted across the 21 sections. HS sections are broad, so it reads higher than it would at product level.
+  - **Small bases:** % changes are shown only when the starting 12-month value is at least US$10M (corridors) or US$5M (sections).
+- **Checks:** values in thousands; sections add up to the total (within C$11,000); no gaps; latest month present for B.C./Alberta with Washington/Idaho; exchange rates cover every month and match the dashboard's. `build.py` also compares 12-month B.C./Alberta exports to Washington/Idaho with our CIMT data (within 0.5%; they match exactly). The published data reproduces the team notebook's 77,616 values and 7,542 zeros.
+- **Credit:** the cleaning notebook is in `docs/notebooks/statcan_12100099.ipynb` (Part 1 now reads the big file in chunks). The repo is public, so teammates are credited as "the team", not by name.
+
+### D33. Corridor fact sheets (Nov 2026)
+- **Why:** PNWER brings lawmakers from both sides of one border together; a 2-page brief on "B.C. and Washington" is what they take into those meetings.
+- **What:** `/corridor/<province>/<state>` (e.g. `/corridor/BC/WA`), a 2-page US Letter sheet like the place fact sheets, with a PDF download.
+  - **Page 1:** trade each way over the last 12 months and vs. two years earlier, the integration score, a 1990–2026 chart with NAFTA, USMCA and tariff-era bands, and the top product sections each way.
+  - **Page 2:** shared supply chains (sections that cross both ways), the border and energy links where we have them (B.C.–Washington and B.C.–Idaho), otherwise where the province's exports go, the tariff impact table (D34), and sources.
+- **Which corridors:** only those with at least US$250M of two-way trade a year (14 today), so every sheet has enough to say. The others stay on the `/data` Corridors tab.
+- **Check:** `prototype/scripts/check-corridor-sheets.sh` prints every eligible sheet and fails if one isn't exactly 2 pages.
+
+### D34. Did a tariff change trade? (indicative effects) (Nov 2026)
+- **Why:** the timeline shows *when* tariffs hit; partners asked what they *did*.
+- **Which actions:** the targeted ones on the timeline (lumber, steel and aluminum, autos, Canada's counter-tariffs…). Their HS sections come from the businesses each event is tagged with in `tariff-events.json` and those businesses' HS codes in `sectors.json`, so tagging an event correctly is all the upkeep it needs. Across-the-board actions are skipped: they leave nothing untouched to compare with.
+- **Method (a simple difference-in-differences):**
+  - For each corridor, compare the months after the action (up to 12, at least 3) with the same months a year earlier, so seasons cancel.
+  - Do that for the **hit sections** and for the corridor's **other sections** (excluding energy, which swings with oil prices). The exchange rate, the economy and border traffic move both groups, so comparing them removes most of that.
+  - **Indicative effect** = (1 + change in hit sections) / (1 + change in other sections) − 1. The range is the middle half of the month-by-month effects.
+  - U.S. tariffs are measured on Canada's exports; Canadian counter-tariffs on Canada's imports.
+- **Guard rails:** no result when the hit sections were under C$5M a year earlier. A **pre-trend** check repeats the calculation for the 12 months *before* the action; if the hit sections were already drifting by more than 10%, the row is flagged "read with care". Aircraft and ships (section XVII) are marked because single deliveries swing it.
+- **Limits:** HS sections are broad (lumber is part of "Wood & wood products"); trade is in dollars, so price changes aren't separated from volumes; overlapping actions, anti-dumping duties and news also move trade. It's labelled an indicative effect, never proof. Example: B.C. → Washington wood after the Section 232 lumber tariff (Oct 2025) was about 28% lower than the corridor's other trade would suggest.
+
+### D35. Unusual-movement alerts (Nov 2026)
+- **Why:** after the course ends, no one will be watching 1,100 series every month. The site should point at what changed.
+- **Rule:** for every corridor × product section × direction, take the last 3 months vs. the same 3 months a year earlier. Flag it if that change is beyond **2.5 standard deviations** of the same series' own history (at least 3 years of history needed) **and** at least C$5M. Show the 5 largest by dollar change.
+- **Backtest:** applied to every month since 2019, it flags a median of 4 moves a month (at most 14, in the mid-2021 rebound from the 2020 lockdowns and the mid-2025 tariff months), so a flag is rare enough to read.
+- **Where:** an "Unusual moves" card on the `/data` Corridors tab, and once per new data month the daily job opens a GitHub issue labelled `trade-alert` (`pipeline/alerts-seen.json` remembers which months already have one). A flag is a prompt to look closer (news, tariff actions, a one-off shipment), not a conclusion.
+
+### D36. Canadian counter-tariff costs (Nov 2026)
+- **Why:** the site costed U.S. tariffs but not Canada's answer to them (the known gap in D20 and D22). For U.S. members, Canada's surtaxes are the tariffs their own exporters face; for provinces, they're a cost their importers pay.
+- **The lists:** `prototype/src/data/canada-countermeasures.json`, curated from the three surtax orders in force (Canada Gazette, Part II): the September 2026 list (SOR/2026-186; 335 tariff items at 15%, 25% or 50%), steel and aluminum (SOR/2025-95 as amended; 294 items, most at 50% since Sept 8, 2026) and passenger vehicles (SOR/2025-118; 19 items). Every item and rate matches Finance Canada's complete list. The first round (C$30B, March 2025) was repealed in full on Sept 1, 2025. `verified` stays false until a teammate checks each measure against its order.
+- **Trade data:** Canada's own import record (Statistics Canada CIMT imports by 10-digit code, whose first 8 digits are the tariff item), by U.S. state of origin and province of clearance. The lists are written in the same codes, so items match exactly, with no guessing at 6-digit level. We first planned to use U.S. Census state exports; CIMT is better because it's the record Canadian customs taxes.
+- **Estimate:** imports of each listed item over the dashboard's last 12 months × the surtax rate in force today, in US$ at the dashboard's monthly exchange rates. For a state: the surtax on goods coming from that state. For a province: the surtax its importers pay on goods from anywhere in the U.S. If an item were on two lists, the higher rate counts.
+- **What it leaves out:**
+  - **Vehicles aren't costed.** Vehicles that qualify under CUSMA pay only on their non-Canadian, non-Mexican content, and automakers import set quotas surtax-free, so trade values can't show what's paid.
+  - **It's an upper bound.** Canada grants relief (remission) to some importers: manufacturers' non-steel inputs, food and beverage packaging, health care, public safety and more, plus specific goods (185 of the 294 steel and aluminum items have relief for some products). It also assumes the same goods keep crossing; surtaxes usually reduce them.
+  - Canada's global 25% surtax on steel-derivative goods isn't a counter-tariff and isn't included.
+- **Checks (`pipeline/counter_tariffs.py` keeps yesterday's file if any fail):** every item is an 8-digit tariff item with a rate between 0 and 100%; each list's imports in 2024 are within 10% of the value the government announced (steel and aluminum C$15.6B vs C$15.6B announced; vehicles C$36.4B vs C$35.6B); the trade data covers the dashboard's 12 months; no item pays more than 50%. Finance Canada's C$27.6B covers the whole September 2026 package, so the 2026 list has no figure of its own to check against.
+- **Where:** a line on every fact sheet's Affordability card ("Est. Canadian counter-tariffs per year"), a "Colour map by" option and a line on the Affordability tile on the dashboard, and a **Canada's counter-tariffs** view on `/data` (every member, most affected products, where it's paid, the lists and their sources).
+- **Timeline fixes from the same research:** the September 2026 event is now tagged with the businesses its list actually covers (fish and seafood were dropped before the order was made), the steel and aluminum rate reads 25–50%, and the September 2025 relief event says Canada dropped its counter-tariffs except on steel, aluminum and autos. The tariff impact tracker (D34) now takes Canada's hit sections from these lists.
+- **Upkeep:** when Canada changes an order, edit the JSON (items, rates, dates). The daily job recomputes the next morning.
+
 ## 6. How we check our work
 - **`python pipeline/build.py`:** the data checks in D14, plus range checks on jobs, GDP shares, duty rates and the scenario. It also has sanity anchors:
   - WA aerospace jobs between 50k and 150k;
   - AB oil & gas jobs between 40k and 250k.
 - **`prototype/scripts/check-factsheets.sh`:** every fact sheet prints as exactly 2 pages with nothing cut off (all 360 checked).
+- **`prototype/scripts/check-corridor-sheets.sh`:** the same for every corridor fact sheet (14 today, D33).
 - **Browser click-through test** (Playwright; script kept outside the repo), which checks:
   - map, panel, scenario switch, business picker;
   - PNG export;
@@ -368,6 +420,6 @@ Related docs:
 ## 7. Open questions for the team / PNWER
 - Confirm the business list and the judgement-call groupings in D4.
 - Agree an official method for "jobs supported by exports", or keep it out (D19).
-- Decide whether to add Canadian counter-tariff costs, which needs product lists from Finance Canada mapped to HS codes.
+- Verify the three Canadian surtax lists in `canada-countermeasures.json` against their orders and set `verified` (D36).
 - Review the open `tariff-watch` issues and verify timeline events.
 - Replace the placeholder "What businesses are saying" quotes with real stakeholder input from PNWER.

@@ -5,16 +5,22 @@ Python scripts that pull **real public data** and write JSON files the website r
 | Script | What it writes | Sources |
 |---|---|---|
 | `regional_indicators.py` | Versioned dataset under `prototype/public/data/regional/` (Washington & Idaho trade by NAICS industry, border crossings, Canadian travellers, energy, border-county jobs, Canadian-owned companies) and `prototype/src/data/regional-headlines.json`, used by `/data`, the dashboard and fact sheets; publishes only when its 16 checks pass | Census `statenaics` (key); BTS Border Crossing Entry Data; Statistics Canada 24-10-0053 and 24-10-0057; EIA API (key); Canada Energy Regulator; BLS QCEW counties; BEA U.S. affiliates |
+| `corridors.py` | Province/territory ↔ state trade by HS section since 1990 under `prototype/public/data/corridors/` (index + one file per pair), used by the `/data` Corridors tab and the corridor fact sheets, with tariff effects and unusual-move alerts; publishes only when its 5 checks pass; in GitHub Actions opens a `trade-alert` issue for a new month's unusual moves | Statistics Canada 12-10-0099 and 12-10-0175 (data API, or `--from-zip` bulk files); Bank of Canada and Federal Reserve exchange rates |
+| `counter_tariffs.py` | `prototype/src/data/counter-tariffs.json`: estimated Canadian counter-tariffs a year for each state and province, by scope, product, list and partner; used by the fact sheets, dashboard and `/data`; keeps the old file if its 4 checks fail | `prototype/src/data/canada-countermeasures.json` (hand-kept from the Canada Gazette surtax orders); Statistics Canada CIMT imports by tariff item |
 | `provincial_trade.py` | Versioned CSV/JSON, computed insights and two-pass checks under `prototype/public/data/provincial/`, used by `/data` | Statistics Canada 12-10-0175-01 WDS; BC/AB domestic exports; CAD/NAPCS; no API key |
 | `build.py` | `prototype/src/data/real.json`: trade, jobs, GDP, affordability (duties) and the "If USMCA ends" scenario for all 10 jurisdictions × 36 sectors/businesses | Census trade API (key needed); Statistics Canada CIMT and tables; Bank of Canada; BLS (QCEW, LAUS, import prices); BEA (state GDP, population, foreign-owned employment); Census ACS |
 | `fetch_news.py` | `prototype/src/data/news.json`: the "Trade & tariff updates" feed | Federal Register, USTR, Government of Canada news (Finance, Global Affairs), CBP, PNWER blog, plus the two hand-kept files below |
 | `watch_federal_register.py` | Opens a GitHub issue (label `tariff-watch`) for each new presidential tariff action on Canada | Federal Register |
+
+`pipeline/alerts-seen.json` (written by the daily job) lists the months that already have a `trade-alert` issue, so each month gets one issue at most.
 
 ## Run it locally
 
 ```bash
 python pipeline/provincial_trade.py          # BC/AB overview, standard library only, no key
 python pipeline/regional_indicators.py       # WA/ID trade, border, energy, county jobs, ownership (~4 minutes; Census + EIA keys)
+python pipeline/corridors.py                 # province <-> state corridors; first run downloads 1990 on (add --from-zip if the API is down)
+python pipeline/counter_tariffs.py           # Canada's counter-tariff costs (~15 seconds, no key)
 pip install -r pipeline/requirements.txt
 python pipeline/fetch_news.py                # ~30 seconds
 python pipeline/watch_federal_register.py    # prints new tariff actions (no issues opened locally)
@@ -49,6 +55,7 @@ All three files live in `prototype/src/data/`. Edit them and open a pull request
    - AB oil & gas jobs are 40k–250k.
    - WA GDP is in the hundreds of billions.
 7. B.C. and Alberta exports to the U.S. over the last 12 months match table 12-10-0175 (the `/data` page's published snapshot) within 0.5%, at the same exchange rates. Skipped if that snapshot doesn't cover the same 12 months yet.
+8. B.C. and Alberta exports to Washington and Idaho over the last 12 months match table 12-10-0099 (the corridor data) within 0.5%. Skipped if the corridor data doesn't cover the same 12 months yet.
 
 `real.json` also carries the monthly exchange rates (`meta.fx`) so other pages convert C$ the same way.
 

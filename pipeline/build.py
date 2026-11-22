@@ -289,6 +289,34 @@ def check_provincial(inputs: dict, fx: dict, months: list[str]) -> list[str]:
     return problems
 
 
+CORRIDOR_DIR = ROOT / "prototype" / "public" / "data" / "corridors"
+
+
+def check_corridors(cimt_recent: list[dict], months: list[str]) -> list[str]:
+    """6. B.C. and Alberta exports to Washington and Idaho over 12 months match table 12-10-0099 (the corridor data)."""
+    try:
+        pointer = json.loads((CORRIDOR_DIR / "latest.json").read_text())
+        index = json.loads((CORRIDOR_DIR / "versions" / pointer["version"] / "index.json").read_text())
+    except (OSError, KeyError, ValueError) as e:
+        log(f"  (skipped corridor cross-check: {e})")
+        return []
+    window = months[-12:]
+    if not set(window) <= set(index["months"]):
+        log("  (skipped corridor cross-check: the corridor data doesn't cover the same 12 months yet)")
+        return []
+    ps = pd.concat([c["prov_states"] for c in cimt_recent])
+    problems = []
+    for prov in ("BC", "AB"):
+        for st in ("WA", "ID"):
+            ours = ps[(ps["flow"] == "exp") & (ps["province"] == prov) & (ps["state"] == st) & ps["ym"].isin(window)]["value"].sum()
+            series = index["series"][f"{prov}|{st}|exp|total"]
+            theirs = sum((series[index["months"].index(m)] or 0) * 1000 for m in window)  # thousands of C$
+            log(f"  {prov} -> {st}, 12 months: CIMT C${ours / 1e6:,.1f}M vs table 12-10-0099 C${theirs / 1e6:,.1f}M")
+            if theirs and abs(ours / theirs - 1) > 0.005:
+                problems.append(f"{prov} -> {st}, 12 months: CIMT {ours:,.0f} vs table 12-10-0099 {theirs:,.0f} (C$)")
+    return problems
+
+
 def check_sections(economy: dict, jur: dict, afford: dict, scen: dict) -> list[str]:
     problems = []
     for j in economy:
@@ -396,7 +424,8 @@ def main() -> None:
         )
     problems_extra = check_sections(economy, jur_economy, affordability, scenario)
 
-    problems = run_checks(trade, census, cimt_recent, last_ym) + problems_extra + check_provincial(inputs, fx, months)
+    problems = (run_checks(trade, census, cimt_recent, last_ym) + problems_extra + check_provincial(inputs, fx, months)
+                + check_corridors(cimt_recent, months))
     if problems:
         log("DATA CHECKS FAILED — real.json not written:")
         for p in problems:

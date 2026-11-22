@@ -69,6 +69,9 @@ Open the link it prints, usually **http://localhost:5173**. The page reloads aut
   - http://localhost:5173/factsheet/ID/all: all goods in Idaho
 - **Download PDF:** the button opens the print dialog; choose **Save as PDF**.
 - **PNG:** every chart has a PNG button that saves the chart as an image for slides. The image is watermarked.
+- **Cross-border corridors** (`/data?view=corridors`): trade between every PNWER province/territory and state by product section since 1990, with a supply-chain integration score, where each province's exports go, the indicative effect of each targeted tariff on the products it hit, and this month's unusual moves (also opened as `trade-alert` issues on GitHub).
+- **Canada's counter-tariffs** (`/data?view=counter-tariffs`): what Canada's surtaxes on U.S. goods in force today cost each PNWER member over a year, from the official lists and Canada's import records; also on every fact sheet's Affordability card and as a dashboard map option.
+- **Corridor fact sheets** (`/corridor/<province>/<state>`, e.g. http://localhost:5173/corridor/BC/WA): a 2-page PDF-ready brief for each corridor with at least US$250M of trade a year.
 - **Data & verification** (`/data`): Washington/Idaho trade with Canada by industry, border crossings at every port, Canadians driving home through the B.C. crossings, energy links (gas, crude, electricity), border-county jobs and Canadian-owned companies (with "Across the border" headlines on the dashboard and fact sheets). BC/Alberta monthly domestic exports in **US$** (converted at the dashboard's Bank of Canada rates; original C$ in the table and downloads), with product/time filters, CSV tables and the two-pass quality report. Its all-goods totals match the dashboard and fact sheets; its NAPCS product groups are different from the dashboard's sectors. See [the pipeline and architecture guide](docs/PROVINCIAL_DATA.md).
 
 ## Everyday commands

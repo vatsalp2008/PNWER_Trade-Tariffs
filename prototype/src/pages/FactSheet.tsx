@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AcrossBorder } from '../components/AcrossBorder'
 import { ChartCard } from '../components/ChartCard'
@@ -13,6 +13,7 @@ import { SITE_TITLE } from '../config'
 import {
   affordability,
   borderHeadlines,
+  counterTariffCost,
   data,
   economy,
   factSheetEvents,
@@ -34,9 +35,9 @@ import {
 } from '../data'
 import { JURISDICTION_BY_ID, JURISDICTIONS, SECTOR_BY_ID, SECTORS, SOURCES } from '../data/reference'
 import type { Jurisdiction, ScopeId } from '../data/types'
+import { useFitWidth, useOverflowCheck } from '../lib/sheet'
 import { compactNum, dateLabel, decimalYear, dollars, jobCount, money, NOT_AVAILABLE, pct, possessive, signedPct, usd } from '../lib/format'
 
-const PAGE_W = 816 // 8.5in at 96 dpi
 const CHART_W = 720
 
 export function FactSheet() {
@@ -257,6 +258,7 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
   const e = economy(j.id, scope)
   const je = jurisdictionEconomy(j.id)
   const a = affordability(j.id, scope)
+  const c = counterTariffCost(j.id, scope)
   const s = scenario(j.id, scope)
   const t = trade(j.id, scope)
   const partner = partnerName(j)
@@ -331,21 +333,23 @@ function PageTwo({ j, scope }: { j: Jurisdiction; scope: ScopeId }) {
           </dl>
         </ChartCard>
 
-        <ChartCard title="Affordability · today’s tariffs" source={`${SOURCES.duties}; ${SOURCES.prices}`} sample={!isReal('affordability')}>
+        <ChartCard title="Affordability · today’s tariffs" source={`${SOURCES.duties}; ${SOURCES.prices}${c ? `; ${SOURCES.counter}` : ''}`} sample={!isReal('affordability')}>
           <dl className="facts">
             <dt>Food, fuel & farm inputs from {partner} (all sectors)</dt>
             <dd>{money(a.foodFuelInputImports)}</dd>
             <dt>Est. U.S. tariffs paid on {us ? 'imports from Canada' : 'exports to the U.S.'}, last 12 months</dt>
-            <dd>{money(a.estDuties)}</dd>
-            {us ? (
+            <dd>
+              {money(a.estDuties)}
+              <span className="dd-note">
+                {us
+                  ? a.dutiesPerHousehold === null ? `per household: ${NOT_AVAILABLE}` : `${dollars(a.dutiesPerHousehold)} per household`
+                  : `average rate ${pct(a.effectiveDutyRate, 1)}`}
+              </span>
+            </dd>
+            {c && (
               <>
-                <dt>Per household</dt>
-                <dd>{a.dutiesPerHousehold === null ? NOT_AVAILABLE : dollars(a.dutiesPerHousehold)}</dd>
-              </>
-            ) : (
-              <>
-                <dt>Average U.S. tariff rate on these exports</dt>
-                <dd>{pct(a.effectiveDutyRate, 1)}</dd>
+                <dt>Est. Canadian counter-tariffs per year</dt>
+                <dd>{c.covered ? money(c.duties) : 'None'}</dd>
               </>
             )}
             <dt>{a.priceIndex === 'import' ? 'Import prices from Canada' : j.id === 'YT' ? 'Whitehorse consumer prices' : j.id === 'NT' ? 'Yellowknife consumer prices' : 'Consumer prices'}, 12-mo. change</dt>
@@ -424,33 +428,4 @@ function Missing({ why }: { why: string }) {
       <span className="dd-note">{why}</span>
     </>
   )
-}
-
-/** Shrinks the Letter-size pages to fit narrow screens (never in print). */
-function useFitWidth(ref: RefObject<HTMLDivElement | null>) {
-  const [zoom, setZoom] = useState(1)
-  useLayoutEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const update = () => setZoom(Math.min(1, (el.clientWidth - 8) / PAGE_W))
-    update()
-    const ro = new ResizeObserver(update)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [ref])
-  return zoom
-}
-
-/** Flags any page whose content no longer fits on its sheet of paper. */
-function useOverflowCheck(ref: RefObject<HTMLDivElement | null>, key: string) {
-  useEffect(() => {
-    const id = window.setTimeout(() => {
-      ref.current?.querySelectorAll<HTMLElement>('.sheet-page').forEach((page, k) => {
-        const over = page.scrollHeight > page.clientHeight + 1
-        page.dataset.overflow = String(over)
-        if (over) console.warn(`Fact sheet ${key}: page ${k + 1} overflows by ${page.scrollHeight - page.clientHeight}px`)
-      })
-    }, 300)
-    return () => window.clearTimeout(id)
-  }, [ref, key])
 }

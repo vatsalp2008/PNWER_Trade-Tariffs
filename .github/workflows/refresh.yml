@@ -59,6 +59,15 @@ jobs:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
 
+      - name: Cross-border corridors (province <-> state by HS section, since 1990)
+        run: python pipeline/corridors.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Canada's counter-tariffs (estimated cost by state and province)
+        run: python pipeline/counter_tariffs.py
+
       - uses: actions/setup-node@v5
         with:
           node-version: "22"
@@ -73,6 +82,7 @@ jobs:
         run: |
           git add prototype/src/data/news.json prototype/src/data/real.json pipeline/fr-seen.json 2>/dev/null || true
           git add -A prototype/public/data/regional/ prototype/src/data/regional-headlines.json 2>/dev/null || true
+          git add -A prototype/public/data/corridors/ pipeline/alerts-seen.json prototype/src/data/counter-tariffs.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "Nothing changed."
             exit 0

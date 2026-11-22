@@ -5,6 +5,7 @@ import { Glossary } from './pages/Glossary'
 import { News } from './pages/News'
 import { lazy, Suspense } from 'react'
 
+const CorridorSheet = lazy(() => import('./pages/CorridorSheet').then((m) => ({ default: m.CorridorSheet })))
 const ProvincialData = lazy(() => import('./pages/ProvincialData').then((m) => ({ default: m.ProvincialData })))
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/factsheet/:jur/:scope" element={<FactSheet />} />
         <Route path="/news" element={<News />} />
         <Route path="/data" element={<Suspense fallback={<p role="status">Loading data explorer…</p>}><ProvincialData /></Suspense>} />
+        <Route path="/corridor/:prov/:state" element={<Suspense fallback={<p role="status">Loading corridor fact sheet…</p>}><CorridorSheet /></Suspense>} />
         <Route path="/glossary" element={<Glossary />} />
         <Route path="*" element={<Dashboard />} />
       </Routes>

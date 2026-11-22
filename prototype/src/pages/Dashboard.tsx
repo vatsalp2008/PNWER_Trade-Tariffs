@@ -10,6 +10,8 @@ import { RegionMap } from '../components/RegionMap'
 import { SiteHeader } from '../components/SiteHeader'
 import {
   changeSince2024,
+  counterTariffCost,
+  counterTariffs,
   data,
   economy,
   isJurisdictionId,
@@ -29,13 +31,14 @@ import type { JurisdictionId, ScopeId, SectorId } from '../data/types'
 import { DIV_STOPS, SEQ_STOPS, diverging, gradientCss, sequential } from '../lib/color'
 import { compactNum, money, pct, signedPct } from '../lib/format'
 
-type Metric = 'trade' | 'change' | 'dependence' | 'jobs' | 'risk'
+type Metric = 'trade' | 'change' | 'dependence' | 'jobs' | 'counter' | 'risk'
 
 const METRICS: Record<Metric, { label: string; legend: string }> = {
   trade: { label: 'Total trade, exports + imports (last 12 months)', legend: 'Total trade' },
   change: { label: 'Change since 2024 (tariff era)', legend: 'Change since 2024' },
   dependence: { label: 'Share of exports to partner', legend: 'Exports to partner' },
   jobs: { label: 'Jobs in sector', legend: 'Jobs' },
+  counter: { label: 'Canadian counter-tariffs (a year at today’s rates)', legend: 'Counter-tariffs' },
   risk: { label: 'Extra U.S. tariffs if USMCA ends (% of trade)', legend: 'Extra tariffs' },
 }
 
@@ -49,13 +52,15 @@ function metricValue(m: Metric, j: JurisdictionId, scope: ScopeId): number | nul
       return trade(j, scope).exportShareToPartner
     case 'jobs':
       return economy(j, scope).jobs
+    case 'counter':
+      return counterTariffCost(j, scope)?.duties ?? null
     case 'risk':
       return scenario(j, scope).extraDutiesShare
   }
 }
 
 function metricFormat(m: Metric): (v: number) => string {
-  if (m === 'trade') return money
+  if (m === 'trade' || m === 'counter') return money
   if (m === 'change') return (v) => signedPct(v)
   if (m === 'jobs') return compactNum
   return (v) => pct(v, m === 'risk' ? 1 : 0)
@@ -94,7 +99,7 @@ export function Dashboard() {
     colorOf = (v) => diverging(v / maxAbs)
     legend = { low: signedPct(-maxAbs, 0), high: signedPct(maxAbs, 0), gradient: gradientCss(DIV_STOPS) }
   } else {
-    const logScale = metric === 'trade' || metric === 'jobs'
+    const logScale = metric === 'trade' || metric === 'jobs' || metric === 'counter'
     const tf = (v: number) => (logScale ? Math.log(Math.max(v, 1e-6)) : v)
     const lo = Math.min(...list)
     const hi = Math.max(...list)
@@ -163,7 +168,7 @@ export function Dashboard() {
           <label>
             <span>Colour map by</span>
             <select value={metric} onChange={(e) => update({ m: e.target.value })}>
-              {(Object.keys(METRICS) as Metric[]).map((k) => (
+              {(Object.keys(METRICS) as Metric[]).filter((k) => k !== 'counter' || counterTariffs).map((k) => (
                 <option key={k} value={k}>
                   {METRICS[k].label}
                 </option>
@@ -190,7 +195,7 @@ export function Dashboard() {
           <ChartCard
             title={`${scopeLabel(scope)} · ${METRICS[metric].label}`}
             subtitle="U.S. states are measured on trade with Canada; provinces and territories on trade with the U.S."
-            source={`${SOURCES.tradeUS}; ${SOURCES.tradeCA}`}
+            source={metric === 'counter' ? `${SOURCES.counter}; Adapted from Statistics Canada, CIMT imports by tariff item (estimate; see Data & verification)` : `${SOURCES.tradeUS}; ${SOURCES.tradeCA}`}
             exportName={`map-${scope}-${metric}`}
             className="map-card"
             sample={metric === 'jobs' ? !isReal('economy') : metric === 'risk' ? !isReal('scenario') : !isReal('trade')}

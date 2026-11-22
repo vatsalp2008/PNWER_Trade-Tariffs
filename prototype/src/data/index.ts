@@ -69,6 +69,57 @@ const headlineData = headlineFiles['./regional-headlines.json']
   : null
 export const borderHeadlines = (j: JurisdictionId): BorderHeadline[] => headlineData?.states[j] ?? []
 
+// Canada's counter-tariffs on U.S. goods (pipeline/counter_tariffs.py); optional like real.json.
+const counterFiles = import.meta.glob<string>('./counter-tariffs.json', { query: '?raw', import: 'default', eager: true })
+export interface CounterTariffMeasure {
+  id: string
+  name: string
+  start: string
+  end: string | null
+  rates: number[]
+  items: number
+  /** Items where some specific goods have relief (remission) for all importers. */
+  itemsWithProductRelief: number
+  /** Canada-wide imports from the U.S. of the listed goods over the window, US$ millions. */
+  canadaImportsUsd: number
+  note: string | null
+  inForce: boolean
+  costed: boolean
+  notCostedWhy: string | null
+  order: string | null
+  sourceUrl: string | null
+  verified: boolean
+}
+/** US$ millions over a year at the rates in force on `asOf`: surtax, the listed goods it applies to, and all goods in the scope. */
+export interface CounterTariffCost {
+  duties: number
+  covered: number
+  trade: number
+}
+export interface CounterTariffPlace {
+  name: string
+  scopes: Record<string, CounterTariffCost>
+  byMeasure: Record<string, number>
+  /** For a state: the province where goods clear customs; for a province: the state they come from ("other" = everyone else). */
+  byPartner: Record<string, number>
+  top: { hs4: string; name: string; covered: number; duties: number; rate: number }[]
+}
+export interface CounterTariffs {
+  asOf: string
+  window: [string, string]
+  measures: CounterTariffMeasure[]
+  jurisdictions: Record<string, CounterTariffPlace>
+  checks: { name: string; passed: boolean; detail: string }[]
+  ended: { name: string; order: string; start: string; end: string; note: string }[]
+  notIncluded: string[]
+}
+export const counterTariffs: CounterTariffs | null = counterFiles['./counter-tariffs.json']
+  ? (JSON.parse(counterFiles['./counter-tariffs.json']) as CounterTariffs)
+  : null
+/** Estimated Canadian counter-tariffs a year on this place's U.S. trade (null when the data isn't built). */
+export const counterTariffCost = (j: JurisdictionId, scope: ScopeId): CounterTariffCost | null =>
+  counterTariffs?.jurisdictions[j]?.scopes[scope] ?? null
+
 /** Last time the site's content changed (daily news refresh or data rebuild), YYYY-MM-DD. */
 export const lastUpdated: string | null = [newsUpdated, real?.meta.generatedAt].filter((d): d is string => !!d).sort().slice(-1)[0] ?? null
 /** "Updated Nov 4, 2026 · trade data through Aug 2026", shown on every page. */

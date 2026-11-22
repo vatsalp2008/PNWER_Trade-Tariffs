@@ -81,4 +81,5 @@ export const SOURCES = {
   duties: 'U.S. Census Bureau, imports from Canada with calculated duty (last 12 months)',
   mfn: 'U.S. Census Bureau, duties on EU and Japan imports, 2024',
   prices: 'BLS import price index (Canada); Statistics Canada CPI (18-10-0004)',
+  counter: 'Canada Gazette surtax orders',
 } as const

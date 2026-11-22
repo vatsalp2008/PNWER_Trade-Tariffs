@@ -102,6 +102,37 @@ def get_json(url: str, params: dict | None = None, *, cache: bool = True, retrie
             time.sleep(wait)
 
 
+# ---------- Statistics Canada data API (series by coordinate) ----------
+
+STATCAN_COORD = "https://www150.statcan.gc.ca/t1/wds/rest/getDataFromCubePidCoordAndLatestNPeriods"
+
+
+def statcan_points(pid: int, coords: list[str], latest_n: int, *, raw: bool = False) -> dict[str, list]:
+    """{coordinate: [(refPer, value), ...]}, or the full point dicts with raw=True (for unit and status codes).
+
+    Keyed by coordinate: the API doesn't keep request order. 100 coordinates per request.
+    """
+    out: dict[str, list] = {}
+    for i in range(0, len(coords), 100):
+        body = [{"productId": pid, "coordinate": c, "latestN": latest_n} for c in coords[i : i + 100]]
+        for attempt in range(4):
+            try:
+                r = SESSION.post(STATCAN_COORD, json=body, timeout=300)
+                r.raise_for_status()
+                break
+            except requests.RequestException:
+                if attempt == 3:
+                    raise
+                time.sleep(5 * 2**attempt)
+        for item in r.json():
+            if item.get("status") != "SUCCESS":
+                raise RuntimeError(f"Statistics Canada {pid}: {item.get('object')}")
+            obj = item["object"]
+            pts = obj["vectorDataPoint"]
+            out[obj["coordinate"]] = pts if raw else [(p["refPer"], p["value"]) for p in pts]
+    return out
+
+
 # ---------- remote ZIP members via HTTP range requests ----------
 
 class HttpRangeFile(io.RawIOBase):

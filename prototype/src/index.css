@@ -1075,6 +1075,66 @@ input[type='search'] {
   border-top: 1px solid var(--line);
 }
 
+.data-views {
+  margin: 0 0 12px;
+}
+
+.link-button {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--brand-700);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+.corridor-table td:first-child {
+  white-space: normal;
+}
+
+.impact-table td:first-child {
+  white-space: normal;
+  min-width: 260px;
+}
+
+.measure-table td:last-child {
+  white-space: normal;
+  min-width: 200px;
+  text-align: left;
+}
+
+.counter-place td:first-child {
+  white-space: normal;
+}
+
+.caution {
+  color: var(--ochre);
+}
+
+.alert-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+}
+
+.alert-list li {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.alert-list li:last-child {
+  border-bottom: 0;
+}
+
 /* ---------- glossary ---------- */
 .glossary {
   display: flex;

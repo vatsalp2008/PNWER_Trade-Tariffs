@@ -74,7 +74,7 @@
    "imposedBy": "CA",
    "kind": "counter-tariff",
    "measure": "Canadian counter-tariffs on U.S. steel & aluminum (C$29.8B)",
-   "rate": "25%",
+   "rate": "25–50%",
    "rateNum": 0.25,
    "usmcaExempt": "no",
    "businesses": [
@@ -84,7 +84,7 @@
     "electronics"
    ],
    "verified": false,
-   "sourceUrl": null
+   "sourceUrl": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2025-95/FullText.html"
   },
   {
    "id": "us-232-autos",
@@ -114,7 +114,7 @@
     "autos"
    ],
    "verified": false,
-   "sourceUrl": null
+   "sourceUrl": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2025-118/FullText.html"
   },
   {
    "id": "us-232-metals-50",
@@ -181,7 +181,7 @@
    "date": "2025-09-01",
    "imposedBy": "CA",
    "kind": "relief",
-   "measure": "Canada lifts counter-tariffs on CUSMA-compliant U.S. goods",
+   "measure": "Canada drops counter-tariffs except steel, aluminum, autos",
    "rate": "0% for compliant goods",
    "usmcaExempt": "yes",
    "businesses": [
@@ -300,7 +300,15 @@
     "paper",
     "woodprod",
     "electronics",
-    "seafood"
+    "agother",
+    "autos",
+    "chemicals",
+    "consumer",
+    "critmin",
+    "lumber",
+    "metalsother",
+    "mfgother",
+    "plastics"
    ],
    "verified": false,
    "sourceUrl": "https://www.canada.ca/en/department-finance/news/2026/08/list-of-products-from-the-united-states-subject-to-counter-tariffs-effective-september-8-2026.html"

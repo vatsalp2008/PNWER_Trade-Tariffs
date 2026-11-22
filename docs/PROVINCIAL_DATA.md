@@ -56,6 +56,16 @@ The pipeline stores the official values in Canadian dollars, unchanged. The page
 
 Its 16 checks (all must pass): industries add up to the official Census total to the dollar every month; last-12-month totals with Canada match the dashboard; latest month present at Blaine, Sumas and Eastport, and at Douglas, Pacific Highway and Kingsgate; no negative counts; passengers ≥ vehicles; the 15 B.C. ports never exceed the B.C. total; complete months of daily data; EIA and Canada Energy Regulator gas volumes agree within 5%; Canadian crude ≤ all imported crude; county industry jobs ≤ the county total; Canadian-owned ≤ all foreign-owned. The same run writes `prototype/src/data/regional-headlines.json`, the "Across the border" headlines for the dashboard (three per state) and fact sheets (the first two). Tests: `pipeline/tests/test_regional_indicators.py` and `prototype/tests/regional.test.ts` (`npm run test:data` runs both page test files).
 
+## Cross-border corridors tab
+
+`/data?view=corridors&pair=BC-WA` shows a third dataset, built by `pipeline/corridors.py` (daily in `refresh.yml`) from Statistics Canada table 12-10-0099-01: every PNWER province/territory × state pair, 21 HS sections plus totals, domestic exports and total imports, monthly since 1990, in thousands of C$ with the monthly exchange rate stored alongside. It's published like the others: `prototype/public/data/corridors/latest.json` points to `versions/<id>/index.json` (totals, rates, integration scores, the Canada-vs-U.S. records comparison) and `versions/<id>/pairs/<P>-<S>.json` (sections), each checksummed. Checks and method: decision D32. Tests: `pipeline/tests/test_corridors.py` and `prototype/tests/corridors.test.ts`.
+
+The same index also carries:
+- **`impacts`:** for each corridor, the indicative effect of each targeted tariff action on the products it hit (D34), and `eventSections`, the HS sections each action hit.
+- **`alerts`:** this month's unusual moves and a backtest since 2019 (D35). In GitHub Actions the script also opens a `trade-alert` issue once per new month.
+
+The pair files feed the corridor fact sheets at `/corridor/<province>/<state>` (D33); `prototype/scripts/check-corridor-sheets.sh` checks they all print as 2 pages.
+
 ## Two validation passes
 
 Before generating tables:

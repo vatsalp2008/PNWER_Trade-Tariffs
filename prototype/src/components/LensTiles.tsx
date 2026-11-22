@@ -1,4 +1,4 @@
-import { affordability, economy, goodsNoun, industryNoun, isReal, partnerName, scenario, trade } from '../data'
+import { affordability, counterTariffCost, economy, goodsNoun, industryNoun, isReal, partnerName, scenario, trade } from '../data'
 import type { Jurisdiction, ScopeId, SectionKey } from '../data/types'
 import { compactNum, money, NOT_AVAILABLE, pct, signedPct } from '../lib/format'
 
@@ -17,6 +17,7 @@ export function LensTiles({ j, scope, mode }: { j: Jurisdiction; scope: ScopeId;
   const a = affordability(j.id, scope)
   const e = economy(j.id, scope)
   const s = scenario(j.id, scope)
+  const c = counterTariffCost(j.id, scope)
   const partner = partnerName(j)
   const goods = goodsNoun(scope)
   const industry = industryNoun(scope)
@@ -30,7 +31,12 @@ export function LensTiles({ j, scope, mode }: { j: Jurisdiction; scope: ScopeId;
       ? [
           { lens: 'Integration', value: pct(t.exportShareToPartner), caption: `of ${goods} exports go to ${partner}`, section: 'trade' },
           { lens: 'Competitiveness', value: signedPct(t.growthUsmcaToPartner), caption: `export growth to ${partner} under USMCA (2019→2024)`, section: 'trade' },
-          { lens: 'Affordability', value: money(a.estDuties), caption: `estimated U.S. tariffs paid on ${flow}, last 12 months`, section: 'affordability' },
+          {
+            lens: 'Affordability',
+            value: money(a.estDuties),
+            caption: `estimated U.S. tariffs paid on ${flow}, last 12 months${c?.covered ? `; plus about ${money(c.duties)} a year in Canadian counter-tariffs on ${us ? 'its goods' : 'its U.S. imports'}` : ''}`,
+            section: 'affordability',
+          },
           { lens: 'Employment', value: jobs, caption: `jobs in ${industry} (${e.jobsYear}${minimum})`, section: 'economy' },
         ]
       : [

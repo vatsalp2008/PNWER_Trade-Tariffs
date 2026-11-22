@@ -32,8 +32,9 @@ It's the **tool** half of the project. The written assessment for PNWER is a sep
 |---|---|---|
 | **Dashboard** | `/` | Explore. Pick a sector, business and place; see the map, four headline numbers, the businesses table, the tariff timeline and the latest news. |
 | **Fact sheet** | `/factsheet/<jurisdiction>/<scope>` | Share. A 2-page US Letter document for one place and one sector or business, with a PDF download and image downloads. |
+| **Corridor fact sheet** | `/corridor/<province>/<state>` | Share. A 2-page document on the trade between one province and one state (e.g. `/corridor/BC/WA`), for corridors with at least US$250M of trade a year. |
 | **Trade & tariff updates** | `/news` | Keep current. Recent official announcements, PNWER statements and articles picked by the team. |
-| **Data & verification** | `/data` | Check. Washington and Idaho trade by industry and border crossings; B.C. and Alberta exports by product group; the checks behind them and CSV downloads (see section 4.1). |
+| **Data & verification** | `/data` | Check. Washington and Idaho trade by industry and border crossings; B.C. and Alberta exports by product group; cross-border corridors; Canada's counter-tariff costs; the checks behind them and CSV downloads (see section 4.1). |
 | **What the terms mean** | `/glossary` | Plain-language definitions of every term on the site. |
 
 ### The 10 jurisdictions
@@ -131,6 +132,7 @@ A **scope** is either "All traded goods", one sector, or one business.
 | Change since 2024 (tariff era) | Last 12 months vs. calendar 2024, the last full year before tariffs | Clay/red = fell, blue = grew |
 | Share of exports to partner | How much of the place's exports in this scope go to the partner | Darker = more dependent |
 | Jobs in sector | Jobs in the industries that make up the scope | Darker = more jobs |
+| Canadian counter-tariffs (a year at today's rates) | Estimated Canadian surtax a year: on goods from a state, or paid by a province's importers on U.S. goods (decision D36) | Darker = more (log scale) |
 | Extra U.S. tariffs if USMCA ends (% of trade) | Extra tariffs as a share of the trade U.S. tariffs apply to | Darker = higher risk |
 
 **Grey means "no data"**, for example a territory with no trade in that business in 2024.
@@ -268,7 +270,7 @@ Every number on the sheet names its source, and its year where sources differ.
 |---|---|---|
 | **Employment** | Jobs in the industry (with year); jobs at partner-owned companies; employment rate with a small trend line (see below) | BLS QCEW and LAUS; BEA; Statistics Canada |
 | **Economic output** | GDP of the sector (with year), its share of the economy, GDP per person with a trend line, and the total economy. A business sheet shows its **whole sector's** GDP, labelled as such. | BEA; Statistics Canada |
-| **Affordability · today's tariffs** | Food, fuel & farm inputs imported from the partner; estimated U.S. tariffs paid; tariffs per household or average tariff rate; prices (see below) | Census; BLS; Statistics Canada |
+| **Affordability · today's tariffs** | Food, fuel & farm inputs imported from the partner; estimated U.S. tariffs paid, with tariffs per household or the average tariff rate beside it; estimated Canadian counter-tariffs per year; prices (see below) | Census; BLS; Statistics Canada; Canada Gazette |
 | **Tariff actions since January 2025** | Numbered table: date, action (linked to its official source), who, rate, whether USMCA goods are exempt, status. It shows the 10 most relevant actions, and the subtitle says how many touched the scope and how many are still in effect. | Curated timeline |
 | **If USMCA ends (estimate)** | Share crossing tariff-free today; average U.S. tariff if USMCA ends; extra U.S. tariffs per year (and % of the trade); an upper-bound Section 301 line; a **risk level** with its key (see below) | Census duty data |
 | **What businesses are saying** | A quote box. **Currently a placeholder**, to be replaced with stakeholder input from PNWER. On **Washington and Idaho** sheets it's replaced by **Across the border**: Canadians driving home through the nearby B.C. crossings (vs. the same month in 2024), and an energy link: Canada's share of the foreign crude run by Washington refineries, or Eastport's share of all Canadian gas piped into the U.S. | Statistics Canada 24-10-0053; EIA |
@@ -287,7 +289,8 @@ Every number on the sheet names its source, and its year where sources differ.
 **Affordability details:**
 - **Food, fuel & farm inputs:** imports in Agriculture & Food, Energy and Fertilizer, all sectors combined.
 - **Estimated U.S. tariffs paid** over the last 12 months, on a state's imports from Canada or a province's exports to the U.S.
-- **Tariffs per household** for states, or the **average tariff rate** for provinces.
+- **Tariffs per household** for states, or the **average tariff rate** for provinces, in small print beside it.
+- **Estimated Canadian counter-tariffs per year:** what Canada's surtaxes in force today would cost over a year on this trade: on goods from the state, or paid by the province's importers on U.S. goods. An upper bound (before relief Canada grants some importers); vehicles aren't costed. Details on `/data` → Canada's counter-tariffs.
 - **Prices:** U.S. import prices from Canada for states, or consumer prices for provinces (Whitehorse and Yellowknife for the territories), 12-month change.
 
 **"If USMCA ends (estimate)" details:**
@@ -314,6 +317,7 @@ Every number on the sheet names its source, and its year where sources differ.
 | GDP per person, total economy | Size of the economy per resident | GDP ÷ population | BEA (2025); Statistics Canada 36-10-0222 and 17-10-0005 (2024) |
 | Estimated U.S. tariffs paid | What U.S. tariffs cost on this trade | For each product: national duty actually collected on Canadian goods ÷ their value, × this place's trade in that product | Census imports from Canada with calculated duty, last 12 months |
 | Tariffs per household | The tariffs spread across the state's households | Estimated tariffs ÷ households | Census ACS (2024) |
+| Est. Canadian counter-tariffs per year | Canada's surtaxes in force today, on a year of this trade | For each Canadian tariff item on a surtax list: imports over the last 12 months × its surtax rate | Canada Gazette surtax orders; Statistics Canada CIMT imports by tariff item |
 | Price change | How prices moved over 12 months | U.S.: import prices for goods from Canada. Canada: consumer prices. | BLS; Statistics Canada 18-10-0004 |
 | Share crossing tariff-free | Trade that pays no U.S. tariff today | (value − dutiable value) ÷ value, by product | Census, last 12 months |
 | Average U.S. tariff without USMCA | Standard rate this trade would face | What the U.S. collected on the same products from the EU and Japan in 2024, before the new tariffs, weighted by this trade | Census (2024) |
@@ -323,7 +327,7 @@ Every number on the sheet names its source, and its year where sources differ.
 
 **Caveats to repeat whenever you quote these numbers:**
 - **Duty estimates leave out anti-dumping and countervailing duties**, so softwood lumber's real duties are higher than shown.
-- **Canadian counter-tariffs are not costed**; there's no equivalent product-level data.
+- **Canadian counter-tariff estimates are upper bounds**: they're before the relief Canada grants some importers, and vehicles aren't costed (decision D36).
 - **U.S. exports are counted by "state of origin of movement"**, which isn't always where goods were made.
 - **Canadian imports are counted by province of clearance.**
 - More detail is in [`DECISIONS.md`](DECISIONS.md), sections D14–D22.
@@ -349,7 +353,7 @@ Every number on the sheet names its source, and its year where sources differ.
 - **Updates vs. timeline:** the updates page is **automatic and not verified**. The **tariff timeline** on the dashboard and fact sheets is **curated and linked to official sources**, and it's what the site's tariff tags use.
 
 ### 4.1 Data & verification page (`/data`)
-Added by Yifan in Nov 2026 for B.C. and Alberta; Washington and Idaho added later in Nov 2026 (decision D31). Full details: [PROVINCIAL_DATA.md](PROVINCIAL_DATA.md). Pick the place from the **Jurisdiction** menu.
+Added by a teammate in Nov 2026 for B.C. and Alberta (PR #6); Washington and Idaho added later in Nov 2026 (decision D31). Full details: [PROVINCIAL_DATA.md](PROVINCIAL_DATA.md). Pick the place from the **Jurisdiction** menu.
 
 **Washington and Idaho:**
 - **Trade by industry:** exports to or imports from Canada by Census NAICS industry group, 12/24/36 months: 12-month total (matches the dashboard exactly for all industries), latest month, change from a year earlier, Canada's share; a trend chart, the largest industries, a table and CSV download.
@@ -359,6 +363,21 @@ Added by Yifan in Nov 2026 for B.C. and Alberta; Washington and Idaho added late
 - **Canadian investment:** property, plant and equipment, jobs and manufacturing jobs of Canadian-owned companies.
 - **Sources:** U.S. Census Bureau, Bureau of Transportation Statistics, Statistics Canada tables 24-10-0053 and 24-10-0057, EIA, Canada Energy Regulator, BLS, BEA; refreshed daily by `refresh.yml` with 16 automatic checks.
 - **On the dashboard:** select Washington or Idaho and the side panel shows three "Across the border" numbers.
+
+**Canada's counter-tariffs** (the third switch, `/data?view=counter-tariffs`):
+- **Every PNWER member:** the estimated Canadian surtax a year at today's rates, the listed goods it applies to, and their share of the trade.
+- **One place:** the most affected products, where it's paid (province of clearance for a state; state of origin for a province), and the split by list.
+- **Canada's lists:** each surtax order with its dates, rates, number of tariff items, Canada-wide imports, whether it's in the estimate, and a link to the order. Measures say "not yet verified by the team" until someone checks them.
+- **Source:** Canada Gazette surtax orders and Statistics Canada CIMT imports by tariff item, refreshed daily by `pipeline/counter_tariffs.py` with 4 checks (decision D36).
+
+**Cross-border corridors** (the second switch at the top, `/data?view=corridors`):
+- **Unusual moves:** up to 5 product flows that changed far more than usual this month (3 months vs. a year earlier). Each also becomes a `trade-alert` issue on GitHub (see section 6).
+- **All PNWER corridors:** two-way trade between every province or territory and every state over the last 12 months, the change from two years earlier, and an integration score. Click one to explore it.
+- **One corridor:** trade each way (and vs. two years earlier), a chart since 1990 with NAFTA, USMCA and tariff-era bands, the integration score by year, trade by HS product section, and a CSV download (original C$ and US$).
+- **Did a tariff change trade?** For each targeted tariff action, how the products it hit changed compared with the corridor's other trade. It's an *indicative effect*, not proof; rows marked "read with care" were already drifting before the action (decision D34).
+- **Where the province's exports go:** PNWER states, the rest of the U.S., the rest of the world, and the shares since 1997.
+- **Corridor fact sheet:** the "Open 2-page corridor fact sheet" link (corridors with at least US$250M of trade a year) opens `/corridor/<province>/<state>`, ready to save as PDF (decision D33).
+- **Source:** Statistics Canada table 12-10-0099 (built on the team's cleaning notebook), refreshed daily with 5 checks (decisions D32–D35).
 
 **B.C. and Alberta:**
 - **What it shows:** British Columbia's and Alberta's monthly exports to the U.S. and the world over 36 months, for all goods and 12 Statistics Canada product groups (energy, forestry, vehicles…). Pick a province, product group and time range.
@@ -375,8 +394,9 @@ Added by Yifan in Nov 2026 for B.C. and Alberta; Washington and Idaho added late
 1. **Refreshes the news feed** (`news.json`).
 2. **Checks the Federal Register** for new U.S. presidential tariff actions on Canada. For each new one, it **opens a GitHub issue** labelled `tariff-watch` so a teammate can review it.
 3. **Checks whether a new month of trade data is out.** If it is, it rebuilds all the data: trade, jobs, GDP, duties and the scenario (`real.json`). The build runs its checks first and won't publish if any fail. If Statistics Canada or Census is down that day, it keeps the current data, shows a warning on the run, and tries again tomorrow.
-4. **Makes sure the website still builds.**
-5. **Commits any changes.** Vercel then redeploys the live site automatically, within a couple of minutes.
+4. **Refreshes the `/data` datasets** (Washington/Idaho indicators, the cross-border corridors and the counter-tariff estimate). When a new month shows unusual corridor moves, it **opens a GitHub issue** labelled `trade-alert`.
+5. **Makes sure the website still builds.**
+6. **Commits any changes.** Vercel then redeploys the live site automatically, within a couple of minutes.
 
 **Running it by hand:** GitHub → **Actions** → *Refresh data and news* → **Run workflow**. Tick *Rebuild trade data* to force a full rebuild; it takes 30–60 minutes.
 
@@ -431,6 +451,16 @@ Edit `prototype/src/data/news-curated.json` and add an entry to `items`:
 1. Open the issue and read the linked Federal Register document.
 2. If it changes tariffs on Canadian goods, add an event to `prototype/src/data/tariff-events.json` (next task).
 3. Close the issue, saying what you did. Close it without changes if it doesn't affect the timeline.
+
+### Update Canada's counter-tariff lists
+1. When Canada changes a surtax order (Canada Gazette, Part II, or a CBSA customs notice), edit `prototype/src/data/canada-countermeasures.json`: the tariff items (`"7208.10.00"` style) under each rate, the start date, or an `end` date if it's repealed.
+2. After checking a measure against its order, set `"verified": true`.
+3. The daily job recomputes the estimate the next morning, or run `python pipeline/counter_tariffs.py` yourself (about 15 seconds, no key).
+
+### Review a `trade-alert` issue
+1. Read the flagged moves and open the corridor on `/data?view=corridors`.
+2. Look for a reason: a tariff action on the timeline, news, a plant closure, a one-off shipment (aircraft, ships).
+3. If it's a new tariff action, add it to the timeline (next task). Close the issue with a one-line note on what explains the move.
 
 ### Add or verify a tariff event
 Each event in `prototype/src/data/tariff-events.json` looks like this:
@@ -492,7 +522,10 @@ cd prototype
 npm run build && npm run preview          # in one terminal
 scripts/check-factsheets.sh "WA OR ID MT AK BC AB SK YT NT" "all ag energy mfg forest metals chem other"
 ```
-Any line starting with `FAIL` names the sheet and how many pixels it spills over.
+Any line starting with `FAIL` names the sheet and how many pixels it spills over. For the corridor sheets:
+```bash
+BASE=http://localhost:4173 scripts/check-corridor-sheets.sh
+```
 
 ---
 
@@ -509,6 +542,10 @@ pipeline/                       Python scripts that fetch and check the data
   sections.py                   jobs, GDP, affordability and scenario calculations
   fetch_news.py                 builds news.json
   watch_federal_register.py     opens tariff-watch issues
+  regional_indicators.py        Washington & Idaho data for /data
+  corridors.py                  province <-> state corridors, tariff effects, trade-alert issues
+  counter_tariffs.py            Canada's counter-tariff costs by state and province
+  provincial_trade.py           B.C. & Alberta exports for /data
   names.py                      readable product names
 prototype/                      the website (Vite + React + TypeScript)
   src/pages/                    Dashboard.tsx, FactSheet.tsx, News.tsx
@@ -516,6 +553,8 @@ prototype/                      the website (Vite + React + TypeScript)
   src/data/
     sectors.json                sectors → businesses → product & industry codes (shared)
     tariff-events.json          curated tariff timeline (edit by hand)
+    canada-countermeasures.json Canada's surtax lists by tariff item (edit by hand)
+    counter-tariffs.json        counter-tariff estimate (written by the pipeline; don't edit)
     news-curated.json           team picks (edit by hand)
     pnwer-engagement.json       PNWER statements (edit by hand)
     real.json                   real data (written by the pipeline; don't edit)
@@ -525,6 +564,7 @@ prototype/                      the website (Vite + React + TypeScript)
     index.ts                    the one place the pages read data from
   src/index.css                 all styling (minimal, PNWER blue palette)
   scripts/check-factsheets.sh   2-page fit check
+  scripts/check-corridor-sheets.sh   2-page fit check for corridor sheets
 ```
 
 ---
@@ -566,7 +606,7 @@ The team, through pull requests. The automatic watcher only *flags* new actions 
 |---|---|
 | **USMCA / CUSMA** | The U.S.–Mexico–Canada Agreement (called CUSMA in Canada), in force since July 1, 2020. It lets most goods that meet its rules cross duty-free. In July 2026 the U.S. declined to extend it, so it's now reviewed every year. |
 | **Tariff / duty** | A tax on goods when they cross the border. |
-| **Counter-tariff** | A tariff one country imposes in response to another's. |
+| **Counter-tariff** | A tariff one country imposes in response to another's. Canada's are surtaxes on listed U.S. goods, paid by Canadian importers. |
 | **Section 232 / 301 / 338 / 122** | U.S. laws used to impose tariffs: 232 (national security, e.g. steel, aluminum, lumber), 301 (unfair trade practices), 338 (discrimination against U.S. commerce), 122 (temporary balance-of-payments surcharge). |
 | **IEEPA tariffs** | The 2025 "border" tariffs on Canadian goods under an emergency-powers law. The Supreme Court struck them down in February 2026. |
 | **AD/CVD** | Anti-dumping and countervailing duties: special duties on specific products such as softwood lumber, collected separately from regular tariffs. |
@@ -581,6 +621,10 @@ The team, through pull requests. The automatic watcher only *flags* new actions 
 | **Risk level** | Our rating of how hard a place's trade would be hit by extra U.S. tariffs if USMCA ended: Low (< 1% of the trade), Moderate (1–2.5%), High (≥ 2.5%). Called "Exposure" before Nov 2026. |
 | **Today's tariffs vs. If USMCA ends** | *Today's tariffs* is what is actually paid now, with USMCA in place. *If USMCA ends* is our estimate if goods lost USMCA's tariff-free access; a scenario, not a forecast. |
 | **US$** | Every dollar amount on the site. Canadian figures are converted at Bank of Canada rates. |
+| **Corridor** | The trade between one province or territory and one state, both ways (e.g. B.C. ↔ Washington). |
+| **Integration score** | How much of a corridor's trade is the same kinds of products going both ways: 0 = one way only, 1 = perfectly two-way. |
+| **Indicative effect** | How much the products a tariff hit changed compared with the corridor's other trade, after vs. before. A pointer, not proof. |
+| **Unusual move** | A product flow that changed far more than it usually does (beyond 2.5 standard deviations of its own history). |
 
 ---
 

@@ -10,6 +10,8 @@ import type { JurisdictionId } from '../data/types'
 import { money, monthLabel, NOT_AVAILABLE, usd } from '../lib/format'
 import { BRAND_700, MUTED, STONE } from '../lib/palette'
 import { PlaceSelect, StateData } from './StateData'
+import { Corridors } from './CorridorData'
+import { CounterTariffData } from './CounterTariffData'
 
 /** '2026-09' → 'Sep 2026', matching the rest of the site. */
 const month = (ym: string) => monthLabel(`${ym}-01`)
@@ -19,15 +21,27 @@ const pct = (v: number | null, signed = false) => v === null ? 'Not available' :
   style: 'percent', maximumFractionDigits: 1, signDisplay: signed ? 'exceptZero' : 'auto',
 }).format(v)
 
-/** Data & verification page: Washington and Idaho (StateData) or B.C. and Alberta (Yifan's view below). */
+/** Data & verification page: Washington and Idaho (StateData) or B.C. and Alberta (the PR #6 view below). */
 export function ProvincialData() {
-  const [params] = useSearchParams()
+  const [params, setParams] = useSearchParams()
   const place = params.get('province') ?? 'WA'
+  const view = params.get('view') === 'corridors' ? 'corridors' : params.get('view') === 'counter-tariffs' ? 'counter-tariffs' : 'place'
+  const show = (next: typeof view) => setParams(next === 'place' ? {} : { view: next })
+  const title = {
+    place: 'Washington, Idaho, B.C. & Alberta: data and verification',
+    corridors: 'Cross-border corridors: data and verification',
+    'counter-tariffs': 'Canada’s counter-tariffs: estimated costs',
+  }[view]
   return <div className="app provincial-data">
     <SiteHeader />
     <main className="dash">
-      <h1>Washington, Idaho, B.C. & Alberta: data and verification</h1>
-      {isStatePlace(place) ? <StateData state={place} /> : <ProvinceData />}
+      <h1>{title}</h1>
+      <div className="segmented data-views" role="group" aria-label="View">
+        {([['place', 'By place'], ['corridors', 'Cross-border corridors'], ['counter-tariffs', 'Canada’s counter-tariffs']] as const).map(([k, label]) => (
+          <button key={k} type="button" className={view === k ? 'is-active' : ''} aria-pressed={view === k} onClick={() => show(k)}>{label}</button>
+        ))}
+      </div>
+      {view === 'corridors' ? <Corridors /> : view === 'counter-tariffs' ? <CounterTariffData /> : isStatePlace(place) ? <StateData state={place} /> : <ProvinceData />}
     </main>
     <footer className="site-foot"><p>Canadian figures adapted from Statistics Canada; this does not constitute an endorsement by
       Statistics Canada of this product. U.S. figures: Census Bureau, Bureau of Transportation Statistics, EIA, BLS and BEA (public domain). Canada Energy Regulator data:

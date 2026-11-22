@@ -1,0 +1,63 @@
+{
+ "schemaVersion": 1,
+ "version": "4908e867905a8b1df7cc",
+ "generatedAt": "2026-11-22T07:45:11Z",
+ "files": {
+  "index.json": "d8d115c4e682aa2924d65c7fb22947bafbfd0b7e8d7d90e824924e98801278c9",
+  "pairs/AB-AK.json": "5d9217736b5745a39f99a114d3baae412c6ce9cd45cbadc236e01c3d4f72dbd8",
+  "pairs/AB-ID.json": "e16e810ab504d698e18445a389b4b3a4250567e9f483c96667a95205fc51ea76",
+  "pairs/AB-MT.json": "04dead5823189b92e1a7a277b6a1be9dc40c21839bc47376ac6439c0db172fc6",
+  "pairs/AB-OR.json": "7950a7a4689c9705d9cea2f3b97bab36a5cba53533dd0f31db944e9ac6deff70",
+  "pairs/AB-WA.json": "68e977ec7a423e6219948e42babb3d4e56f9e702b183f7684c1f59921af7fc30",
+  "pairs/BC-AK.json": "6fbe05fb22726744257b3e1ce50f6122331d831f4e99e1acd0445450e05e8413",
+  "pairs/BC-ID.json": "dd9cda494f0819b3a9882ae13d9d739093c3e0b8525ed606c36fc84e4c656512",
+  "pairs/BC-MT.json": "6619689ec3f1ee57c99758b3a711f50fb1eaa19596253ee73aa5f2b03e2bdacc",
+  "pairs/BC-OR.json": "68003ef61e964fde0ccc3b46e2ffd7d4e239034ef7c905243e992dacb3a2ca02",
+  "pairs/BC-WA.json": "24bd692e02182c2dcf6e881e43aa4e8c3390c395d73e278d8f25318010f452bc",
+  "pairs/NT-AK.json": "6659294978b81f1b0a72ec166fed7f30d05be3f934102f125c6ef8ed178bd2c2",
+  "pairs/NT-ID.json": "25adc5c9c7d94092db508c37be69cd6233d1da92b819c2a31af7445e75e23018",
+  "pairs/NT-MT.json": "565c251c38926b3e6fcb6753a1243543a56b0fdd1d95e66feb800f6ae6d74809",
+  "pairs/NT-OR.json": "2d417bdd808c997ac517417319af7f7ad96a89074203256c6677417a1c685dff",
+  "pairs/NT-WA.json": "eb654ea708a1e922dee4979c581f74e1cbbd27f45bceadb47aa17ec05489c38c",
+  "pairs/SK-AK.json": "57618cc5890abf3557e587e4642bb1ab92bf8f4ae01a7014430958c27630396a",
+  "pairs/SK-ID.json": "9294a8c195acebda49b5f12ead133a07818e4bd466463813c146b762ff7ccc2f",
+  "pairs/SK-MT.json": "315e22b1b9b0933646e19c86bf3b4a2424570167b4d9bf39d176c180ff0b16eb",
+  "pairs/SK-OR.json": "73bbf6cd158c2589aff7b701fe270e4e7b33399b475f789720f231cdc6051786",
+  "pairs/SK-WA.json": "836e085f263b0fbf4410164b879ef4f1c26ffce040533397475d415333809452",
+  "pairs/YT-AK.json": "2d12e0c7af5debd7204b419c1d36771d86e4087bc94740d5bd7d9f2c4d290569",
+  "pairs/YT-ID.json": "c7ea51cef5451209e34f98d5043f102c97783ecd7180b0722dae227eae9ce850",
+  "pairs/YT-MT.json": "fb26eab77669294b14bdf111f341b4620f2e086f30cdadad2782c1ce5a18b44a",
+  "pairs/YT-OR.json": "a578c023a2520139f8d3df232c3c9fa34451f203c5a0dc14e6abf00972a21b37",
+  "pairs/YT-WA.json": "486ce938e568ee6bede9c2ea08c6e9d1feaf31c026f6565c6703cb299774c67d"
+ },
+ "quality": {
+  "passed": true,
+  "checks": [
+   {
+    "name": "Values are in thousands of Canadian dollars",
+    "passed": true,
+    "detail": "Every data point's scale code is 3 (thousands)"
+   },
+   {
+    "name": "Sections add up to the total",
+    "passed": true,
+    "detail": "All 25 corridors, both directions, every month, within C$11,000 (21 sections rounded to C$1,000)"
+   },
+   {
+    "name": "No gaps in any series",
+    "passed": true,
+    "detail": "1120 series, 1990-01 to 2026-09"
+   },
+   {
+    "name": "Latest month present for B.C./Alberta with Washington/Idaho",
+    "passed": true,
+    "detail": "Latest month 2026-09"
+   },
+   {
+    "name": "Exchange rates cover every month and match the dashboard's",
+    "passed": true,
+    "detail": "Bank of Canada rates (as on the dashboard) from 2017; Federal Reserve rates before, which agree within 0.15% where both exist"
+   }
+  ]
+ }
+}

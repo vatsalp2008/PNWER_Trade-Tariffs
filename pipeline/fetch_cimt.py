@@ -92,6 +92,40 @@ def aggregate_year(year: int, *, detail: bool, rank: bool, fresh: bool) -> dict[
     return result
 
 
+HS10_MEMBER = "ODPFN014"  # imports by Canadian 10-digit code (the first 8 digits are the tariff item)
+
+
+def us_imports_hs8(year: int, *, fresh: bool) -> pd.DataFrame:
+    """Canada's imports from the U.S. by 8-digit tariff item, for rows touching a PNWER state or province (CAD).
+
+    Columns: ym, hs8, province (of clearance), state (of origin), value. This is what Canada's counter-tariff
+    lists are written in, so measures match item by item.
+    """
+    cache = CACHE_DIR / "cimt-agg" / f"{year}-us-hs8.csv.gz"
+    if cache.exists() and not fresh:
+        return pd.read_csv(cache, dtype={"hs8": str, "ym": str})
+    zf = remote_zip(URL.format(kind="Imp", year=year))
+    name = next(n for n in zf.namelist() if HS10_MEMBER in n and n.lower().endswith(".csv"))
+    log(f"StatCan CIMT {year} imports by tariff item: reading {name.split('/')[-1]} ({zf.getinfo(name).compress_size / 1e6:.0f} MB)")
+    cols = ["ym", "hs10", "country", "province", "state", "value"]
+    parts = []
+    with zf.open(name) as f:
+        for chunk in pd.read_csv(f, header=0, names=cols, usecols=range(6), dtype={c: str for c in cols[:5]},
+                                 encoding="latin-1", chunksize=750_000):
+            chunk = chunk[chunk["country"] == "US"]
+            chunk = chunk.assign(value=pd.to_numeric(chunk["value"], errors="coerce").fillna(0),
+                                 ym=chunk["ym"].str[:4] + "-" + chunk["ym"].str[4:6], hs8=chunk["hs10"].str.zfill(10).str[:8])
+            # Canada-wide totals (province and state "ALL") to check each list against the value Finance Canada announced.
+            parts.append(chunk.groupby(["ym", "hs8"], as_index=False)["value"].sum().assign(province="ALL", state="ALL"))
+            ours = chunk[chunk["state"].isin(US_STATES) | chunk["province"].isin(PROVINCES)]
+            parts.append(ours.groupby(["ym", "hs8", "province", "state"], as_index=False)["value"].sum())
+    keys = ["ym", "hs8", "province", "state"]
+    df = pd.concat(parts).groupby(keys, as_index=False)["value"].sum() if parts else pd.DataFrame(columns=keys + ["value"])
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(cache, index=False)
+    return df
+
+
 def latest_month(year: int) -> str:
     """Latest month present in a year's export file name, e.g. ODPFN018_202608N.csv -> 2026-08."""
     zf = remote_zip(URL.format(kind="Dom_Exp", year=year))
