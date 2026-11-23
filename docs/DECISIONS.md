@@ -413,7 +413,8 @@ Related docs:
   - real/sample labels;
   - no NaN values;
   - phone width.
-- **`npm run build` and `npm run lint`** must pass before merging.
+- **`npm run build` and `npm run lint`** must pass before merging. **`check.yml`** runs every Python and data test, lint and the build on each pull request (and on any push to `main` by a person).
+- **Rolling back:** a failed daily run or Vercel build never reaches the live site. A bad deploy can be undone in seconds with Vercel's Instant Rollback, and any change with `git revert`; steps in the team guide, *If something breaks*.
 
 ---
 

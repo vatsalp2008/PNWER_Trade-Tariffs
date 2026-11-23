@@ -15,7 +15,7 @@ The **Data & verification** navigation item opens `/data`, within the existing R
 | `prototype/src/pages/ProvincialData.tsx` | Province/product/time filters, headline indicators, trends, product ranking, paginated records and evidence |
 | `prototype/tests/provincial.test.ts` | Checks that the committed publication, filters, insights and downloads agree |
 | `.github/workflows/provincial-data.yml` | Daily official refresh, evidence archive, tests/build and publication commit |
-| `.github/workflows/check-provincial.yml` | Offline regression checks and website build on pull requests |
+| `.github/workflows/check.yml` | Offline regression checks (all pipeline and data tests), lint and website build on pull requests |
 
 Raw responses and failure reports go in `pipeline/.cache/provincial/<run>/`. They are git-ignored and are uploaded as Actions artifacts. They contain public statistics and requests only; no API key is needed for this source.
 

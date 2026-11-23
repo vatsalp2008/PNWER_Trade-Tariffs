@@ -97,6 +97,7 @@ Run these inside `prototype/`.
   - rebuilds the trade data when a new month is published.
 - Changes are committed to `main`, and **Vercel redeploys the site automatically**.
 - To run it by hand: GitHub → **Actions** → *Refresh data and news* → **Run workflow**.
+- **Every pull request** runs *Check pipeline and site* (`.github/workflows/check.yml`): all tests, lint and the build. A failed daily run or build never reaches the live site; to roll back a bad deploy or change, see *If something breaks* in the [team guide](docs/WEBSITE_GUIDE.md).
 - **Hand-edited files** (edit them through a pull request):
   - `tariff-events.json` (the timeline)
   - `news-curated.json` (team picks)
@@ -118,7 +119,7 @@ The prototype runs without any keys. When we start pulling real data from the U.
 
 ```
 pipeline/             Python scripts that fetch real data and news (see pipeline/README.md)
-.github/workflows/    daily refresh job
+.github/workflows/    daily refresh job; checks on pull requests
 prototype/
   src/
     pages/            Dashboard.tsx, FactSheet.tsx, News.tsx

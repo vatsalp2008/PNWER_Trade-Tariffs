@@ -425,11 +425,38 @@ You need Node.js 20.19+ or 22.12+ (22 LTS recommended). Full setup is in the [RE
 
 ### Make any change
 1. Create a branch: `git checkout -b your-name/what-you-are-changing`.
-2. Edit, then run `npm run build` inside `prototype/`. It must pass.
-3. Push and open a pull request. Check the Vercel preview link on the PR.
-4. Merge when someone has reviewed it.
+2. Edit, then run `npm run test:data`, `npm run lint` and `npm run build` inside `prototype/` (and `python -m unittest discover -s pipeline/tests` if you changed the pipeline). They must pass.
+3. Push and open a pull request. GitHub runs **Check pipeline and site** (all tests, lint and the build) on it; it must be green. Check the Vercel preview link on the PR.
+4. Merge when someone has reviewed it. If something goes wrong after merging, see *If something breaks* below.
 
 **Never commit API keys or anyone's personal details. The repo is public.**
+
+### If something breaks (rolling back)
+
+**First, what can't break the live site:** if the daily job fails (a source is down, a check fails, the tests or the build fail), it doesn't commit anything, so the live site keeps the last good version. If a Vercel build fails, Vercel never puts it live. Either way you just get a red X (and an email to the repo owner).
+
+**The daily job failed (red X on *Refresh data and news*):**
+1. Open the run (GitHub → **Actions**) and read the failed step. A source being down shows as a warning, not a failure, and fixes itself the next day.
+2. A failed **check** means the new data looked wrong: read the message, compare with the source, and fix the pipeline or wait for the source to correct itself.
+3. To stop it running while you fix things: **Actions** → *Refresh data and news* → **⋯** → **Disable workflow**. Turn it back on (**Enable workflow**) when you're done.
+
+**The live site is broken or shows wrong numbers after a deploy:**
+1. **Fastest, seconds:** Vercel → the project → **Deployments** → the last good **Production** deployment → **⋯** → **Instant Rollback**. On the free plan you can only go back to the deployment just before the current one; for anything older, use `git revert` below.
+2. **Don't forget:** after a rollback, Vercel **stops putting new pushes live** until you promote a deployment again. When the fix is pushed and its deployment looks right, **Promote** it; that turns automatic deploys back on.
+3. Then undo the cause with `git revert` (next), so the bad change isn't deployed again.
+
+**Undo a bad change (code or data), however old:**
+```bash
+git pull
+git log --oneline                # find the commit that caused it
+git revert <commit>              # makes a new commit that undoes it
+git push                         # Vercel redeploys in a couple of minutes
+```
+- Every day's data is a *Refresh data and news* commit, so reverting one restores the previous day's data. If the source still has the bad figures, the next daily run will bring them back; disable the workflow first (above) until the source is fixed.
+- To see the site at an older commit before reverting: open that commit on GitHub; Vercel's **Deployments** list also has a preview link for every past deployment.
+- **Never** `git push --force` to `main`, and never rewrite history: other people and the daily job build on it.
+
+**Before merging any change:** the pull request's **Check pipeline and site** must be green (all tests, lint, build), and the Vercel preview link should look right. For layout changes, also run the 2-page checks below.
 
 ### Add a media article ("Team pick")
 Edit `prototype/src/data/news-curated.json` and add an entry to `items`:
@@ -533,6 +560,7 @@ BASE=http://localhost:4173 scripts/check-corridor-sheets.sh
 
 ```
 .github/workflows/refresh.yml   daily refresh job
+.github/workflows/check.yml     tests, lint and build on every pull request
 docs/
   WEBSITE_GUIDE.md              this guide
   DECISIONS.md                  every decision, tradeoff and limitation
