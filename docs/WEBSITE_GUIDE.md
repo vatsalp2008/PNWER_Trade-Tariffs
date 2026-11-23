@@ -371,7 +371,7 @@ Added by a teammate in Nov 2026 for B.C. and Alberta (PR #6); Washington and Ida
 - **Source:** Canada Gazette surtax orders and Statistics Canada CIMT imports by tariff item, refreshed daily by `pipeline/counter_tariffs.py` with 4 checks (decision D36).
 
 **Cross-border corridors** (the second switch at the top, `/data?view=corridors`):
-- **Unusual moves:** up to 5 product flows that changed far more than usual this month (3 months vs. a year earlier). Each also becomes a `trade-alert` issue on GitHub (see section 6).
+- **Unusual moves:** up to 5 product flows that changed far more than usual this month (3 months vs. a year earlier). Under each, a line names the products behind it and says whether the province's trade in them with all countries moved too: if not, the trade most likely switched routes or partners (another port, state or country) rather than being lost or gained. Each month's flags also become a `trade-alert` issue on GitHub (see section 6).
 - **All PNWER corridors:** two-way trade between every province or territory and every state over the last 12 months, the change from two years earlier, and an integration score. Click one to explore it.
 - **One corridor:** trade each way (and vs. two years earlier), a chart since 1990 with NAFTA, USMCA and tariff-era bands, the integration score by year, trade by HS product section, and a CSV download (original C$ and US$).
 - **Did a tariff change trade?** For each targeted tariff action, how the products it hit changed compared with the corridor's other trade. It's an *indicative effect*, not proof; rows marked "read with care" were already drifting before the action (decision D34).
@@ -485,8 +485,8 @@ Edit `prototype/src/data/news-curated.json` and add an entry to `items`:
 3. The daily job recomputes the estimate the next morning, or run `python pipeline/counter_tariffs.py` yourself (about 15 seconds, no key).
 
 ### Review a `trade-alert` issue
-1. Read the flagged moves and open the corridor on `/data?view=corridors`.
-2. Look for a reason: a tariff action on the timeline, news, a plant closure, a one-off shipment (aircraft, ships).
+1. Read the flagged moves and the line under each: which products, and whether the province's total for them moved too. "Switching routes or partners" usually means a port, terminal or buyer changed, not that trade was lost (the first alert, Saskatchewan potash through Portland, was one). Open the corridor on `/data?view=corridors`.
+2. Look for a reason: a tariff action on the timeline, news, a plant closure, a terminal outage, a one-off shipment (aircraft, ships).
 3. If it's a new tariff action, add it to the timeline (next task). Close the issue with a one-line note on what explains the move.
 
 ### Add or verify a tariff event

@@ -227,14 +227,42 @@ function Alerts({ ix, onPick }: { ix: CorridorIndex; onPick: (p: string, s: stri
                 <span>
                   <button type="button" className="link-button" onClick={() => onPick(p, s)}>{way}</button> · {ix.sections[x.section]}:{' '}
                   {usd(usdM(x.beforeCad))} → {usd(usdM(x.nowCad))} over 3 months ({Math.abs(x.z).toFixed(1)} times its usual swing)
+                  {x.context && <AlertWhy ix={ix} x={x} />}
                 </span>
               </li>
             )
           })}
         </ul>
       ) : <p className="micro">Nothing unusual this month.</p>}
-      <p className="micro">Rule: {a.rule}. At most 5 shown. A flag is a prompt to look closer (news, tariff actions, one-off shipments), not a conclusion.</p>
+      <p className="micro">
+        Rule: {a.rule}. At most 5 shown. A flag is a prompt to look closer (news, tariff actions, one-off shipments), not a conclusion.
+        The line under each flag names the products behind it and compares them with the province’s trade in those products with all
+        countries over the same months (Statistics Canada customs data): if that barely moved, the trade most likely switched routes
+        or partners rather than being lost or gained.
+      </p>
     </ChartCard>
+  )
+}
+
+/** One line under an alert: which products moved, and whether the province's total for them moved too (pipeline/corridors.py, context_text). */
+function AlertWhy({ ix, x }: { ix: CorridorIndex; x: CorridorIndex['alerts']['items'][number] }) {
+  const c = x.context!
+  const province = ix.provinces[x.pair.split('-')[0]]
+  const sum = (k: 'allNowCad' | 'allBeforeCad' | 'usNowCad' | 'usBeforeCad') => c.products.reduce((a, p) => a + p[k], 0)
+  const change = (now: number, before: number) => (before ? signedPct(now / before - 1, 0) : NOT_AVAILABLE)
+  const [trade, to] = x.flow === 'exp' ? ['exports', 'to'] : ['imports', 'from']
+  const it = c.products.length === 1 ? 'it' : 'them'
+  const move = x.nowCad < x.beforeCad ? 'fall' : 'rise'
+  const why = {
+    shift: `Looks mostly like trade switching routes or partners (another port, state or country), not a real ${move} in ${province}’s ${trade}.`,
+    real: `Looks like a real ${move} in ${province}’s ${trade}.`,
+    small: `Small next to ${province}’s total ${trade} of ${it}.`,
+  }[c.reading]
+  return (
+    <span className="micro alert-why">
+      Mostly {c.products.map((p) => `${p.name} (HS ${p.hs4})`).join(', ')}. {province}’s {trade} of {it} {to} all countries:{' '}
+      {change(sum('allNowCad'), sum('allBeforeCad'))}; {to} all U.S. states: {change(sum('usNowCad'), sum('usBeforeCad'))}. {why}
+    </span>
   )
 }
 

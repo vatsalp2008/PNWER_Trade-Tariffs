@@ -12,7 +12,7 @@ Python scripts that pull **real public data** and write JSON files the website r
 | `fetch_news.py` | `prototype/src/data/news.json`: the "Trade & tariff updates" feed | Federal Register, USTR, Government of Canada news (Finance, Global Affairs), CBP, PNWER blog, plus the two hand-kept files below |
 | `watch_federal_register.py` | Opens a GitHub issue (label `tariff-watch`) for each new presidential tariff action on Canada | Federal Register |
 
-`pipeline/alerts-seen.json` (written by the daily job) lists the months that already have a `trade-alert` issue, so each month gets one issue at most.
+`pipeline/alerts-seen.json` (written by the daily job) lists the months that already have a `trade-alert` issue, so each month gets one issue at most. Each alert also gets a line of context (the products behind it, and whether the province's total for them moved too), read from the CIMT files by `fetch_cimt.corridor_hs4()` about once a month.
 
 ## Run it locally
 

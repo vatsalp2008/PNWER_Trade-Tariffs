@@ -25,8 +25,8 @@ import pandas as pd
 import requests
 
 import fetch_cimt
-from common import DATA_DIR, PROVINCES, US_STATES, business_of, log, remote_zip, scopes
-from names import OVERRIDES, PROVINCE_NAMES, STATE_NAMES, _tidy
+from common import DATA_DIR, PROVINCES, US_STATES, business_of, log, scopes
+from names import PROVINCE_NAMES, STATE_NAMES
 
 MEASURES = DATA_DIR / "canada-countermeasures.json"
 OUT = DATA_DIR / "counter-tariffs.json"
@@ -67,30 +67,6 @@ def item_rates(measures: list[dict], day: str) -> dict[str, tuple[float, str]]:
                 if hs8 not in rates or g["rate"] > rates[hs8][0]:
                     rates[hs8] = (g["rate"], m["id"])
     return rates
-
-
-def hs4_names() -> dict[str, str]:
-    """Readable product names: the dashboard's own, then hand-written ones, then Statistics Canada's short description."""
-    names = dict(OVERRIDES)
-    real = json.loads((DATA_DIR / "real.json").read_text())
-    for j in real["trade"].values():
-        for rec in j.values():
-            for p in rec.get("topExports", []) + rec.get("topImports", []):
-                names.setdefault(p["hs"], p["name"])
-    return names
-
-
-def statcan_hs4_names(year: int) -> dict[str, str]:
-    """Fallback: the English description of the first current 6-digit code in each heading (fixed-width file)."""
-    zf = remote_zip(fetch_cimt.URL.format(kind="Imp", year=year))
-    name = next(n for n in zf.namelist() if "HS6MDesc" in n)
-    codes, descs = [], []
-    with zf.open(name) as f:
-        for line in f.read().decode("latin-1").splitlines():
-            if line[18:24] == "999912" and line[:4] not in codes:  # still-current descriptions only
-                codes.append(line[:4])
-                descs.append(line[29:112].strip())
-    return {c: _tidy(d) for c, d in zip(codes, descs)}
 
 
 def estimate(imports: pd.DataFrame, rates: dict[str, tuple[float, str]], window: list[str], fx: dict[str, float]) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -188,7 +164,7 @@ def main() -> int:
     newest = max(years)
     try:
         imports = pd.concat([fetch_cimt.us_imports_hs8(y, fresh=y == newest) for y in years])
-        names = {**statcan_hs4_names(newest), **hs4_names(), **curated.get("productNames", {})}
+        names = {**fetch_cimt.statcan_hs4_names(newest), **fetch_cimt.hs4_names(), **curated.get("productNames", {})}
     except (requests.RequestException, RuntimeError, OSError) as e:
         log(f"::warning::Couldn't reach Statistics Canada ({e}); keeping the current counter-tariffs.json.")
         return 0

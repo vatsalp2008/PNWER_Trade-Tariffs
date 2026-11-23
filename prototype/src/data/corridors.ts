@@ -26,9 +26,20 @@ export interface CorridorIndex {
   alerts: {
     month: string
     rule: string
-    items: { pair: string; flow: 'exp' | 'imp'; section: string; month: string; nowCad: number; beforeCad: number; change: number; z: number }[]
+    items: { pair: string; flow: 'exp' | 'imp'; section: string; month: string; nowCad: number; beforeCad: number; change: number; z: number; context?: AlertContext }[]
     backtest: Record<string, number>
   }
+}
+
+/**
+ * What explains an alert: the products behind most of the move, and the province's trade in them with all U.S. states
+ * and all countries over the same months (thousands of C$, from the customs files). "shift": that total barely moved, so
+ * the move was mostly trade switching routes or partners; "real": it moved the same way; "small": the move is small
+ * next to it. See alert_context() in pipeline/corridors.py.
+ */
+export interface AlertContext {
+  products: { hs4: string; name: string; corridorNowCad: number; corridorBeforeCad: number; usNowCad: number; usBeforeCad: number; allNowCad: number; allBeforeCad: number }[]
+  reading: 'shift' | 'real' | 'small'
 }
 
 export interface TariffImpact {

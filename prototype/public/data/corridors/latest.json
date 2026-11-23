@@ -1,9 +1,9 @@
 {
  "schemaVersion": 1,
- "version": "4908e867905a8b1df7cc",
- "generatedAt": "2026-11-22T07:45:11Z",
+ "version": "62d7c913fd7c5e858496",
+ "generatedAt": "2026-11-23T22:17:10Z",
  "files": {
-  "index.json": "d8d115c4e682aa2924d65c7fb22947bafbfd0b7e8d7d90e824924e98801278c9",
+  "index.json": "291eb21328e8bf34ade3a447f861c376572886aa079e059204e280dcb5d7bffa",
   "pairs/AB-AK.json": "5d9217736b5745a39f99a114d3baae412c6ce9cd45cbadc236e01c3d4f72dbd8",
   "pairs/AB-ID.json": "e16e810ab504d698e18445a389b4b3a4250567e9f483c96667a95205fc51ea76",
   "pairs/AB-MT.json": "04dead5823189b92e1a7a277b6a1be9dc40c21839bc47376ac6439c0db172fc6",

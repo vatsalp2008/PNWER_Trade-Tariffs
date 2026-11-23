@@ -62,7 +62,7 @@ Its 16 checks (all must pass): industries add up to the official Census total to
 
 The same index also carries:
 - **`impacts`:** for each corridor, the indicative effect of each targeted tariff action on the products it hit (D34), and `eventSections`, the HS sections each action hit.
-- **`alerts`:** this month's unusual moves and a backtest since 2019 (D35). In GitHub Actions the script also opens a `trade-alert` issue once per new month.
+- **`alerts`:** this month's unusual moves and a backtest since 2019 (D35). Each move has a `context`: the HS4 products behind it and the province's trade in them with all U.S. states and all countries (Statistics Canada CIMT), with a reading (`shift`, `real` or `small`). In GitHub Actions the script also opens a `trade-alert` issue once per new month.
 
 The pair files feed the corridor fact sheets at `/corridor/<province>/<state>` (D33); `prototype/scripts/check-corridor-sheets.sh` checks they all print as 2 pages.
 

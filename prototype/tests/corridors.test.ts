@@ -67,3 +67,21 @@ test('corridor CSV has every section, both ways, every month', () => {
   assert.equal(lines.length, 1 + 2 * Object.keys(ix.sections).length * ix.months.length)
   assert.ok(sum12(ix, ix.series['BC|WA|exp|total'])! > 0)
 })
+
+test('each alert’s context names the products behind it, and they add up', () => {
+  for (const a of ix.alerts.items) {
+    const c = a.context
+    if (!c) continue // the customs files couldn't be read that day; the alert goes out without it
+    assert.ok(['shift', 'real', 'small'].includes(c.reading), a.pair)
+    assert.ok(c.products.length >= 1 && c.products.length <= 3, a.pair)
+    for (const p of c.products) {
+      // The corridor is part of all U.S. states, which is part of all countries (thousands of C$, rounded).
+      assert.ok(p.corridorNowCad <= p.usNowCad + 1 && p.usNowCad <= p.allNowCad + 1, `${a.pair} ${p.hs4}`)
+      assert.ok(p.corridorBeforeCad <= p.usBeforeCad + 1 && p.usBeforeCad <= p.allBeforeCad + 1, `${a.pair} ${p.hs4}`)
+    }
+    // The products' move (customs files) explains the alert's move (table 12-10-0099): same direction, similar size.
+    const moved = c.products.reduce((x, p) => x + p.corridorNowCad - p.corridorBeforeCad, 0)
+    const share = moved / (a.nowCad - a.beforeCad)
+    assert.ok(share > 0.5 && share < 1.5, `${a.pair} ${a.section}: products explain ${share.toFixed(2)} of the move`)
+  }
+})

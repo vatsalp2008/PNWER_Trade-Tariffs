@@ -133,6 +133,51 @@ class Alerts(unittest.TestCase):
         changes = {k: c.window_changes(v) for k, v in series.items()}
         self.assertEqual(c.alerts_at(series, months, len(months) - 1, changes), [])
 
+    def test_reading_tells_a_route_change_from_a_real_one(self):
+        # Saskatchewan potash through Oregon, Jul-Sep 2026: -C$238M there, -C$58M (-2%) to all countries.
+        self.assertEqual(c.reading(-238_169, 2_566_598, -57_562), "shift")
+        self.assertEqual(c.reading(-238_169, 2_566_598, 120_000), "shift")  # rose elsewhere
+        self.assertEqual(c.reading(-238_169, 1_000_000, -200_000), "real")
+        self.assertEqual(c.reading(21_000, 3_000_000, 700_000), "small")  # under 5% of the total
+
+    def test_main_products_explain_most_of_the_move(self):
+        import pandas as pd
+        delta = pd.Series({"3104": -238_000.0, "3105": -10_000.0, "2801": 4_000.0, "3102": -1_000.0})
+        self.assertEqual(c.main_products(delta), ["3104"])  # 97% of the net move on its own
+        delta = pd.Series({"2710": 13_000.0, "2713": 7_700.0, "2709": 2_000.0, "2701": -500.0})
+        self.assertEqual(c.main_products(delta), ["2710", "2713"])
+        self.assertEqual(c.main_products(pd.Series(dtype=float)), [])
+
+    def test_alert_context_from_customs_rows_and_reused_after(self):
+        from unittest import mock
+        import pandas as pd
+        import fetch_cimt
+        months = c.months_between("2024-01", "2026-09")
+        rows = []
+        for ym, oregon, everyone in (("2025-07", 100, 900), ("2025-08", 100, 900), ("2025-09", 100, 900),
+                                     ("2026-07", 10, 880), ("2026-08", 10, 880), ("2026-09", 10, 880)):
+            rows += [{"flow": "exp", "province": "SK", "partner": "OR", "ym": ym, "hs4": "3104", "value": oregon * 1e6},
+                     {"flow": "exp", "province": "SK", "partner": "US", "ym": ym, "hs4": "3104", "value": 400e6},
+                     {"flow": "exp", "province": "SK", "partner": "ALL", "ym": ym, "hs4": "3104", "value": everyone * 1e6}]
+        df = pd.DataFrame(rows)
+        alert = {"pair": "SK-OR", "flow": "exp", "section": "VI", "month": "2026-09", "nowCad": 30_000, "beforeCad": 300_000}
+        with mock.patch.object(fetch_cimt, "corridor_hs4", side_effect=lambda y, need: df[df["ym"].str.startswith(str(y))]) as read, \
+             mock.patch.object(fetch_cimt, "statcan_hs4_names", return_value={}), \
+             mock.patch.object(fetch_cimt, "hs4_names", return_value={"3104": "Potash"}):
+            items = [dict(alert)]
+            c.alert_context(items, months, None)
+            ctx = items[0]["context"]
+            self.assertEqual(ctx["reading"], "shift")
+            self.assertEqual(ctx["products"][0]["name"], "Potash")
+            self.assertEqual(ctx["products"][0]["corridorBeforeCad"], 300_000)
+            self.assertEqual(ctx["products"][0]["allNowCad"], 2_640_000)
+            self.assertIn("switching routes", c.context_text(items[0], "Saskatchewan"))
+            read.reset_mock()
+            again = [dict(alert)]
+            c.alert_context(again, months, {"items": items})  # same alert next day: reuse, don't read the files
+            read.assert_not_called()
+            self.assertEqual(again[0]["context"], ctx)
+
 
 if __name__ == "__main__":
     unittest.main()

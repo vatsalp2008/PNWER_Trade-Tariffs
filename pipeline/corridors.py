@@ -352,6 +352,120 @@ def unusual_moves(series: dict[str, list], months: list[str]) -> dict:
             "rule": f"last {WINDOW} months vs a year earlier, beyond {ALERT_Z} standard deviations of the series' own history, and at least C$5M"}
 
 
+# Context: which products made the move, and the province's trade in those products with all U.S. states and all
+# countries over the same months. If that total barely moved, the corridor's move was mostly trade switching routes or
+# partners (another port, state or country). Example: in 2026 Saskatchewan's potash shipped through Portland, Oregon fell
+# 90% while its potash exports to all countries held steady. Products, not whole HS sections, because a section's total
+# also carries unrelated products (Saskatchewan's other chemicals fell at the same time, to other states).
+SMALL_SHARE, OFFSET, TOP_PRODUCTS, EXPLAINED = 0.05, 0.5, 3, 0.8
+
+
+def reading(change: float, all_before: float, all_change: float) -> str:
+    """'small': the corridor's move is under 5% of the province's trade in those products with all countries;
+    'shift': that total moved less than half as much, or the other way, so the move was mostly made up elsewhere;
+    'real': the total moved with it."""
+    if all_before <= 0 or abs(change) < SMALL_SHARE * all_before:
+        return "small"
+    if all_change * change <= 0 or abs(all_change) < OFFSET * abs(change):
+        return "shift"
+    return "real"
+
+
+def main_products(delta: "pd.Series") -> list[str]:
+    """The HS4 products behind most of a corridor's move: those moving the same way, biggest first, until they
+    explain 80% of the net move (at most 3)."""
+    total = delta.sum()
+    same = delta[delta * total > 0].abs().sort_values(ascending=False)
+    out, covered = [], 0.0
+    for hs4, v in same.items():
+        out.append(hs4)
+        covered += v
+        if covered >= EXPLAINED * abs(total) or len(out) == TOP_PRODUCTS:
+            break
+    return out
+
+
+def published_alerts() -> dict | None:
+    latest = OUT_DIR / "latest.json"
+    if not latest.exists():
+        return None
+    version = json.loads(latest.read_text())["version"]
+    return json.loads((OUT_DIR / "versions" / version / "index.json").read_text()).get("alerts")
+
+
+def alert_context(items: list[dict], months: list[str], previous: dict | None) -> None:
+    """Add each alert's "context" (thousands of C$, from the customs files by HS4 product). Reuses the published context
+    for the same alert, so the files are read about once a month; if they can't be read, the alerts go out without it."""
+    old = {(a["pair"], a["flow"], a["section"], a["month"]): a.get("context") for a in (previous or {}).get("items", [])}
+    todo = []
+    for a in items:
+        ctx = old.get((a["pair"], a["flow"], a["section"], a["month"]))
+        if ctx and ctx.get("products"):  # (an older format without products is rebuilt)
+            a["context"] = ctx
+        else:
+            todo.append(a)
+    if not todo:
+        return
+    windows = {}
+    need: dict[int, str] = {}
+    for a in todo:
+        t = months.index(a["month"])
+        windows[id(a)] = (months[t - WINDOW + 1 : t + 1], months[t - 12 - WINDOW + 1 : t - 12 + 1])
+        for m in windows[id(a)][0] + windows[id(a)][1]:
+            need[int(m[:4])] = max(need.get(int(m[:4]), m), m)
+    try:
+        import fetch_cimt  # reads Statistics Canada's bulk customs files; only needed when there are new alerts
+
+        df = pd.concat([fetch_cimt.corridor_hs4(y, need=m) for y, m in sorted(need.items())])
+        names = {**fetch_cimt.statcan_hs4_names(max(need)), **fetch_cimt.hs4_names()}
+    except (requests.RequestException, RuntimeError, OSError) as e:
+        log(f"::warning::Couldn't read the customs files for the alerts' context ({e}); alerts go out without it.")
+        return
+    df["section"] = df["hs4"].str.zfill(4).map(section_of)
+    for a in todo:
+        p, s = a["pair"].split("-")
+        rows = df[(df["flow"] == a["flow"]) & (df["province"] == p)]
+        if a["section"] != "total":
+            rows = rows[rows["section"] == a["section"]]
+        now, before = windows[id(a)]
+        by = lambda partner, ms: rows[(rows["partner"] == partner) & rows["ym"].isin(ms)].groupby("hs4")["value"].sum() / 1000
+        t = pd.DataFrame({"corridorNowCad": by(s, now), "corridorBeforeCad": by(s, before), "usNowCad": by("US", now),
+                          "usBeforeCad": by("US", before), "allNowCad": by("ALL", now), "allBeforeCad": by("ALL", before)}).fillna(0)
+        top = main_products(t["corridorNowCad"] - t["corridorBeforeCad"])
+        if not top:
+            continue
+        picked = t.loc[top].sum()
+        a["context"] = {
+            "products": [{"hs4": h, "name": names.get(h, f"HS {h}"), **{k: round(v) for k, v in t.loc[h].items()}} for h in top],
+            "reading": reading(picked["corridorNowCad"] - picked["corridorBeforeCad"], picked["allBeforeCad"],
+                               picked["allNowCad"] - picked["allBeforeCad"]),
+        }
+
+
+def context_text(a: dict, province: str) -> str:
+    """One plain-language line for an alert's context (the site says the same in CorridorData.tsx)."""
+    c = a.get("context")
+    if not c:
+        return ""
+    ps = c["products"]
+    tot = {k: sum(p[k] for p in ps) for k in ("allNowCad", "allBeforeCad", "usNowCad", "usBeforeCad")}
+    trade, to = ("exports", "to") if a["flow"] == "exp" else ("imports", "from")
+    it = "it" if len(ps) == 1 else "them"
+    m = lambda x: f"C${x / 1e3:,.1f}M"
+    pct = lambda now, before: f" ({now / before - 1:+.0%})" if before else ""
+    move = "fall" if a["nowCad"] < a["beforeCad"] else "rise"
+    what = ", ".join(f"{p['name']} (HS {p['hs4']})" for p in ps)
+    line = (f"Mostly {what}. {province}'s {trade} of {it} {to} all countries: "
+            f"{m(tot['allBeforeCad'])} → {m(tot['allNowCad'])}{pct(tot['allNowCad'], tot['allBeforeCad'])}; {to} all U.S. states: "
+            f"{m(tot['usBeforeCad'])} → {m(tot['usNowCad'])}{pct(tot['usNowCad'], tot['usBeforeCad'])}. ")
+    return line + {
+        "shift": f"That total barely moved (or moved the other way), so this looks mostly like trade switching routes or partners "
+                 f"(another port, state or country), not a real {move} in {province}'s {trade}.",
+        "real": f"That total moved the same way, so this looks like a real {move} in {province}'s {trade}.",
+        "small": f"This is small next to {province}'s total {trade} of {it}.",
+    }[c["reading"]]
+
+
 def open_alert_issue(alerts: dict, ix_provinces: dict, ix_states: dict) -> None:
     """In GitHub Actions, open one 'trade-alert' issue per new data month (remembered in pipeline/alerts-seen.json)."""
     repo, token = os.environ.get("GITHUB_REPOSITORY"), os.environ.get("GITHUB_TOKEN")
@@ -363,6 +477,8 @@ def open_alert_issue(alerts: dict, ix_provinces: dict, ix_states: dict) -> None:
         p, s = a["pair"].split("-")
         way = f"{ix_provinces[p]} → {ix_states[s]}" if a["flow"] == "exp" else f"{ix_states[s]} → {ix_provinces[p]}"
         lines.append(f"- **{way} · {SECTIONS[a['section']]}**: {a['change']:+.0%} vs a year earlier (C${a['beforeCad'] / 1e3:,.1f}M → C${a['nowCad'] / 1e3:,.1f}M over 3 months; {a['z']:+.1f} standard deviations)")
+        if a.get("context"):
+            lines.append(f"  - {context_text(a, ix_provinces[p])}")
     body = (f"Unusual cross-border trade moves in the 3 months to {alerts['month']} (Statistics Canada table 12-10-0099).\n\n"
             + "\n".join(lines) + "\n\nRule: " + alerts["rule"] + ". Check the news and the tariff timeline; see the Corridors tab on /data.")
     if repo and token:
@@ -486,13 +602,15 @@ def main() -> None:
             by_year = {y: pair_integration(series, p, s, [i for i, m in enumerate(months) if m.startswith(y)]) for y in years}
             integration[f"{p}-{s}"] = {"last12": pair_integration(series, p, s, last12), "byYear": by_year}
 
+    alerts = unusual_moves(series, months)
+    alert_context(alerts["items"], months, published_alerts())
     index_series = {k: v for k, v in series.items() if k.endswith("|total")}
     index = {
         "schemaVersion": 1, "months": months, "lastMonth": last, "fx": [round(fx[m], 6) for m in months],
         "provinces": {p: n for p, (_, n) in PROVINCES.items()}, "states": {s: n for s, (_, n) in STATES.items()},
         "sections": SECTIONS, "series": index_series, "integration": integration,
         "mirror": mirror(series, months, fx, dashboard["trade"]), "sources": SOURCES,
-        "impacts": tariff_impacts(series, months), "eventSections": event_sections(), "alerts": unusual_moves(series, months),
+        "impacts": tariff_impacts(series, months), "eventSections": event_sections(), "alerts": alerts,
     }
     files = {"index.json": dumps(index).encode()}
     for p in PROVINCES:

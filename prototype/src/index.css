@@ -1135,6 +1135,11 @@ input[type='search'] {
   border-bottom: 0;
 }
 
+.alert-list .alert-why {
+  display: block;
+  margin-top: 2px;
+}
+
 /* ---------- glossary ---------- */
 .glossary {
   display: flex;

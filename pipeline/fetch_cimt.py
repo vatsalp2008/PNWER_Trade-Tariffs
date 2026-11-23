@@ -13,9 +13,12 @@ Licence: Statistics Canada Open Licence. Credit "Adapted from Statistics Canada"
 
 from __future__ import annotations
 
+import json
+
 import pandas as pd
 
-from common import CACHE_DIR, PROVINCES, US_STATES, business_of, log, remote_zip
+from common import CACHE_DIR, DATA_DIR, PROVINCES, US_STATES, business_of, log, remote_zip
+from names import OVERRIDES, _tidy
 
 URL = "https://www150.statcan.gc.ca/n1/pub/71-607-x/2021004/zip/CIMT-CICM_{kind}_{year}.zip"
 MEMBER = {"Dom_Exp": "ODPFN018", "Imp": "ODPFN015"}  # the HS6 files
@@ -90,6 +93,65 @@ def aggregate_year(year: int, *, detail: bool, rank: bool, fresh: bool) -> dict[
         df.to_csv(cache / f"{n}.csv.gz", index=False)
         result[n] = df
     return result
+
+
+def corridor_hs4(year: int, *, need: str) -> pd.DataFrame:
+    """Our provinces' trade by HS4 and month with each of our U.S. states, all U.S. states ("US") and all countries ("ALL").
+
+    Columns: flow (exp/imp), province, partner, ym, hs4, value (CAD). Used to explain the corridor alerts: which
+    products moved, and whether the province's total for them moved too. Cached per year; a cache without month
+    `need` (YYYY-MM) is rebuilt.
+    """
+    cache = CACHE_DIR / "cimt-agg" / f"{year}-corridor-hs4.csv.gz"
+    if cache.exists():
+        df = pd.read_csv(cache, dtype={"hs4": str, "ym": str})
+        if need in set(df["ym"]):
+            return df
+    keys = ["flow", "province", "partner", "ym", "hs4"]
+    parts = []
+    for kind, flow in (("Dom_Exp", "exp"), ("Imp", "imp")):
+        zf = remote_zip(URL.format(kind=kind, year=year))
+        name = next(n for n in zf.namelist() if MEMBER[kind] in n and n.lower().endswith(".csv"))
+        log(f"StatCan CIMT {year} {kind} by product (for the alerts): reading {name.split('/')[-1]} ({zf.getinfo(name).compress_size / 1e6:.0f} MB)")
+        with zf.open(name) as f:
+            for chunk in pd.read_csv(f, header=0, names=COLS, usecols=range(6), dtype={c: str for c in COLS[:5]},
+                                     encoding="latin-1", chunksize=750_000):
+                chunk = chunk[chunk["province"].isin(PROVINCES)]
+                chunk = chunk.assign(value=pd.to_numeric(chunk["value"], errors="coerce").fillna(0), flow=flow,
+                                     ym=chunk["ym"].str[:4] + "-" + chunk["ym"].str[4:6], hs4=chunk["hs6"].str.zfill(6).str[:4])
+                us = chunk["country"] == "US"
+                for partner, rows in (("ALL", chunk), ("US", chunk[us])):
+                    parts.append(rows.groupby(["flow", "province", "ym", "hs4"], as_index=False)["value"].sum().assign(partner=partner))
+                states = chunk[us & chunk["state"].isin(US_STATES)].rename(columns={"state": "partner"})
+                parts.append(states.groupby(keys, as_index=False)["value"].sum())
+    df = pd.concat(parts).groupby(keys, as_index=False)["value"].sum()
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(cache, index=False)
+    return df
+
+
+def hs4_names() -> dict[str, str]:
+    """Readable product names: the dashboard's own, then hand-written ones."""
+    names = dict(OVERRIDES)
+    real = json.loads((DATA_DIR / "real.json").read_text())
+    for j in real["trade"].values():
+        for rec in j.values():
+            for p in rec.get("topExports", []) + rec.get("topImports", []):
+                names.setdefault(p["hs"], p["name"])
+    return names
+
+
+def statcan_hs4_names(year: int) -> dict[str, str]:
+    """Fallback: the English description of the first current 6-digit code in each heading (fixed-width file)."""
+    zf = remote_zip(URL.format(kind="Imp", year=year))
+    name = next(n for n in zf.namelist() if "HS6MDesc" in n)
+    codes, descs = [], []
+    with zf.open(name) as f:
+        for line in f.read().decode("latin-1").splitlines():
+            if line[18:24] == "999912" and line[:4] not in codes:  # still-current descriptions only
+                codes.append(line[:4])
+                descs.append(line[29:112].strip())
+    return {c: _tidy(d) for c, d in zip(codes, descs)}
 
 
 HS10_MEMBER = "ODPFN014"  # imports by Canadian 10-digit code (the first 8 digits are the tariff item)
