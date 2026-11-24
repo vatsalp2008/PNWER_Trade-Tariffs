@@ -1,9 +1,9 @@
 {
  "schemaVersion": 1,
- "version": "64d8522510eddc1940ff",
- "generatedAt": "2026-11-20T21:53:34Z",
+ "version": "65e0af901219ac5ebfc9",
+ "generatedAt": "2026-11-24T01:44:23Z",
  "files": {
-  "dataset.json": "64d8522510eddc1940ff8a15d751222790cbf945a92650b60e1721274492e838"
+  "dataset.json": "65e0af901219ac5ebfc9c06e93fed7a7b9315187228358f204e6ed3e440aef15"
  },
  "quality": {
   "passed": true,
@@ -41,7 +41,7 @@
    {
     "name": "Latest month present at Douglas, Pacific Highway and Kingsgate",
     "passed": true,
-    "detail": "Latest month 2026-08"
+    "detail": "Latest month 2026-09"
    },
    {
     "name": "Ports facing WA and ID never exceed the B.C. total",

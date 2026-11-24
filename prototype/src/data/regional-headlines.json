@@ -1,13 +1,13 @@
 {
- "version": "64d8522510eddc1940ff",
+ "version": "65e0af901219ac5ebfc9",
  "states": {
   "WA": [
    {
     "kind": "change",
-    "change": -0.2776,
-    "value": 506690.0,
-    "month": "2026-08",
-    "baseMonth": "2024-08",
+    "change": -0.3743,
+    "value": 364222.0,
+    "month": "2026-09",
+    "baseMonth": "2024-09",
     "text": "Canadians driving home through the 13 B.C. crossings facing Washington",
     "source": "Statistics Canada, table 24-10-0053"
    },
@@ -33,10 +33,10 @@
   "ID": [
    {
     "kind": "change",
-    "change": -0.3659,
-    "value": 27222.0,
-    "month": "2026-08",
-    "baseMonth": "2024-08",
+    "change": -0.3819,
+    "value": 13250.0,
+    "month": "2026-09",
+    "baseMonth": "2024-09",
     "text": "Canadians driving home through Kingsgate and Rykerts",
     "source": "Statistics Canada, table 24-10-0053"
    },
