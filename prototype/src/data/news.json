@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24",
+ "updated": "2026-11-25",
  "items": [
   {
    "id": "3f726a379c31",
@@ -63,18 +63,6 @@
     "forest",
     "metals",
     "chem"
-   ]
-  },
-  {
-   "id": "559a763ff829",
-   "title": "America First Seafood Strategy Charts Course to Restoring U.S. Seafood Dominance",
-   "url": "https://ustr.gov/about/policy-offices/press-office/press-releases/2026/october/america-first-seafood-strategy-charts-course-restoring-us-seafood-dominance",
-   "date": "2026-10-28",
-   "source": "USTR",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": [
-    "ag"
    ]
   },
   {
@@ -184,16 +172,6 @@
    "title": "Government of Canada Concludes Pre-Budget Consultations for Budget 2026",
    "url": "https://www.canada.ca/en/department-finance/news/2026/09/government-of-canada-concludes-pre-budget-consultations-for-budget-2026.html",
    "date": "2026-09-08",
-   "source": "Finance Canada",
-   "kind": "official",
-   "jurisdictions": [],
-   "sectors": []
-  },
-  {
-   "id": "822ad222284a",
-   "title": "The Government of Canada highlights targeted countermeasures and substantive support for workers and businesses in response to U.S. tariffs in Sarnia",
-   "url": "https://www.canada.ca/en/department-finance/news/2026/08/the-governement-of-canada-highlights-targeted-countermeasures-and-substantive-support-for-workers-and-businesses-in-response-to-us-tariffs.html",
-   "date": "2026-08-27",
    "source": "Finance Canada",
    "kind": "official",
    "jurisdictions": [],
