@@ -1,5 +1,5 @@
 {
- "asOf": "2026-11-26",
+ "asOf": "2026-11-27",
  "window": [
   "2025-10",
   "2026-09"
@@ -2607,7 +2607,7 @@
   {
    "name": "Every listed item is an 8-digit Canadian tariff item with a rate between 0 and 100%",
    "passed": true,
-   "detail": "629 items in force on 2026-11-26"
+   "detail": "629 items in force on 2026-11-27"
   },
   {
    "name": "Each list's imports are within 10% of the value the government announced",
